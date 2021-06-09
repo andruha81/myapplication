@@ -29,11 +29,11 @@ public class RouteLine {
     @Column(name = "distance_prev", nullable = false)
     private int distancePrev;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "route_id")
     private Route routeRouteLine;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "stop_id")
     private Stop stop;
 }

@@ -51,17 +51,16 @@ CREATE TABLE route_line
 
 CREATE TABLE transport
 (
-    id            INT           NOT NULL AUTO_INCREMENT,
-    type_id       INT           NOT NULL,
-    model         VARCHAR(255)  NOT NULL,
-    seat_num      INT           NOT NULL,
-    drive_type    VARCHAR(255)  NOT NULL,
-    len           DECIMAL(5, 2) NOT NULL,
-    width         DECIMAL(5, 2) NOT NULL,
-    door_num      INT           NOT NULL,
-    battery_power INT,
-    car_num       INT,
-    route_id      INT,
+    id         INT           NOT NULL AUTO_INCREMENT,
+    type_id    INT           NOT NULL,
+    model      VARCHAR(255)  NOT NULL,
+    seat_num   INT           NOT NULL,
+    drive_type VARCHAR(255)  NOT NULL,
+    len        DECIMAL(5, 2) NOT NULL,
+    width      DECIMAL(5, 2) NOT NULL,
+    door_num   INT           NOT NULL,
+    car_num    INT           NOT NULL,
+    route_id   INT,
     CONSTRAINT PK_transport PRIMARY KEY (id),
     CONSTRAINT FK_PK_transport_transport_type FOREIGN KEY (type_id) REFERENCES transport_type (id),
     CONSTRAINT FK_PK_transport_route FOREIGN KEY (route_id) REFERENCES route (id)

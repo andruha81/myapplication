@@ -39,17 +39,14 @@ public class Transport {
     @Column(name = "door_num", nullable = false)
     private int doorNum;
 
-    @Column(name = "battery_power")
-    private int batteryPower;
-
-    @Column(name = "car_num")
+    @Column(name = "car_num", nullable = false)
     private int carNum;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "type_id")
     private TransportType transportType;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "route_id")
     private Route route;
 }

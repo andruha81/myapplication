@@ -8,10 +8,10 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class RouteDto implements Serializable {
+public class RouteStopDto implements Serializable {
     private static final long serialVersionUID = 1L;
-    private Integer routeDtoId;
+    private Integer routeStopDtoId;
     private int number;
     private String description;
-    Set<RouteLineDto> routeLinesDto;
+    Set<StopDto> stopsDto;
 }
