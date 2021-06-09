@@ -13,5 +13,5 @@ public class RouteStopDto implements Serializable {
     private Integer routeStopDtoId;
     private int number;
     private String description;
-    Set<StopDto> stopsDto;
+    private Set<StopDto> stopsDto;
 }

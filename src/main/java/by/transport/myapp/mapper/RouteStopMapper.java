@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 import java.util.stream.Collectors;
 
 @Mapper
-public abstract class RouteMapper {
+public abstract class RouteStopMapper {
 
     private final StopMapper mapper = Mappers.getMapper(StopMapper.class);
 
