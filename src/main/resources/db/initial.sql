@@ -15,10 +15,17 @@ CREATE TABLE transport_type
     CONSTRAINT UC_transport_type UNIQUE (description)
 );
 
+CREATE TABLE route_number
+(
+    id     INT NOT NULL AUTO_INCREMENT,
+    number INT NOT NULL,
+    CONSTRAINT PK_route_number PRIMARY KEY (id)
+);
+
 CREATE TABLE route
 (
     id               INT          NOT NULL AUTO_INCREMENT,
-    number           INT          NOT NULL,
+    route_number_id  INT          NOT NULL,
     description      VARCHAR(255) NOT NULL,
     start_weekday    TIME         NOT NULL,
     end_weekday      TIME         NOT NULL,
@@ -26,7 +33,8 @@ CREATE TABLE route
     start_dayoff     TIME         NOT NULL,
     end_dayoff       TIME         NOT NULL,
     interval_dayoff  TIME         NOT NULL,
-    CONSTRAINT PK_route PRIMARY KEY (id)
+    CONSTRAINT PK_route PRIMARY KEY (id),
+    CONSTRAINT FK_route_route_number FOREIGN KEY (route_number_id) REFERENCES route_number (id)
 );
 
 CREATE TABLE stop
@@ -51,17 +59,14 @@ CREATE TABLE route_line
 
 CREATE TABLE transport
 (
-    id         INT           NOT NULL AUTO_INCREMENT,
-    type_id    INT           NOT NULL,
-    model      VARCHAR(255)  NOT NULL,
-    seat_num   INT           NOT NULL,
-    drive_type VARCHAR(255)  NOT NULL,
-    len        DECIMAL(5, 2) NOT NULL,
-    width      DECIMAL(5, 2) NOT NULL,
-    door_num   INT           NOT NULL,
-    car_num    INT           NOT NULL,
-    route_id   INT,
+    id              INT          NOT NULL AUTO_INCREMENT,
+    type_id         INT          NOT NULL,
+    model           VARCHAR(255) NOT NULL,
+    seat_num        INT          NOT NULL,
+    drive_type      VARCHAR(255) NOT NULL,
+    car_num         INT          NOT NULL,
+    route_number_id INT,
     CONSTRAINT PK_transport PRIMARY KEY (id),
     CONSTRAINT FK_PK_transport_transport_type FOREIGN KEY (type_id) REFERENCES transport_type (id),
-    CONSTRAINT FK_PK_transport_route FOREIGN KEY (route_id) REFERENCES route (id)
+    CONSTRAINT FK_PK_transport_route_number FOREIGN KEY (route_number_id) REFERENCES route_number (id)
 )

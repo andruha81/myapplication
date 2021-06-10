@@ -8,15 +8,21 @@
 <table>
     <thead>
     <tr>
-        <th>Model</th>
         <th>Type</th>
+        <th>Model</th>
+        <th>Drive Type</th>
+        <th>Seat number</th>
+        <th>Route</th>
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${buses}" var="book">
+    <c:forEach items="${buses}" var="bus">
         <tr>
-            <td>${buses.model}</td>
-            <td>${buses.transportTypeDto}</td>
+            <td>${bus.type}</td>
+            <td>${bus.model}</td>
+            <td>${bus.driveType}</td>
+            <td>${bus.seatNum}</td>
+            <td>${bus.route}</td>
         </tr>
     </c:forEach>
     </tbody>

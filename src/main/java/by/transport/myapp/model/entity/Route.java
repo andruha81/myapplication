@@ -22,9 +22,6 @@ public class Route {
     private Integer id;
 
     @Column(nullable = false)
-    private int number;
-
-    @Column(nullable = false)
     private String description;
 
     @Column(name = "start_weekday", nullable = false)
@@ -45,8 +42,9 @@ public class Route {
     @Column(name = "interval_dayoff", nullable = false)
     private LocalTime intervalDayoff;
 
-    @OneToMany(mappedBy = "route")
-    private Set<Transport> transports;
+    @ManyToOne
+    @JoinColumn(name = "route_number_id")
+    private RouteNumber routeNumber;
 
     @OneToMany(mappedBy = "routeRouteLine", cascade = CascadeType.REMOVE)
     private Set<RouteLine> routeLines;

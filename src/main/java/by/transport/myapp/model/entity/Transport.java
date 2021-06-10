@@ -30,15 +30,6 @@ public class Transport {
     @Column(name = "drive_type", nullable = false)
     private String driveType;
 
-    @Column(length = 5, precision = 2, nullable = false)
-    private BigDecimal len;
-
-    @Column(length = 5, precision = 2, nullable = false)
-    private BigDecimal width;
-
-    @Column(name = "door_num", nullable = false)
-    private int doorNum;
-
     @Column(name = "car_num", nullable = false)
     private int carNum;
 
@@ -47,6 +38,6 @@ public class Transport {
     private TransportType transportType;
 
     @ManyToOne
-    @JoinColumn(name = "route_id")
-    private Route route;
+    @JoinColumn(name = "route_number_id")
+    private RouteNumber route;
 }
