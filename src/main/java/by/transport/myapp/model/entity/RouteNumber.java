@@ -20,12 +20,16 @@ public class RouteNumber {
     @Column
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private int number;
 
-    @OneToMany(mappedBy = "routeNumber")
+    @OneToMany(mappedBy = "routeNumber", cascade = CascadeType.REMOVE)
     private Set<Route> routes;
 
     @OneToMany(mappedBy = "route")
     private Set<Transport> transports;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "type_id")
+    private TransportType type;
 }

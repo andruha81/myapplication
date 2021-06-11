@@ -24,7 +24,7 @@ public class RouteLine {
     private int stopOrder;
 
     @Column(name = "time_prev", nullable = false)
-    private LocalTime timePrev;
+    private int timePrev;
 
     @Column(name = "distance_prev", nullable = false)
     private int distancePrev;

@@ -31,7 +31,7 @@ public class Route {
     private LocalTime endWeekday;
 
     @Column(name = "interval_weekday", nullable = false)
-    private LocalTime intervalWeekday;
+    private int intervalWeekday;
 
     @Column(name = "start_dayoff", nullable = false)
     private LocalTime startDayoff;
@@ -40,7 +40,7 @@ public class Route {
     private LocalTime endDayoff;
 
     @Column(name = "interval_dayoff", nullable = false)
-    private LocalTime intervalDayoff;
+    private int intervalDayoff;
 
     @ManyToOne
     @JoinColumn(name = "route_number_id")

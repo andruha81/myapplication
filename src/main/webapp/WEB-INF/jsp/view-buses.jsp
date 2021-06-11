@@ -13,6 +13,8 @@
         <th>Drive Type</th>
         <th>Seat number</th>
         <th>Route</th>
+        <th></th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -23,6 +25,8 @@
             <td>${bus.driveType}</td>
             <td>${bus.seatNum}</td>
             <td>${bus.route}</td>
+            <td><a href="/transport/edit"></a>EDIT</td>
+            <td><a href="/transport/delete">DELETE</a></td>
         </tr>
     </c:forEach>
     </tbody>

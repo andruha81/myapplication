@@ -17,9 +17,12 @@ CREATE TABLE transport_type
 
 CREATE TABLE route_number
 (
-    id     INT NOT NULL AUTO_INCREMENT,
-    number INT NOT NULL,
-    CONSTRAINT PK_route_number PRIMARY KEY (id)
+    id      INT NOT NULL AUTO_INCREMENT,
+    number  INT NOT NULL,
+    type_id INT NOT NULL,
+    CONSTRAINT PK_route_number PRIMARY KEY (id),
+    CONSTRAINT FK_route_number_type FOREIGN KEY (type_id) REFERENCES transport_type (id),
+    CONSTRAINT UC_route_number UNIQUE (number)
 );
 
 CREATE TABLE route
@@ -29,10 +32,10 @@ CREATE TABLE route
     description      VARCHAR(255) NOT NULL,
     start_weekday    TIME         NOT NULL,
     end_weekday      TIME         NOT NULL,
-    interval_weekday TIME         NOT NULL,
+    interval_weekday INT          NOT NULL,
     start_dayoff     TIME         NOT NULL,
     end_dayoff       TIME         NOT NULL,
-    interval_dayoff  TIME         NOT NULL,
+    interval_dayoff  INT          NOT NULL,
     CONSTRAINT PK_route PRIMARY KEY (id),
     CONSTRAINT FK_route_route_number FOREIGN KEY (route_number_id) REFERENCES route_number (id)
 );
@@ -46,12 +49,12 @@ CREATE TABLE stop
 
 CREATE TABLE route_line
 (
-    id            INT  NOT NULL AUTO_INCREMENT,
-    route_id      INT  NOT NULL,
-    stop_id       INT  NOT NULL,
-    stop_order    INT  NOT NULL,
-    time_prev     TIME NOT NULL,
-    distance_prev INT  NOT NULL,
+    id            INT NOT NULL AUTO_INCREMENT,
+    route_id      INT NOT NULL,
+    stop_id       INT NOT NULL,
+    stop_order    INT NOT NULL,
+    time_prev     INT NOT NULL,
+    distance_prev INT NOT NULL,
     CONSTRAINT PK_route_line PRIMARY KEY (id),
     CONSTRAINT FK_route_line_route FOREIGN KEY (route_id) REFERENCES route (id),
     CONSTRAINT FK_route_line_stop FOREIGN KEY (stop_id) REFERENCES stop (id)

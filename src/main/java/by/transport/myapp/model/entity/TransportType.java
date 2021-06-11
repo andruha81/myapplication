@@ -26,4 +26,7 @@ public class TransportType {
 
     @OneToMany(mappedBy = "transportType", cascade = CascadeType.REMOVE)
     private Set<Transport> transports;
+
+    @OneToMany(mappedBy = "type", cascade = CascadeType.REMOVE)
+    private Set<RouteNumber> routeNumbers;
 }
