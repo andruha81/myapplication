@@ -1,9 +1,9 @@
 CREATE TABLE user
 (
-    id         INT          NOT NULL AUTO_INCREMENT,
-    first_name VARCHAR(255) NOT NULL,
-    last_name  VARCHAR(255) NOT NULL,
-    user_role  VARCHAR(255),
+    id        INT          NOT NULL AUTO_INCREMENT,
+    login     VARCHAR(255) NOT NULL,
+    password  VARCHAR(255) NOT NULL,
+    user_role VARCHAR(255),
     CONSTRAINT PK_user PRIMARY KEY (id)
 );
 

@@ -6,14 +6,13 @@ import by.transport.myapp.service.TransportService;
 import by.transport.myapp.service.TransportTypeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+@RequestMapping(value = "/transport")
 @Controller
 public class TransportController {
     private final TransportService transportService;
@@ -28,21 +27,21 @@ public class TransportController {
         this.routeNumberService = routeNumberService;
     }
 
-    @RequestMapping(value = "/transport/bus", method = RequestMethod.GET)
+    @GetMapping(value = "/bus")
     public String viewBuses(Model model) {
         model.addAttribute("buses", transportService.getBuses());
         return "jsp/view-buses";
     }
 
-    @RequestMapping(value = "/transport/addTransportForm", method = RequestMethod.GET)
+    @GetMapping(value = "/add")
     public ModelAndView addTransportForm(Model model) {
         model.addAttribute("types", transportTypeService.getTypes());
         model.addAttribute("routes", routeNumberService.getRouteNumbers());
-        return new ModelAndView("jsp/add-transport","transport", new TransportDto());
+        return new ModelAndView("jsp/add-transport", "transport", new TransportDto());
     }
 
-    @RequestMapping(value = "/transport/add", method = RequestMethod.POST)
-    public String addTransport(@ModelAttribute("transport")TransportDto transportDto) {
+    @PostMapping(value = "/add")
+    public String addTransport(@ModelAttribute("transport") TransportDto transportDto) {
         transportService.save(transportDto);
         return "index";
     }

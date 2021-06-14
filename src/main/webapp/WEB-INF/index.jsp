@@ -14,7 +14,7 @@
         <td><a href="/transport/bus">Bus's list</a></td>
         <td><a href="/transport/tram">Tram's list</a></td>
         <td><a href="/transport/trolley">Trolley's list</a></td>
-        <td><a href="/transport/addTransportForm">Add transport</a></td>
+        <td><a href="/transport/add">Add transport</a></td>
     </tr>
 </table>
 </body>
