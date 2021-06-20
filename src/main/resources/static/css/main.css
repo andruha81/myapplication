@@ -1,0 +1,18 @@
+body {
+    background-color: #E5E5E5;
+}
+
+.columnMain {
+    float: left;
+    width: 16.66%;
+}
+
+.columnRoute {
+    float: left;
+    width: 33.33%;
+}
+
+.img {
+    width: 167px;
+    height: 138px;
+}

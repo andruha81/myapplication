@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Общественный транспорт</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="row">
+    <div class="columnMain">
+        <a href="/route/bus">
+            <img class="img" th:src="@{/image/bus.jpg}" alt="bus"/>
+        </a>
+        <p>Расписание автобусов</p>
+    </div>
+    <div class="columnMain">
+        <a href="/route/trolley">
+            <img class="img" th:src="@{/image/trolley.jpg}" alt="trolley"/>
+        </a>
+        <p>Расписание троллейбусов</p>
+    </div>
+    <div class="columnMain">
+        <a href="/route/tram">
+            <img class="img" th:src="@{/image/tram.jpg}" alt="tram"/>
+        </a>
+        <p>Расписание трамваев</p>
+    </div>
+    <div class="columnMain">
+        <a href="/route/stop">
+            <img class="img" th:src="@{/image/stop.jpg}" alt="stop"/>
+        </a>
+        <p>По названию остановки</p>
+    </div>
+</div>
+</body>
+</html>

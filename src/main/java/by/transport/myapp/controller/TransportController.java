@@ -30,14 +30,14 @@ public class TransportController {
     @GetMapping(value = "/bus")
     public String viewBuses(Model model) {
         model.addAttribute("buses", transportService.getBuses());
-        return "jsp/view-buses";
+        return "view-buses";
     }
 
     @GetMapping(value = "/add")
     public ModelAndView addTransportForm(Model model) {
         model.addAttribute("types", transportTypeService.getTypes());
         model.addAttribute("routes", routeNumberService.getRouteNumbers());
-        return new ModelAndView("jsp/add-transport", "transport", new TransportDto());
+        return new ModelAndView("add-transport", "transport", new TransportDto());
     }
 
     @PostMapping(value = "/add")
