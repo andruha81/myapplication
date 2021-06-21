@@ -20,9 +20,17 @@ public class RouteController {
         this.transportTypeService = transportTypeService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/type/{id}")
     public String showRoutes(@PathVariable Integer id, Model model) {
         model.addAttribute("routesNumber", routeNumberService.getRoutes(id));
+        model.addAttribute("routeN", null);
+        model.addAttribute("descN", null);
+        model.addAttribute("stops", null);
         return "route";
+    }
+
+    @GetMapping("/{id}")
+    public String showRouteStops(@PathVariable Integer id, Model model) {
+        return "route::routeStop";
     }
 }
