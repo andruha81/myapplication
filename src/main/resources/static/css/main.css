@@ -1,9 +1,30 @@
 body {
-    background-color: #E5E5E5;
+    background-color: #E4F9F5;
+    color: #40514E;
+    font-family: 'Merriweather', serif;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tdNumber {
+    font-size: 30px;
+    padding: 10px;
+}
+
+.td {
+    padding: 10px;
+}
+
+.lineTable {
+    border-bottom: solid 2px white;
 }
 
 .columnMain {
     float: left;
+    text-align: center;
     width: 16.66%;
 }
 
@@ -13,6 +34,6 @@ body {
 }
 
 .img {
-    width: 167px;
-    height: 138px;
+    width: 210px;
+    height: 174px;
 }

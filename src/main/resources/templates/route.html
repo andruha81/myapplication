@@ -4,18 +4,35 @@
     <meta charset="utf-8">
     <title>Расписание</title>
     <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
     <!--    <script type="text/javascript" th:src="/js/main.js"></script>-->
 </head>
 <body>
 <div class="row">
     <div class="columnRoute">
-
+        <table>
+            <tr th:if="${routesNumber.isEmpty()}">
+                <td>No Routes available</td>
+            </tr>
+            <tr th:each="routeNumber : ${routesNumber}" class="lineTable">
+                <td class="tdNumber">
+                    <span th:text="${routeNumber.number}">Number</span>
+                </td>
+                <td class="td">
+                    <table>
+                        <tr th:each="route : ${routeNumber.routesDto}">
+                            <td class="td"><span th:text="${route.description}">Description</span> </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
     </div>
     <div class="columnRoute">
-
+        2
     </div>
     <div class="columnRoute">
-
+        3
     </div>
 </div>
 </body>
