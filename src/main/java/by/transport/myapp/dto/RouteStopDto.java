@@ -1,10 +1,11 @@
 package by.transport.myapp.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.TreeSet;
 
 @Getter
 @Setter
@@ -14,5 +15,5 @@ public class RouteStopDto implements Serializable {
     private int number;
     private String type;
     private String description;
-    private List<RouteLineDto> routeLines;
+    private TreeSet<RouteLineDto> routeLines;
 }
