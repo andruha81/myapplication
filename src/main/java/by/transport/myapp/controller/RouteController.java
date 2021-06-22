@@ -1,8 +1,8 @@
 package by.transport.myapp.controller;
 
-import by.transport.myapp.dto.TransportTypeDto;
+import by.transport.myapp.dto.RouteStopDto;
 import by.transport.myapp.service.RouteNumberService;
-import by.transport.myapp.service.TransportTypeService;
+import by.transport.myapp.service.RouteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/route")
 public class RouteController {
     private final RouteNumberService routeNumberService;
-    private final TransportTypeService transportTypeService;
+    private final RouteService routeService;
 
-    public RouteController(RouteNumberService routeNumberService, TransportTypeService transportTypeService) {
+    public RouteController(RouteNumberService routeNumberService, RouteService routeService) {
         this.routeNumberService = routeNumberService;
-        this.transportTypeService = transportTypeService;
+        this.routeService = routeService;
     }
 
     @GetMapping("/type/{id}")
@@ -25,12 +25,16 @@ public class RouteController {
         model.addAttribute("routesNumber", routeNumberService.getRoutes(id));
         model.addAttribute("routeN", null);
         model.addAttribute("descN", null);
-        model.addAttribute("stops", null);
+        model.addAttribute("routeDetail", null);
         return "route";
     }
 
     @GetMapping("/{id}")
-    public String showRouteStops(@PathVariable Integer id, Model model) {
+    public String showRouteDetails(@PathVariable Integer id, Model model) {
+        RouteStopDto routeStopDto = routeService.getRouteDetails(id);
+        model.addAttribute("routeN", routeStopDto.getType() + " № " + routeStopDto.getNumber());
+        model.addAttribute("descN", routeStopDto.getDescription());
+        model.addAttribute("routeDetail", routeStopDto.getRouteLines());
         return "route::routeStop";
     }
 }

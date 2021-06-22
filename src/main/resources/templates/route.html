@@ -5,13 +5,16 @@
     <title>Расписание</title>
     <link th:href="@{/css/main.css}" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
-<!--    <script type="text/javascript" th:src="@{/js/action.js}"></script>-->
-    <script>
-        function routeStop(id) {
+    <script type="text/javascript" src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+    <!--    <script type="text/javascript" th:src="@{/js/action.js}"></script>-->
+
+    <script th:inline="javascript">
+        function getRouteDetail(id) {
             var url = "/route/" + id;
-            $('.routeStop').load(url);
+            $("#routeStop").load(url);
         }
     </script>
+
 </head>
 <body>
 <div class="row">
@@ -28,7 +31,7 @@
                     <table>
                         <tr th:each="route : ${routeNumber.routesDto}">
                             <td class="td">
-                                <a th:onclick="|routeStop(${route.routeDtoId})|" href="#">
+                                <a href="#" th:onclick="|getRouteDetail(${route.routeDtoId})|">
                                     <span th:text="${route.description}">Description</span>
                                 </a>
                             </td>
@@ -38,17 +41,34 @@
             </tr>
         </table>
     </div>
-    <div class="columnRoute" th:fragment="routeStop">
-        <h3 th:text="${routeN}"></h3>
-        <p th:text="${descN}"></p>
-        <table>
-            <tr th:each="stop : ${stops}">
-                <td th:text="stop.name"></td>
-            </tr>
-        </table>
+    <div class="columnRoute">
+        <div class="divRouteLine" th:fragment="routeStop" id="routeStop">
+            <div class="routeLineHead">
+                <h3 th:text="${routeN}" style="text-align: center"></h3>
+                <p th:text="${descN}" style="text-align: center"></p>
+            </div>
+            <table>
+                <tr class="trRl" th:if="${routeDetail}">
+                    <td class="tdRlCenter" style="width: 10%">№</td>
+                    <td class="tdRlCenter" style="width: 70%">Название остановки</td>
+                    <td class="tdRlCenter" style="width: 10%">Ближ.</td>
+                    <td class="tdRlCenter" style="width: 10%">След.</td>
+                </tr>
+                <tr class="trRl" th:each="routeLine : ${routeDetail}">
+                    <td class="tdRlCenter">
+                        <span>[[${routeLine.stopOrder}]]</span>
+                    </td>
+                    <td class="tdRlLeft">
+                        <span>[[${routeLine.stopDto.name}]]</span>
+                    </td>
+                    <td class="tdRlCenter">1</td>
+                    <td class="tdRlCenter">1</td>
+                </tr>
+            </table>
+        </div>
     </div>
     <div class="columnRoute">
-        3
+
     </div>
 </div>
 </body>

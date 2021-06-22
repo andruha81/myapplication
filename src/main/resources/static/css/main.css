@@ -30,10 +30,34 @@ table {
 
 .columnRoute {
     float: left;
-    width: 33.33%;
+    width: 33%;
 }
 
 .img {
     width: 210px;
     height: 174px;
+}
+
+.divRouteLine {
+    border-left: solid 1px white;
+}
+
+.routeLineHead {
+    text-align: center;
+}
+
+.tdRlCenter {
+    padding: 10px;
+    text-align: center;
+    border-right: solid 1px white;
+}
+
+.tdRlLeft {
+    padding: 10px;
+    border-right: solid 1px white;
+}
+
+.trRl {
+    border-top: solid 1px white;
+    border-bottom: solid 1px white;
 }
