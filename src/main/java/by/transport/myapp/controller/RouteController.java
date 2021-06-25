@@ -1,9 +1,6 @@
 package by.transport.myapp.controller;
 
-import by.transport.myapp.service.RouteLineService;
-import by.transport.myapp.service.RouteNumberService;
-import by.transport.myapp.service.RouteService;
-import by.transport.myapp.service.StopService;
+import by.transport.myapp.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,16 +14,23 @@ public class RouteController {
     private final RouteService routeService;
     private final RouteLineService routeLineService;
     private final StopService stopService;
+    private final TransportTypeService typeService;
 
-    public RouteController(RouteNumberService routeNumberService, RouteService routeService, RouteLineService routeLineService, StopService stopService) {
+    public RouteController(RouteNumberService routeNumberService,
+                           RouteService routeService,
+                           RouteLineService routeLineService,
+                           StopService stopService,
+                           TransportTypeService typeService) {
         this.routeNumberService = routeNumberService;
         this.routeService = routeService;
         this.routeLineService = routeLineService;
         this.stopService = stopService;
+        this.typeService = typeService;
     }
 
     @GetMapping("/type/{id}")
     public String showRoutes(@PathVariable Integer id, Model model) {
+        model.addAttribute("headerMessage", typeService.getTypeDescription(id));
         model.addAttribute("routesNumber", routeNumberService.getRoutes(id));
         model.addAttribute("routeN", null);
         model.addAttribute("descN", null);

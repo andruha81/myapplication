@@ -23,4 +23,9 @@ public class TransportTypeServiceImpl implements TransportTypeService {
     public List<TransportTypeDto> getTypes() {
         return transportTypeDao.findAll().stream().map(mapper::transportTypeToDto).collect(Collectors.toList());
     }
+
+    @Override
+    public String getTypeDescription(Integer id) {
+        return transportTypeDao.getById(id).getDescription();
+    }
 }

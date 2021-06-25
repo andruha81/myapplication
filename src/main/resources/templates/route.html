@@ -22,6 +22,12 @@
 
 </head>
 <body>
+<div>
+    <img class="imgHead" th:src="@{/image/transport.jpg}" alt="transport">
+    <div class="headerMessage">
+        <h1 th:text="${headerMessage}"></h1>
+    </div>
+</div>
 <div class="row">
     <div class="columnRoute">
         <table>
@@ -75,7 +81,7 @@
         </div>
     </div>
     <div class="columnRoute">
-        <div th:fragment="stopDetail" id="stopDetail">
+        <div class="divRouteLine" th:fragment="stopDetail" id="stopDetail">
             <div class="routeLineHead">
                 <p th:if="${stopN != null}">Остановочный пункт</p>
                 <h3 th:text="${stopN}"></h3>
@@ -90,10 +96,10 @@
                                 </td>
                             </tr>
                             <tr class="trRl">
-                                <td class="tdRlCenter" style="width: 10%">№</td>
-                                <td class="tdRlCenter" style="width: 70%">Маршрут</td>
-                                <td class="tdRlCenter" style="width: 10%">Ближ.</td>
-                                <td class="tdRlCenter" style="width: 10%">След.</td>
+                                <td class="tdRlCenter" style="width: 20px">№</td>
+                                <td class="tdRlCenter">Маршрут</td>
+                                <td class="tdRlCenter" style="width: 20px">Ближ.</td>
+                                <td class="tdRlCenter" style="width: 20px">След.</td>
                             </tr>
                             <tbody>
                             <tr class="trRl" th:each="routeline : ${routeLines.value}">

@@ -9,7 +9,10 @@
 <body>
 <div class="row">
     <div>
-        <img th:src="@{/image/transport.jpg}" alt="transport">
+        <img class="imgHead" th:src="@{/image/transport.jpg}" alt="transport">
+        <div class="headerMessage">
+            <h1 th:text="${headerMessage}"></h1>
+        </div>
     </div>
     <div class="columnMain">
         <a href="/route/type/1">
