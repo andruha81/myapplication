@@ -77,23 +77,30 @@
     <div class="columnRoute">
         <div th:fragment="stopDetail" id="stopDetail">
             <div class="routeLineHead">
-                <p>Остановочный пункт</p>
+                <p th:if="${stopN != null}">Остановочный пункт</p>
                 <h3 th:text="${stopN}"></h3>
             </div>
             <table>
                 <tr th:each="routeLines : ${stopDetail}">
                     <td>
                         <table>
-                            <thead>
                             <tr>
                                 <td>
                                     [[${routeLines.key}]]
                                 </td>
                             </tr>
-                            </thead>
+                            <tr class="trRl">
+                                <td class="tdRlCenter" style="width: 10%">№</td>
+                                <td class="tdRlCenter" style="width: 70%">Маршрут</td>
+                                <td class="tdRlCenter" style="width: 10%">Ближ.</td>
+                                <td class="tdRlCenter" style="width: 10%">След.</td>
+                            </tr>
                             <tbody>
-                            <tr th:each="routeline : ${routeLines.value}">
-                                <td></td>
+                            <tr class="trRl" th:each="routeline : ${routeLines.value}">
+                                <td class="tdRlCenter" th:text="${routeline.routeNumber}"></td>
+                                <td class="tdRlLeft" th:text="${routeline.routeDescription}"></td>
+                                <td class="tdRlCenter" th:text="${routeline.closestTime}"></td>
+                                <td class="tdRlCenter" th:text="${routeline.nextTime}"></td>
                             </tr>
                             </tbody>
                         </table>

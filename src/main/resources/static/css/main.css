@@ -46,6 +46,11 @@ table {
     text-align: center;
 }
 
+.stopHead {
+    text-align: center;
+    border-left: solid 1px white;
+}
+
 .tdRlCenter {
     padding: 10px;
     text-align: center;
