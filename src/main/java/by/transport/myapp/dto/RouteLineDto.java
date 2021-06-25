@@ -15,6 +15,7 @@ import java.time.LocalTime;
 public class RouteLineDto implements Serializable, Comparable<RouteLineDto> {
     private static final long serialVersionUID = 1L;
     private Integer routeLineDtoId;
+    private Integer routeId;
     private StopDto stopDto;
     private int stopOrder;
     private LocalTime closestTime;

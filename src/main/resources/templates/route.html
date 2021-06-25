@@ -13,6 +13,11 @@
             var url = "/route/" + id;
             $("#routeStop").load(url);
         }
+
+        function getStopDetail(stopId, routeId) {
+            var url = "/route/" + routeId + "/" + stopId;
+            $("#stopDetail").load(url);
+        }
     </script>
 
 </head>
@@ -59,7 +64,9 @@
                         <span>[[${routeLine.stopOrder}]]</span>
                     </td>
                     <td class="tdRlLeft">
-                        <span>[[${routeLine.stopDto.name}]]</span>
+                        <a href="#" th:onclick="|getStopDetail(${routeLine.stopDto.stopDtoId}, ${routeLine.routeId})|">
+                            <span>[[${routeLine.stopDto.name}]]</span>
+                        </a>
                     </td>
                     <td class="tdRlCenter">[[${routeLine.closestTime}]]</td>
                     <td class="tdRlCenter">[[${routeLine.nextTime}]]</td>
@@ -68,7 +75,34 @@
         </div>
     </div>
     <div class="columnRoute">
+        <div th:fragment="stopDetail" id="stopDetail">
+            <div class="routeLineHead">
+                <p>Остановочный пункт</p>
+                <h3 th:text="${stopN}"></h3>
+            </div>
+            <table>
+                <tr th:each="routeLines : ${stopDetail}">
+                    <td>
+                        <table>
+                            <thead>
+                            <tr>
+                                <td>
+                                    [[${routeLines.key}]]
+                                </td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="routeline : ${routeLines.value}">
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
 
+                    </td>
+
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
 </body>

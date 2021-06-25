@@ -1,8 +1,9 @@
 package by.transport.myapp.controller;
 
-import by.transport.myapp.dto.RouteStopDto;
+import by.transport.myapp.service.RouteLineService;
 import by.transport.myapp.service.RouteNumberService;
 import by.transport.myapp.service.RouteService;
+import by.transport.myapp.service.StopService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RouteController {
     private final RouteNumberService routeNumberService;
     private final RouteService routeService;
+    private final RouteLineService routeLineService;
+    private final StopService stopService;
 
-    public RouteController(RouteNumberService routeNumberService, RouteService routeService) {
+    public RouteController(RouteNumberService routeNumberService, RouteService routeService, RouteLineService routeLineService, StopService stopService) {
         this.routeNumberService = routeNumberService;
         this.routeService = routeService;
+        this.routeLineService = routeLineService;
+        this.stopService = stopService;
     }
 
     @GetMapping("/type/{id}")
@@ -26,15 +31,24 @@ public class RouteController {
         model.addAttribute("routeN", null);
         model.addAttribute("descN", null);
         model.addAttribute("routeDetail", null);
+        model.addAttribute("stopN", null);
+        model.addAttribute("stopDetail", null);
         return "route";
     }
 
     @GetMapping("/{id}")
     public String showRouteDetails(@PathVariable Integer id, Model model) {
-        RouteStopDto routeStopDto = routeService.getRouteDetails(id);
+        var routeStopDto = routeService.getRouteDetails(id);
         model.addAttribute("routeN", routeStopDto.getType() + " № " + routeStopDto.getNumber());
         model.addAttribute("descN", routeStopDto.getDescription());
         model.addAttribute("routeDetail", routeStopDto.getRouteLines());
         return "route::routeStop";
+    }
+
+    @GetMapping("/{routeId}/{stopId}")
+    public String showStopDetail(@PathVariable Integer routeId, @PathVariable Integer stopId, Model model) {
+        model.addAttribute("stopN", stopService.getStopById(stopId).getName());
+        model.addAttribute("stopDetail", routeLineService.getStopDetails(routeId, stopId));
+        return "route::stopDetail";
     }
 }

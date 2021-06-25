@@ -5,12 +5,12 @@ import by.transport.myapp.dto.RouteStopDto;
 import by.transport.myapp.mapper.RouteMapper;
 import by.transport.myapp.model.dao.RouteDao;
 import by.transport.myapp.model.entity.Route;
+import by.transport.myapp.model.entity.RouteLine;
 import by.transport.myapp.service.RouteService;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
-import java.util.TreeSet;
 
 @Service
 public class RouteServiceImpl implements RouteService {
@@ -23,8 +23,8 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public RouteStopDto getRouteDetails(Integer id) {
-        Route route = routeDao.getById(id);
-        RouteStopDto routeStopDto = routeMapper.routeToRouteStopDto(route);
+        var route = routeDao.getById(id);
+        var routeStopDto = routeMapper.routeToRouteStopDto(route);
         routeStopDto.getRouteLines().forEach(x -> findTime(x, route));
         return routeStopDto;
     }
@@ -33,9 +33,20 @@ public class RouteServiceImpl implements RouteService {
 
         LocalTime currentTime = LocalTime.now().minusHours(5);
         LocalTime endTime = route.getEndWeekday();
+        LocalTime startTime = route.getStartWeekday();
+
+        if (routeLineDto.getStopOrder() > 1) {
+            for (RouteLine routeLine : route.getRouteLines()) {
+                if (routeLineDto.getStopOrder() <= routeLine.getStopOrder()) {
+                    startTime = startTime.plusMinutes(routeLine.getTimePrev());
+                    endTime = endTime.plusMinutes(routeLine.getTimePrev());
+                }
+            }
+        }
+
         if (compareTime(currentTime, endTime)) {
-            LocalTime closestTime = route.getStartWeekday();
-            int interval = route.getIntervalWeekday();
+            LocalTime closestTime = startTime;
+            var interval = route.getIntervalWeekday();
 
             while (compareTime(closestTime, currentTime)) {
                 closestTime = closestTime.plusMinutes(interval);
@@ -51,7 +62,7 @@ public class RouteServiceImpl implements RouteService {
         }
     }
 
-    private boolean compareTime(LocalTime firstTime, LocalTime secondtime) {
-        return firstTime.compareTo(secondtime) < 0;
+    private boolean compareTime(LocalTime firstTime, LocalTime secondTime) {
+        return firstTime.compareTo(secondTime) < 0;
     }
 }
