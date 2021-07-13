@@ -20,7 +20,6 @@ public class TransportServiceImpl implements TransportService {
     private final TransportTypeDao transportTypeDao;
     private final RouteNumberDao routeNumberDao;
     private final TransportMapper mapper = Mappers.getMapper(TransportMapper.class);
-    private static final String BUS_TYPE = "Bus";
 
     public TransportServiceImpl(TransportDao transportDao, TransportTypeDao transportTypeDao, RouteNumberDao routeNumberDao) {
         this.transportDao = transportDao;
@@ -29,9 +28,12 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
-    public List<TransportDto> getBuses() {
-        TransportType transportType = transportTypeDao.findTransportTypeByDescription(BUS_TYPE);
-        return transportDao.findTransportByTransportType(transportType).stream().map(mapper::transportToDto).collect(Collectors.toList());
+    public List<TransportDto> getTransportByTransportType(Integer typeId) {
+        TransportType transportType = transportTypeDao.getById(typeId);
+        return transportDao.findTransportByTransportType(transportType)
+                .stream()
+                .map(mapper::transportToDto)
+                .collect(Collectors.toList());
     }
 
     @Override

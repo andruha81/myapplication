@@ -28,4 +28,9 @@ public class TransportTypeServiceImpl implements TransportTypeService {
     public String getTypeDescription(Integer id) {
         return transportTypeDao.getById(id).getDescription();
     }
+
+    @Override
+    public TransportTypeDto getTransportTypeById(Integer id) {
+        return mapper.transportTypeToDto(transportTypeDao.getById(id));
+    }
 }

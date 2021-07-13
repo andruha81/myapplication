@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Диспетчиризация</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragments/header">
+</div>
+<div class="dispType">
+    <form>
+        <table class="dispTypeTable">
+            <tr>
+                <td class="td" rowspan="2">
+                    <label for="type">Вид транспортного средства</label><br>
+                    <select id="type" name="type" class="dispTypeSelect">
+                        <option th:each="type : ${transportTypes}"
+                                th:value="${type.transportTypeDtoId}"
+                                th:text="${type.description}"></option>
+                    </select>
+                </td>
+                <td class="td">
+                    <input class="dispSubmit" type="submit" value="Список" formaction="/dispatcher/list">
+                </td>
+            </tr>
+            <tr>
+                <td class="td">
+                    <input class="dispSubmit" type="submit" value="Маршруты" formaction="/dispatcher/route">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<hr style="border-color: white">
+</body>
+</html>

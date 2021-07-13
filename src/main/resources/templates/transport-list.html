@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Транспортные средства</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragments/header">
+</div>
+<div class="row">
+    <table>
+        <tr>
+            <th>№</th>
+            <th>Модель</th>
+            <th>Кол-во мест</th>
+            <th>Маршрут</th>
+            <th></th>
+        </tr>
+        <tr th:each="transport, transportStat : ${transports}">
+            <td th:text="${transportStat.count}"></td>
+            <td th:text="${transport.model}"></td>
+            <td th:text="${transport.seatNum}"></td>
+            <td th:text="${transport.route}"></td>
+            <td><a th:href="/transport/edit/${transport.transportDtoId}">Изменить</a></td>
+        </tr>
+    </table>
+</div>
+<div class="row">
+    <div class="columnList">
+        <a th:href="@{/transport/add(type=${transportType.transportTypeDtoId})}">Добавить</a>
+    </div>
+    <div class="columnList">
+        <a th:href="@{/dispatcher/route(type=${transportType.transportTypeDtoId})}">Маршруты</a>
+    </div>
+</div>
+</body>
+</html>

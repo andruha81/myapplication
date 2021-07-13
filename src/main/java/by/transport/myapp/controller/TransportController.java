@@ -6,11 +6,7 @@ import by.transport.myapp.service.TransportService;
 import by.transport.myapp.service.TransportTypeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping(value = "/transport")
 @Controller
@@ -27,17 +23,13 @@ public class TransportController {
         this.routeNumberService = routeNumberService;
     }
 
-    @GetMapping(value = "/bus")
-    public String viewBuses(Model model) {
-        model.addAttribute("buses", transportService.getBuses());
-        return "view-buses";
-    }
-
     @GetMapping(value = "/add")
-    public ModelAndView addTransportForm(Model model) {
-        model.addAttribute("types", transportTypeService.getTypes());
-        model.addAttribute("routes", routeNumberService.getRouteNumbers());
-        return new ModelAndView("add-transport", "transport", new TransportDto());
+    public String addTransportForm(@RequestParam(name = "type") Integer typeId, Model model) {
+        model.addAttribute("headerMessage", "Добавление транспорта");
+        model.addAttribute("transportType", transportTypeService.getTransportTypeById(typeId));
+        model.addAttribute("routeNumbers", routeNumberService.getRouteNumbersByType(typeId));
+        model.addAttribute("transport", new TransportDto());
+        return "new-transport";
     }
 
     @PostMapping(value = "/add")

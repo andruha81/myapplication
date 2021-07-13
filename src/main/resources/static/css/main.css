@@ -9,6 +9,21 @@ table {
     border-collapse: collapse;
 }
 
+select, option{
+    font-size: 16px;
+    margin-top: 10px;
+    width: 200px;
+}
+
+.dispTypeTable {
+    width: 40%;
+}
+
+.dispSubmit {
+    font-size: 16px;
+    width: 100px;
+}
+
 .headerMessage {
     position: absolute;
     top: 150px;
@@ -42,6 +57,13 @@ table {
 .columnHead {
     float: right;
     width: 10%;
+    text-align: center;
+}
+
+.columnList {
+    float: left;
+    width: 10%;
+    text-align: center;
 }
 
 .img {

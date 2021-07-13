@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Добавление транспорта</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragments/header">
+</div>
+<div class="row">
+
+    <form autocomplete="off" action="#" th:action="@{/transport/add}"
+          th:object="transport" method="post">
+
+<!--        <label for="model">Модель</label>-->
+<!--        <input type="text" th:field="*{model}" id="model" placeholder="Модель" required><br>-->
+<!--        <span th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></span><br>-->
+
+<!--        <label for="type">Тип траспорта</label>-->
+<!--        <input type="text" th:field="*{type}" id="type" placeholder="Тип траспорта"-->
+<!--               th:value="${transportType.description}" readonly><br>-->
+
+<!--        <label for="driveType">Тип двигателя</label>-->
+<!--        <input type="text" th:field="*{driveType}" id="driveType" placeholder="Тип двигателя" required><br>-->
+<!--        <span th:if="${#fields.hasErrors('driveType')}" th:errors="*{driveType}"></span><br>-->
+
+<!--        <label for="seatNum">Кол-во мест</label>-->
+<!--        <input type="number" th:field="*{seatNum}" id="seatNum" placeholder="Кол-во мест"-->
+<!--               min="1" max="1000" required><br>-->
+<!--        <span th:if="${#fields.hasErrors('seatNum')}" th:errors="*{seatNum}"></span><br>-->
+
+<!--        <label for="carNum">Кол-во секций</label>-->
+<!--        <input type="number" th:field="*{carNum}" id="carNum" placeholder="Кол-во секций"-->
+<!--               min="1" max="5" required><br>-->
+<!--        <span th:if="${#fields.hasErrors('carNum')}" th:errors="*{carNum}"></span><br>-->
+
+<!--        <label for="route">Маршрут</label>-->
+<!--        <select id="route" th:field="*{route}">-->
+<!--            <option th:each="routeNumber : ${routeNumbers}"-->
+<!--                    th:value="${routeNumber}"-->
+<!--                    th:text="${routeNumber}"></option>-->
+<!--        </select><br>-->
+
+<!--        <input type="submit" value="Добавить транспорт">-->
+    </form>
+</div>
+</body>
+</html>

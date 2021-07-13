@@ -7,4 +7,5 @@ import java.util.List;
 public interface TransportTypeService {
     List<TransportTypeDto> getTypes();
     String getTypeDescription(Integer id);
+    TransportTypeDto getTransportTypeById(Integer id);
 }

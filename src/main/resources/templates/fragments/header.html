@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -29,7 +29,12 @@
         <a href="/route/type/1">Автобусы</a>
     </div>
     <div class="columnHead">
-        <span style="visibility: hidden">empty</span>
+        <div sec:authorize="isAuthenticated()">
+            <a href="/dispatcher/all">Диспетчер</a>
+        </div>
+        <div sec:authorize="isAnonymous()">
+            <span style="visibility: hidden">empty</span>
+        </div>
     </div>
     <div class="columnHead">
         <span style="visibility: hidden">empty</span>
