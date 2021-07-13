@@ -6,5 +6,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface RouteLineService {
-    Map<String, List<RouteLineStopDto>> getStopDetails(Integer routeId, Integer stopId);
+    Map<String, List<RouteLineStopDto>> getStopDetails(Integer stopId);
 }

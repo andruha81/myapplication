@@ -2,20 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>Расписание</title>
+    <title>Остановки</title>
     <link th:href="@{/css/main.css}" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
     <script type="text/javascript" src="/webjars/jquery/3.5.1/jquery.min.js"></script>
     <!--    <script type="text/javascript" th:src="@{/js/action.js}"></script>-->
 
     <script th:inline="javascript">
-        function getRouteDetail(id) {
-            var url = "/route/" + id;
-            $("#routeStop").load(url);
-        }
-
-        function getStopDetail(stopId, routeId) {
-            var url = "/route/stop/" + stopId;
+        function getStopDetail(stopId) {
+            var url = "/stop/" + stopId;
             $("#stopDetail").load(url);
         }
     </script>
@@ -27,54 +22,14 @@
 <div class="row">
     <div class="columnRoute">
         <table>
-            <tr th:if="${routesNumber.isEmpty()}">
-                <td>No Routes available</td>
-            </tr>
-            <tr th:each="routeNumber : ${routesNumber}" class="lineTable">
-                <td class="tdNumber">
-                    <span th:text="${routeNumber.number}">Number</span>
-                </td>
+            <tr th:each="stop : ${stops}" class="lineTable">
                 <td class="td">
-                    <table>
-                        <tr th:each="route : ${routeNumber.routesDto}">
-                            <td class="td">
-                                <a href="#" th:onclick="|getRouteDetail(${route.routeDtoId})|">
-                                    <span th:text="${route.description}">Description</span>
-                                </a>
-                            </td>
-                        </tr>
-                    </table>
+                    <a href="#" th:onclick="|getStopDetail(${stop.stopDtoId})|">
+                        <span th:text="${stop.name}">Number</span>
+                    </a>
                 </td>
             </tr>
         </table>
-    </div>
-    <div class="columnRoute">
-        <div class="divRouteLine" th:fragment="routeStop" id="routeStop">
-            <div class="routeLineHead">
-                <h3 th:text="${routeN}" style="text-align: center"></h3>
-                <p th:text="${descN}" style="text-align: center"></p>
-            </div>
-            <table>
-                <tr class="trRl" th:if="${routeDetail}">
-                    <td class="tdRlCenter" style="width: 10%">№</td>
-                    <td class="tdRlCenter" style="width: 70%">Название остановки</td>
-                    <td class="tdRlCenter" style="width: 10%">Ближ.</td>
-                    <td class="tdRlCenter" style="width: 10%">След.</td>
-                </tr>
-                <tr class="trRl" th:each="routeLine : ${routeDetail}">
-                    <td class="tdRlCenter">
-                        <span>[[${routeLine.stopOrder}]]</span>
-                    </td>
-                    <td class="tdRlLeft">
-                        <a href="#" th:onclick="|getStopDetail(${routeLine.stopDto.stopDtoId})|">
-                            <span>[[${routeLine.stopDto.name}]]</span>
-                        </a>
-                    </td>
-                    <td class="tdRlCenter">[[${routeLine.closestTime}]]</td>
-                    <td class="tdRlCenter">[[${routeLine.nextTime}]]</td>
-                </tr>
-            </table>
-        </div>
     </div>
     <div class="columnRoute">
         <div class="divRouteLine" th:fragment="stopDetail" id="stopDetail">

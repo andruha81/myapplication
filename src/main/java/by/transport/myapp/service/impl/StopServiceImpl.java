@@ -7,6 +7,10 @@ import by.transport.myapp.service.StopService;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class StopServiceImpl implements StopService {
     private final StopDao stopDao;
@@ -19,5 +23,10 @@ public class StopServiceImpl implements StopService {
     @Override
     public StopDto getStopById(Integer id) {
         return stopMapper.stopToDto(stopDao.getById(id));
+    }
+
+    @Override
+    public List<StopDto> getStops() {
+        return stopDao.findAll().stream().map(stopMapper::stopToDto).sorted(Comparator.comparing(StopDto::getName)).collect(Collectors.toList());
     }
 }

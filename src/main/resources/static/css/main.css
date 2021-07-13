@@ -11,7 +11,7 @@ table {
 
 .headerMessage {
     position: absolute;
-    top: 200px;
+    top: 150px;
     left: 40px;
 }
 
@@ -39,14 +39,19 @@ table {
     width: 33%;
 }
 
+.columnHead {
+    float: right;
+    width: 10%;
+}
+
 .img {
     width: 210px;
     height: 174px;
 }
 
 .imgHead {
-    width: 1510px;
-    height: 297px;
+    width: 1920px;
+    height: 250px;
     opacity: 0.2;
 }
 

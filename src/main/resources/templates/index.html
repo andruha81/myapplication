@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <title>Общественный транспорт</title>
@@ -7,13 +7,9 @@
     <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
 </head>
 <body>
+<div th:replace="fragments/header">
+</div>
 <div class="row">
-    <div>
-        <img class="imgHead" th:src="@{/image/transport.jpg}" alt="transport">
-        <div class="headerMessage">
-            <h1 th:text="${headerMessage}"></h1>
-        </div>
-    </div>
     <div class="columnMain">
         <a href="/route/type/1">
             <img class="img" th:src="@{/image/bus.jpg}" alt="bus"/>
@@ -33,7 +29,7 @@
         <p>Расписание трамваев</p>
     </div>
     <div class="columnMain">
-        <a href="/route/stop">
+        <a href="/stop/all">
             <img class="img" th:src="@{/image/stop.jpg}" alt="stop"/>
         </a>
         <p>По названию остановки</p>

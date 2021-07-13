@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalTime;
+import java.util.TreeSet;
 
 @Getter
 @Setter

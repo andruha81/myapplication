@@ -14,6 +14,8 @@ public class RouteLineStopDto implements Serializable {
     private String type;
     private String routeDescription;
     private String routeNumber;
+    private Integer routeId;
+    private int stopOrder;
     private LocalTime closestTime;
     private LocalTime nextTime;
 }

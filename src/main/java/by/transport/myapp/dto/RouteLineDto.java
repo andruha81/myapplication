@@ -18,6 +18,7 @@ public class RouteLineDto implements Serializable, Comparable<RouteLineDto> {
     private Integer routeId;
     private StopDto stopDto;
     private int stopOrder;
+    private int timePrev;
     private LocalTime closestTime;
     private LocalTime nextTime;
 

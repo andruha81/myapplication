@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="row">
+    <div class="columnHead">
+        <div sec:authorize="isAuthenticated()">
+            <span sec:authentication="name">Bob</span>
+            (<a th:href="@{/logout}">Выйти</a>)
+        </div>
+        <div sec:authorize="isAnonymous()">
+            <a href="/login">Войти</a>
+        </div>
+    </div>
+    <div class="columnHead">
+        <a href="/stop/all">Остановки</a>
+    </div>
+    <div class="columnHead">
+        <a href="/route/type/3">Трамваи</a>
+    </div>
+    <div class="columnHead">
+        <a href="/route/type/2">Троллейбусы</a>
+    </div>
+    <div class="columnHead">
+        <a href="/route/type/1">Автобусы</a>
+    </div>
+    <div class="columnHead">
+        <span style="visibility: hidden">empty</span>
+    </div>
+    <div class="columnHead">
+        <span style="visibility: hidden">empty</span>
+    </div>
+    <div class="columnHead">
+        <span style="visibility: hidden">empty</span>
+    </div>
+    <div class="columnHead">
+        <span style="visibility: hidden">empty</span>
+    </div>
+    <div class="columnHead">
+        <a href="/">Главная</a>
+    </div>
+</div>
+<div class="header">
+    <img class="imgHead" th:src="@{/image/transport.jpg}" alt="transport">
+    <div class="headerMessage">
+        <h1 th:text="${headerMessage}"></h1>
+    </div>
+</div>
+</body>
+</html>

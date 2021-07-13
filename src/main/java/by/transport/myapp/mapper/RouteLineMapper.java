@@ -6,7 +6,7 @@ import by.transport.myapp.model.entity.RouteLine;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(uses = StopMapper.class)
+@Mapper(uses = {StopMapper.class, RouteMapper.class})
 public interface RouteLineMapper {
     @Mapping(target = "routeLineDtoId", source = "routeLine.id")
     @Mapping(target = "routeId", source = "routeLine.routeRouteLine.id")
@@ -17,5 +17,6 @@ public interface RouteLineMapper {
     @Mapping(target = "type", source = "routeLine.routeRouteLine.routeNumber.type.description")
     @Mapping(target = "routeDescription", source = "routeLine.routeRouteLine.description")
     @Mapping(target = "routeNumber", source = "routeLine.routeRouteLine.routeNumber.number")
+    @Mapping(target = "routeId", source = "routeLine.routeRouteLine.id")
     RouteLineStopDto routeLineToRouteLineStopDto(RouteLine routeLine);
 }

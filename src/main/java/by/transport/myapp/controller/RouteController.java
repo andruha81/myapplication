@@ -49,10 +49,10 @@ public class RouteController {
         return "route::routeStop";
     }
 
-    @GetMapping("/{routeId}/{stopId}")
-    public String showStopDetail(@PathVariable Integer routeId, @PathVariable Integer stopId, Model model) {
+    @GetMapping("/stop/{stopId}")
+    public String showStopDetail(@PathVariable Integer stopId, Model model) {
         model.addAttribute("stopN", stopService.getStopById(stopId).getName());
-        model.addAttribute("stopDetail", routeLineService.getStopDetails(routeId, stopId));
+        model.addAttribute("stopDetail", routeLineService.getStopDetails(stopId));
         return "route::stopDetail";
     }
 }
