@@ -38,4 +38,9 @@ public class RouteNumberServiceImpl implements RouteNumberService {
                 .map(routeNumberMapper::routeNumberToDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public RouteNumber getRouteNumberByNumber(int number) {
+        return routeNumberDao.getRouteNumberByNumber(number);
+    }
 }

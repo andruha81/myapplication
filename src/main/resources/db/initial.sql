@@ -66,7 +66,6 @@ CREATE TABLE transport
     type_id         INT          NOT NULL,
     model           VARCHAR(255) NOT NULL,
     seat_num        INT          NOT NULL,
-    drive_type      VARCHAR(255) NOT NULL,
     car_num         INT          NOT NULL,
     route_number_id INT,
     CONSTRAINT PK_transport PRIMARY KEY (id),

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Параметры маршрута</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragments/header">
+</div>
+<div class="row">
+    <form autocomplete="off" action="#" th:action="@{/route/save}"
+          th:object="${route}" method="post">
+        <div class="routeParam">
+            <label for="routeNumber">Маршрут № </label>
+            <input type="number" id="routeNumber" name="routeNumber"
+                   th:value="${route?.routeNumber}" required>
+            <span class="formAdd" th:if="${#fields.hasErrors('routeNumber')}" th:errors="*{routeNumber}"></span>
+            <input class="formAdd" type="text" th:value="${route?.routeParamDtoId}"
+                   id="routeParamDtoId" name="routeParamDtoId" hidden><br>
+        </div>
+        <div class="routeParam">
+            <label for="description">Наименование</label>
+            <input type="text" id="description" name="description"
+                   th:value="${route?.description}" required style="width: 200px">
+            <span class="formAdd" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span><br>
+        </div>
+        <div class="routeParamHalf">
+            <h3 class="formAdd">Рабочие дни</h3>
+
+            <label class="formAdd" for="startWeekday">Начало работы</label>
+            <input class="formAdd" type="time" id="startWeekday" name="startWeekday"
+                   th:value="${route?.startWeekday}" required style="width: 70px">
+            <span class="formAdd" th:if="${#fields.hasErrors('startWeekday')}" th:errors="*{startWeekday}"></span><br>
+
+            <label class="formAdd" for="endWeekday">Окончание работы</label>
+            <input class="formAdd" type="time" id="endWeekday" name="endWeekday"
+                   th:value="${route?.endWeekday}" required style="width: 70px">
+            <span class="formAdd" th:if="${#fields.hasErrors('endWeekday')}" th:errors="*{endWeekday}"></span><br>
+
+            <label class="formAdd" for="intervalWeekday">Интервал движения</label>
+            <input class="formAdd" type="number" id="intervalWeekday" name="intervalWeekday"
+                   th:value="${route?.intervalWeekday}" required style="width: 50px">
+            <span class="formAdd" th:if="${#fields.hasErrors('intervalWeekday')}" th:errors="*{intervalWeekday}"></span><br>
+        </div>
+        <div class="routeParamHalf">
+            <h3 class="formAdd">Выходные дни</h3>
+
+            <label class="formAdd" for="startDayoff">Начало работы</label>
+            <input class="formAdd" type="time" id="startDayoff" name="startDayoff"
+                   th:value="${route?.startDayoff}" required style="width: 70px">
+            <span class="formAdd" th:if="${#fields.hasErrors('startDayoff')}" th:errors="*{startDayoff}"></span><br>
+
+            <label class="formAdd" for="endDayoff">Окончание работы</label>
+            <input class="formAdd" type="time" id="endDayoff" name="endDayoff"
+                   th:value="${route?.endDayoff}" required style="width: 70px">
+            <span class="formAdd" th:if="${#fields.hasErrors('endDayoff')}" th:errors="*{endDayoff}"></span><br>
+
+            <label class="formAdd" for="intervalDayoff">Интервал движения</label>
+            <input class="formAdd" type="number" id="intervalDayoff" name="intervalDayoff"
+                   th:value="${route?.intervalDayoff}" required style="width: 50px">
+            <span class="formAdd" th:if="${#fields.hasErrors('intervalDayoff')}"
+                  th:errors="*{intervalDayoff}"></span><br>
+        </div>
+        <br style="clear: both;">
+        <div class="routeParam">
+            <h3>Остановки</h3>
+            <table class="tableStops">
+                <tr class="trRl">
+                    <th class="tdStopCenter" style="width: 10%">№</th>
+                    <th class="tdStopCenter" style="width: 40%">Наименование</th>
+                    <th class="tdStopCenter" style="width: 15%">Время до пред.</th>
+                    <th class="tdStopCenter" style="width: 15%">Расст. до пред.</th>
+                    <th class="tdStopCenter" style="width: 10%"></th>
+                </tr>
+                <tr class="trRl" th:each="routeLine,status : *{routeLines}">
+                    <td class="tdStopCenter">
+                        <input th:field="*{routeLines[__${status.index}__].stopOrder}" readonly>
+                        <input type="hidden" th:field="*{routeLines[__${status.index}__].routeLineParamDtoId}">
+                    </td>
+                    <td class="tdStopLeft">
+                        <input th:field="*{routeLines[__${status.index}__].stopName}" readonly>
+                    </td>
+                    <td>
+                        <input th:field="*{routeLines[__${status.index}__].timePrev}">
+                    </td>
+                    <td>
+                        <input th:field="*{routeLines[__${status.index}__].distancePrev}">
+                    </td>
+                    <td><a href=""
+                           th:href="@{/route/edit/stop(routeId=${route.routeParamDtoId}, rlId=${routeLine.routeLineParamDtoId})}">Убрать</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <input class="formAdd" type="submit" value="Сохранить">
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Маршруты</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragments/header">
+</div>
+<div class="row">
+    <div class="columnRouteList">
+        <table>
+            <tr th:if="${routesNumber.isEmpty()}">
+                <td>No Routes available</td>
+            </tr>
+            <tr th:each="routeNumber : ${routesNumber}" class="lineTable">
+                <td class="tdNumber">
+                    <span th:text="${routeNumber.number}">Number</span>
+                </td>
+                <td class="td">
+                    <table>
+                        <tr th:each="route : ${routeNumber.routesDto}">
+                            <td class="td">
+                                <a href="#" th:href="@{/route/edit(id=${route.routeDtoId}, type=${transportType.transportTypeDtoId})}">
+                                    <span th:text="${route.description}">Description</span>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<br style="clear: both;">
+<div class="row">
+    <div class="columnList">
+        <a th:href="@{/route/new(type=${transportType.transportTypeDtoId})}">Добавить</a>
+    </div>
+    <div class="columnList">
+        <a th:href="@{/dispatcher/list(type=${transportType.transportTypeDtoId})}">Список транспортов</a>
+    </div>
+</div>
+</body>
+</html>

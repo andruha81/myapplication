@@ -12,7 +12,6 @@ public class TransportDto implements Serializable {
     private Integer transportDtoId;
     private String model;
     private String type;
-    private String driveType;
     private int seatNum;
     private int carNum;
     private int route;

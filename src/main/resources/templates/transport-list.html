@@ -11,19 +11,21 @@
 </div>
 <div class="row">
     <table>
-        <tr>
-            <th>№</th>
-            <th>Модель</th>
-            <th>Кол-во мест</th>
-            <th>Маршрут</th>
-            <th></th>
+        <tr class="trRl">
+            <th class="tdRlCenter">№</th>
+            <th class="tdRlCenter">Модель</th>
+            <th class="tdRlCenter">Кол-во мест</th>
+            <th class="tdRlCenter">Маршрут</th>
+            <th class="tdRlCenter"></th>
         </tr>
-        <tr th:each="transport, transportStat : ${transports}">
-            <td th:text="${transportStat.count}"></td>
-            <td th:text="${transport.model}"></td>
-            <td th:text="${transport.seatNum}"></td>
-            <td th:text="${transport.route}"></td>
-            <td><a th:href="/transport/edit/${transport.transportDtoId}">Изменить</a></td>
+        <tr class="trRl" th:each="transport, transportStat : ${transports}">
+            <td class="tdRlCenter" th:text="${transportStat.count}"></td>
+            <td class="tdRlLeft" th:text="${transport.model}"></td>
+            <td class="tdRlCenter" th:text="${transport.seatNum}"></td>
+            <td class="tdRlCenter" th:text="${transport.route}"></td>
+            <td class="tdRlLeft">
+                <a th:href="@{/transport/edit(id=${transport.transportDtoId}, type=${transportType.transportTypeDtoId})}">Изменить</a>
+            </td>
         </tr>
     </table>
 </div>

@@ -26,9 +26,6 @@ public class Transport {
     @Column(name = "seat_num", nullable = false)
     private int seatNum;
 
-    @Column(name = "drive_type", nullable = false)
-    private String driveType;
-
     @Column(name = "car_num", nullable = false)
     private int carNum;
 

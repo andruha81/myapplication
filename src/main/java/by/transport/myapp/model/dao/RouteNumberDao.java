@@ -14,4 +14,6 @@ public interface RouteNumberDao extends JpaRepository<RouteNumber, Integer> {
     List<Integer> getNumbers();
 
     List<RouteNumber> getRouteNumbersByType(TransportType transportType);
+
+    RouteNumber getRouteNumberByNumber(int number);
 }

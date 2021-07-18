@@ -1,6 +1,7 @@
 package by.transport.myapp.mapper;
 
 import by.transport.myapp.dto.RouteLineDto;
+import by.transport.myapp.dto.RouteLineParamDto;
 import by.transport.myapp.dto.RouteLineStopDto;
 import by.transport.myapp.model.entity.RouteLine;
 import org.mapstruct.Mapper;
@@ -19,4 +20,11 @@ public interface RouteLineMapper {
     @Mapping(target = "routeNumber", source = "routeLine.routeRouteLine.routeNumber.number")
     @Mapping(target = "routeId", source = "routeLine.routeRouteLine.id")
     RouteLineStopDto routeLineToRouteLineStopDto(RouteLine routeLine);
+
+    @Mapping(target = "routeLineParamDtoId", source = "routeLine.id")
+    @Mapping(target = "stopName", source = "routeLine.stop.name")
+    RouteLineParamDto routeLineToRouteLineParamDto(RouteLine routeLine);
+
+    @Mapping(target = "id", source = "routeLineParamDto.routeLineParamDtoId")
+    RouteLine routeLineParamDtoToRouteLine(RouteLineParamDto routeLineParamDto);
 }

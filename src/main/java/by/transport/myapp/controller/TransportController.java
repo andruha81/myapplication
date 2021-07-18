@@ -5,7 +5,9 @@ import by.transport.myapp.service.RouteNumberService;
 import by.transport.myapp.service.TransportService;
 import by.transport.myapp.service.TransportTypeService;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping(value = "/transport")
@@ -32,9 +34,24 @@ public class TransportController {
         return "new-transport";
     }
 
+    @GetMapping(value = "/edit")
+    public String editTransportForm(@RequestParam(name = "id") Integer transportId,
+                                    @RequestParam(name = "type") Integer typeId,
+                                    Model model) {
+        model.addAttribute("headerMessage", "Редактирование транспорта");
+        model.addAttribute("transport", transportService.getTransportById(transportId));
+        model.addAttribute("routeNumbers", routeNumberService.getRouteNumbersByType(typeId));
+        return "edit-transport";
+    }
+
     @PostMapping(value = "/add")
-    public String addTransport(@ModelAttribute("transport") TransportDto transportDto) {
+    @Transactional
+    public String addTransport(@ModelAttribute("transport") TransportDto transportDto,
+                               BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "index";
+        }
         transportService.save(transportDto);
-        return "index";
+        return "redirect:/dispatcher/list?type=" + transportTypeService.getTransportTypeByDescription(transportDto.getType()).getId();
     }
 }

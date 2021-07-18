@@ -9,4 +9,7 @@ import org.mapstruct.Mapping;
 public interface StopMapper {
     @Mapping(target = "stopDtoId", source = "stop.id")
     StopDto stopToDto(Stop stop);
+
+    @Mapping(target = "id", source = "stopDto.stopDtoId")
+    Stop stopDtoToStop(StopDto stopDto);
 }

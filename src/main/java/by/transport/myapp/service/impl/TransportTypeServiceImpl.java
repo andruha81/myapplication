@@ -3,6 +3,7 @@ package by.transport.myapp.service.impl;
 import by.transport.myapp.dto.TransportTypeDto;
 import by.transport.myapp.mapper.TransportTypeMapper;
 import by.transport.myapp.model.dao.TransportTypeDao;
+import by.transport.myapp.model.entity.TransportType;
 import by.transport.myapp.service.TransportTypeService;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,10 @@ public class TransportTypeServiceImpl implements TransportTypeService {
     @Override
     public TransportTypeDto getTransportTypeById(Integer id) {
         return mapper.transportTypeToDto(transportTypeDao.getById(id));
+    }
+
+    @Override
+    public TransportType getTransportTypeByDescription(String description) {
+        return transportTypeDao.findTransportTypeByDescription(description);
     }
 }

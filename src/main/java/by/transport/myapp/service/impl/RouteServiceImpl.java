@@ -1,5 +1,6 @@
 package by.transport.myapp.service.impl;
 
+import by.transport.myapp.dto.RouteParamDto;
 import by.transport.myapp.dto.RouteStopDto;
 import by.transport.myapp.mapper.RouteMapper;
 import by.transport.myapp.model.dao.RouteDao;
@@ -23,5 +24,15 @@ public class RouteServiceImpl implements RouteService {
         var routeStopDto = routeMapper.routeToRouteStopDto(route);
         routeStopDto.getRouteLines().forEach(x -> TimeUtil.findTime(x, route));
         return routeStopDto;
+    }
+
+    @Override
+    public RouteParamDto getRouteById(Integer id) {
+        return routeMapper.routeToRouteParamDto(routeDao.getById(id));
+    }
+
+    @Override
+    public void save(RouteParamDto routeParamDto) {
+//        routeDao.save(routeMapper.)
     }
 }

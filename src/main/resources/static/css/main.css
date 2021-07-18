@@ -15,6 +15,11 @@ select, option{
     width: 200px;
 }
 
+.formAdd {
+    margin: 10px;
+    padding: 5px;
+}
+
 .dispTypeTable {
     width: 40%;
 }
@@ -54,6 +59,11 @@ select, option{
     width: 33%;
 }
 
+.columnRouteList {
+    float: left;
+    width: 50%;
+}
+
 .columnHead {
     float: right;
     width: 10%;
@@ -64,6 +74,7 @@ select, option{
     float: left;
     width: 10%;
     text-align: center;
+    padding: 10px;
 }
 
 .img {
@@ -85,6 +96,18 @@ select, option{
     text-align: center;
 }
 
+.routeParam {
+    text-align: center;
+    padding: 5px;
+    margin: 10px;
+}
+
+.routeParamHalf {
+    float: left;
+    width: 50%;
+    text-align: center;
+}
+
 .tdRlCenter {
     padding: 10px;
     text-align: center;
@@ -94,9 +117,31 @@ select, option{
 .tdRlLeft {
     padding: 10px;
     border-right: solid 1px white;
+    text-align: left;
+}
+
+.tdStopCenter {
+    padding: 10px;
+    text-align: center;
+    border-right: solid 1px white;
+    border-left: solid 1px white;
+}
+
+.tdStopLeft {
+    padding: 10px;
+    border-right: solid 1px white;
+    border-left: solid 1px white;
+    text-align: left;
 }
 
 .trRl {
     border-top: solid 1px white;
     border-bottom: solid 1px white;
+}
+
+.tableStops {
+    width: 50%;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
 }
