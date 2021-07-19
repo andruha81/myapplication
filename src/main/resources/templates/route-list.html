@@ -23,7 +23,7 @@
                     <table>
                         <tr th:each="route : ${routeNumber.routesDto}">
                             <td class="td">
-                                <a href="#" th:href="@{/route/edit(id=${route.routeDtoId}, type=${transportType.transportTypeDtoId})}">
+                                <a href="#" th:href="@{/route/edit(id=${route.routeDtoId})}">
                                     <span th:text="${route.description}">Description</span>
                                 </a>
                             </td>
@@ -37,7 +37,7 @@
 <br style="clear: both;">
 <div class="row">
     <div class="columnList">
-        <a th:href="@{/route/new(type=${transportType.transportTypeDtoId})}">Добавить</a>
+        <a th:href="@{/route/new}">Добавить</a>
     </div>
     <div class="columnList">
         <a th:href="@{/dispatcher/list(type=${transportType.transportTypeDtoId})}">Список транспортов</a>

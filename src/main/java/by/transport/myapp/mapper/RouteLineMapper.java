@@ -9,6 +9,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(uses = {StopMapper.class, RouteMapper.class})
 public interface RouteLineMapper {
+
     @Mapping(target = "routeLineDtoId", source = "routeLine.id")
     @Mapping(target = "routeId", source = "routeLine.routeRouteLine.id")
     @Mapping(target = "stopDto", source = "routeLine.stop")
@@ -22,9 +23,10 @@ public interface RouteLineMapper {
     RouteLineStopDto routeLineToRouteLineStopDto(RouteLine routeLine);
 
     @Mapping(target = "routeLineParamDtoId", source = "routeLine.id")
-    @Mapping(target = "stopName", source = "routeLine.stop.name")
+    @Mapping(target = "stopDto", source = "routeLine.stop")
     RouteLineParamDto routeLineToRouteLineParamDto(RouteLine routeLine);
 
     @Mapping(target = "id", source = "routeLineParamDto.routeLineParamDtoId")
+    @Mapping(target = "stop", source = "routeLineParamDto.stopDto")
     RouteLine routeLineParamDtoToRouteLine(RouteLineParamDto routeLineParamDto);
 }

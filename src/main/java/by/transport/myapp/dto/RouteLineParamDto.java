@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class RouteLineParamDto implements Serializable, Comparable<RouteLineParamDto> {
     private static final long serialVersionUID = 1L;
     private Integer routeLineParamDtoId;
-    private String stopName;
+    private StopDto stopDto;
     private int stopOrder;
     private int timePrev;
     private int distancePrev;

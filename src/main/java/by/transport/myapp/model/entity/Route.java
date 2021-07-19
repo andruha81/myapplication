@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalTime;
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -46,6 +46,6 @@ public class Route {
     @JoinColumn(name = "route_number_id")
     private RouteNumber routeNumber;
 
-    @OneToMany(mappedBy = "routeRouteLine", cascade = CascadeType.REMOVE)
-    private Set<RouteLine> routeLines;
+    @OneToMany(mappedBy = "routeRouteLine", cascade = CascadeType.ALL)
+    private List<RouteLine> routeLines;
 }

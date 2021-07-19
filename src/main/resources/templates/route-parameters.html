@@ -68,25 +68,26 @@
             <h3>Остановки</h3>
             <table class="tableStops">
                 <tr class="trRl">
-                    <th class="tdStopCenter" style="width: 10%">№</th>
-                    <th class="tdStopCenter" style="width: 40%">Наименование</th>
-                    <th class="tdStopCenter" style="width: 15%">Время до пред.</th>
-                    <th class="tdStopCenter" style="width: 15%">Расст. до пред.</th>
-                    <th class="tdStopCenter" style="width: 10%"></th>
+                    <th class="tdStopCenter">№</th>
+                    <th class="tdStopCenter">Наименование</th>
+                    <th class="tdStopCenter">Время до пред.</th>
+                    <th class="tdStopCenter">Расст. до пред.</th>
+                    <th class="tdStopCenter"></th>
                 </tr>
                 <tr class="trRl" th:each="routeLine,status : *{routeLines}">
                     <td class="tdStopCenter">
-                        <input th:field="*{routeLines[__${status.index}__].stopOrder}" readonly>
+                        <input th:field="*{routeLines[__${status.index}__].stopOrder}" readonly style="width: 25px">
                         <input type="hidden" th:field="*{routeLines[__${status.index}__].routeLineParamDtoId}">
                     </td>
                     <td class="tdStopLeft">
-                        <input th:field="*{routeLines[__${status.index}__].stopName}" readonly>
+                        <input th:field="*{routeLines[__${status.index}__].stopDto.name}" readonly>
+                        <input type="hidden" th:field="*{routeLines[__${status.index}__].stopDto.stopDtoId}">
                     </td>
                     <td>
-                        <input th:field="*{routeLines[__${status.index}__].timePrev}">
+                        <input th:field="*{routeLines[__${status.index}__].timePrev}" style="width: 35px">
                     </td>
                     <td>
-                        <input th:field="*{routeLines[__${status.index}__].distancePrev}">
+                        <input th:field="*{routeLines[__${status.index}__].distancePrev}" style="width: 35px">
                     </td>
                     <td><a href=""
                            th:href="@{/route/edit/stop(routeId=${route.routeParamDtoId}, rlId=${routeLine.routeLineParamDtoId})}">Убрать</a>

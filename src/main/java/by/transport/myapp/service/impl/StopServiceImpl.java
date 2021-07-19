@@ -3,6 +3,7 @@ package by.transport.myapp.service.impl;
 import by.transport.myapp.dto.StopDto;
 import by.transport.myapp.mapper.StopMapper;
 import by.transport.myapp.model.dao.StopDao;
+import by.transport.myapp.model.entity.Stop;
 import by.transport.myapp.service.StopService;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,11 @@ public class StopServiceImpl implements StopService {
     @Override
     public StopDto getStopById(Integer id) {
         return stopMapper.stopToDto(stopDao.getById(id));
+    }
+
+    @Override
+    public Stop getStop(Integer id) {
+        return stopDao.getById(id);
     }
 
     @Override

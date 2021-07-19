@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.Collections;
 
 @Controller
@@ -67,7 +66,6 @@ public class RouteController {
 
     @GetMapping("/edit")
     public String showRouteParameters(@RequestParam(name = "id") Integer routeId,
-                                      @RequestParam(name = "type") Integer typeId,
                                       Model model) {
         RouteParamDto routeParamDto = routeService.getRouteById(routeId);
         Collections.sort(routeParamDto.getRouteLines());
@@ -78,8 +76,7 @@ public class RouteController {
     }
 
     @GetMapping("/new")
-    public String showNewRouteParameters(@RequestParam(name = "type") Integer typeId,
-                                         Model model) {
+    public String showNewRouteParameters(Model model) {
         model.addAttribute(HEADER_MESSAGE, "Создание маршрута");
         model.addAttribute(ROUTE, new RouteParamDto());
 
@@ -103,9 +100,9 @@ public class RouteController {
     public String saveRoute(@ModelAttribute("route") RouteParamDto routeParamDto,
                             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "index";
+            return ROUTE_PARAMETERS;
         }
         routeService.save(routeParamDto);
-        return "";
+        return "redirect:/dispatcher/all";
     }
 }
