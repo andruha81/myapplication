@@ -65,7 +65,10 @@
         </div>
         <br style="clear: both;">
         <div class="routeParam">
-            <h3>Остановки</h3>
+            <input type="submit" value="Сохранить">
+        </div>
+        <div class="routeParam">
+            <h3>Остановки (<a href="" th:href="@{/route/add/stop(routeId=${route.routeParamDtoId})}">Добавить</a>)</h3>
             <table class="tableStops">
                 <tr class="trRl">
                     <th class="tdStopCenter">№</th>
@@ -83,19 +86,18 @@
                         <input th:field="*{routeLines[__${status.index}__].stopDto.name}" readonly>
                         <input type="hidden" th:field="*{routeLines[__${status.index}__].stopDto.stopDtoId}">
                     </td>
-                    <td>
+                    <td class="tdStopCenter">
                         <input th:field="*{routeLines[__${status.index}__].timePrev}" style="width: 35px">
                     </td>
-                    <td>
+                    <td class="tdStopCenter">
                         <input th:field="*{routeLines[__${status.index}__].distancePrev}" style="width: 35px">
                     </td>
-                    <td><a href=""
-                           th:href="@{/route/edit/stop(routeId=${route.routeParamDtoId}, rlId=${routeLine.routeLineParamDtoId})}">Убрать</a>
+                    <td class="tdStopCenter"><a href=""
+                                                th:href="@{/route/edit/stop(routeId=${route.routeParamDtoId}, rlId=${routeLine.routeLineParamDtoId})}">Убрать</a>
                     </td>
                 </tr>
             </table>
         </div>
-        <input class="formAdd" type="submit" value="Сохранить">
     </form>
 </div>
 </body>

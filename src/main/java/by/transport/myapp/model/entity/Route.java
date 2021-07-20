@@ -46,6 +46,6 @@ public class Route {
     @JoinColumn(name = "route_number_id")
     private RouteNumber routeNumber;
 
-    @OneToMany(mappedBy = "routeRouteLine", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "routeRouteLine", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RouteLine> routeLines;
 }

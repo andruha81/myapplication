@@ -1,8 +1,11 @@
 package by.transport.myapp.controller;
 
+import by.transport.myapp.dto.RouteLineParamDto;
 import by.transport.myapp.dto.RouteParamDto;
+import by.transport.myapp.dto.StopDto;
 import by.transport.myapp.service.*;
 import by.transport.myapp.util.RouteUtil;
+import by.transport.myapp.util.StopUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -10,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.List;
 
 @Controller
 @RequestMapping("/route")
@@ -84,15 +88,41 @@ public class RouteController {
     }
 
     @GetMapping("/edit/stop")
+    @Transactional
     public String editRouteStop(@RequestParam Integer routeId,
                                 @RequestParam Integer rlId,
                                 Model model) {
         RouteParamDto routeParamDto = routeService.getRouteById(routeId);
         RouteUtil.removeStop(routeParamDto, rlId);
+        routeService.save(routeParamDto);
         model.addAttribute(HEADER_MESSAGE, "Параметры маршрута");
         model.addAttribute(ROUTE, routeParamDto);
 
         return ROUTE_PARAMETERS;
+    }
+
+    @GetMapping("/add/stop")
+    @Transactional
+    public String addRouteStop(@RequestParam Integer routeId,
+                               Model model) {
+        RouteParamDto routeParamDto = routeService.getRouteById(routeId);
+        List<StopDto> stops = StopUtil.removeStops(stopService.getStops(), routeParamDto.getRouteLines());
+
+        model.addAttribute(HEADER_MESSAGE, "Добавление остановки к маршруту");
+        model.addAttribute(ROUTE, routeParamDto);
+        model.addAttribute("routeLine", new RouteLineParamDto());
+        model.addAttribute("stops", stops);
+
+        return "new-routeline";
+    }
+
+    @PostMapping("/add/stop")
+    @Transactional
+    public String newRouteStop(@ModelAttribute("routeLine") RouteLineParamDto routeLineParamDto,
+                               Model model) {
+        model.addAttribute(HEADER_MESSAGE, "Параметры маршрута");
+
+        return "new-routeline";
     }
 
     @PostMapping("/save")

@@ -7,6 +7,7 @@ import by.transport.myapp.model.dao.RouteDao;
 import by.transport.myapp.model.dao.RouteNumberDao;
 import by.transport.myapp.model.entity.Route;
 import by.transport.myapp.service.RouteService;
+import by.transport.myapp.util.RouteUtil;
 import by.transport.myapp.util.TimeUtil;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,7 @@ public class RouteServiceImpl implements RouteService {
     public void save(RouteParamDto routeParamDto) {
         Route route = routeMapper.RouteParamDtoToRoute(routeParamDto,
                 routeNumberDao.getRouteNumberByNumber(routeParamDto.getRouteNumber()));
+        RouteUtil.setRouteInRouteLine(route, route.getRouteLines());
         routeDao.save(route);
     }
 }
