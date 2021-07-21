@@ -10,31 +10,31 @@
 <div th:replace="fragments/header">
 </div>
 <div class="row">
-    <form autocomplete="off" action="#" th:action="@{/route/add/stop}"
+    <form autocomplete="off" action="#" th:action="@{/route/add/stop/__${route.routeParamDtoId}__}"
           th:object="${routeLine}" method="post">
         <div>
-            <label for="stop">Остановка</label>
-            <select id="stop" th:field="*{stopDto}">
+            <label class="formAdd" for="stop">Остановка</label>
+            <select class="formAdd" id="stop" th:field="*{stopId}">
                 <option th:each="stop : ${stops}"
-                        th:value="${stop}"
+                        th:value="${stop.stopDtoId}"
                         th:text="${stop.name}"></option>
             </select>
-            <input type="hidden" th:field="routeLineParamDtoId">
+            <input type="hidden" th:field="*{routeLineNewParamDtoId}">
             <br>
 
-            <label for="stopOrder">Порядок остановки</label>
-            <input type="number" id="stopOrder" min="1" max="99" th:field="*{stopOrder}">
+            <label class="formAdd" for="stopOrder">Порядок остановки</label>
+            <input class="formAdd" type="number" id="stopOrder" min="1" max="99" th:field="*{stopOrder}">
             <br>
 
-            <label for="timePrev">Время до предыдущей остановки</label>
-            <input type="number" id="timePrev" min="1" max="99" th:field="*{timePrev}">
+            <label class="formAdd" for="timePrev">Время до предыдущей остановки</label>
+            <input class="formAdd" type="number" id="timePrev" min="1" max="99" th:field="*{timePrev}">
             <br>
 
-            <label for="distancePrev">Дистанция до предыдущей остановки</label>
-            <input type="number" id="distancePrev" min="1" max="9999" th:field="*{distancePrev}">
+            <label class="formAdd" for="distancePrev">Дистанция до предыдущей остановки</label>
+            <input class="formAdd" type="number" id="distancePrev" min="1" max="9999" th:field="*{distancePrev}">
             <br>
 
-            <input type="submit" value="Сохранить">
+            <input class="formAdd" type="submit" value="Сохранить">
         </div>
     </form>
 </div>

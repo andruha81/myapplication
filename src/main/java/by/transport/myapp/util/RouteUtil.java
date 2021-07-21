@@ -27,9 +27,19 @@ public class RouteUtil {
                 .getRouteLines()
                 .forEach(x -> {
             if(x.getStopOrder() > stopOrder) {
-                x.setStopOrder(x.getStopOrder()-1);
+                x.setStopOrder(x.getStopOrder() - 1);
             }
         });
+    }
+
+    public static void addStop(RouteParamDto routeParamDto, int stopOrder) {
+        routeParamDto
+                .getRouteLines()
+                .forEach(x -> {
+                    if(x.getStopOrder() >= stopOrder) {
+                        x.setStopOrder(x.getStopOrder() + 1);
+                    }
+                });
     }
 
     public static void setRouteInRouteLine(Route route, List<RouteLine> routelines) {

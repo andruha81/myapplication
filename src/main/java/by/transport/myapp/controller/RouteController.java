@@ -1,8 +1,10 @@
 package by.transport.myapp.controller;
 
+import by.transport.myapp.dto.RouteLineNewParamDto;
 import by.transport.myapp.dto.RouteLineParamDto;
 import by.transport.myapp.dto.RouteParamDto;
 import by.transport.myapp.dto.StopDto;
+import by.transport.myapp.mapper.RouteLineParamMapper;
 import by.transport.myapp.service.*;
 import by.transport.myapp.util.RouteUtil;
 import by.transport.myapp.util.StopUtil;
@@ -27,6 +29,7 @@ public class RouteController {
     private static final String HEADER_MESSAGE = "headerMessage";
     private static final String ROUTE = "route";
     private static final String ROUTE_PARAMETERS = "route-parameters";
+    private static final String PARAMETERS = "Параметры маршрута";
 
     public RouteController(RouteNumberService routeNumberService,
                            RouteService routeService,
@@ -73,7 +76,7 @@ public class RouteController {
                                       Model model) {
         RouteParamDto routeParamDto = routeService.getRouteById(routeId);
         Collections.sort(routeParamDto.getRouteLines());
-        model.addAttribute(HEADER_MESSAGE, "Параметры маршрута");
+        model.addAttribute(HEADER_MESSAGE, PARAMETERS);
         model.addAttribute(ROUTE, routeParamDto);
 
         return ROUTE_PARAMETERS;
@@ -95,14 +98,13 @@ public class RouteController {
         RouteParamDto routeParamDto = routeService.getRouteById(routeId);
         RouteUtil.removeStop(routeParamDto, rlId);
         routeService.save(routeParamDto);
-        model.addAttribute(HEADER_MESSAGE, "Параметры маршрута");
+        model.addAttribute(HEADER_MESSAGE, PARAMETERS);
         model.addAttribute(ROUTE, routeParamDto);
 
-        return ROUTE_PARAMETERS;
+        return "redirect:/route/edit?id=" + routeParamDto.getRouteParamDtoId();
     }
 
     @GetMapping("/add/stop")
-    @Transactional
     public String addRouteStop(@RequestParam Integer routeId,
                                Model model) {
         RouteParamDto routeParamDto = routeService.getRouteById(routeId);
@@ -110,19 +112,25 @@ public class RouteController {
 
         model.addAttribute(HEADER_MESSAGE, "Добавление остановки к маршруту");
         model.addAttribute(ROUTE, routeParamDto);
-        model.addAttribute("routeLine", new RouteLineParamDto());
+        model.addAttribute("routeLine", new RouteLineNewParamDto());
         model.addAttribute("stops", stops);
 
         return "new-routeline";
     }
 
-    @PostMapping("/add/stop")
+    @PostMapping("/add/stop/{routeId}")
     @Transactional
-    public String newRouteStop(@ModelAttribute("routeLine") RouteLineParamDto routeLineParamDto,
+    public String newRouteStop(@PathVariable Integer routeId,
+                               @ModelAttribute("routeLine") RouteLineNewParamDto routeLineNewParamDto,
                                Model model) {
-        model.addAttribute(HEADER_MESSAGE, "Параметры маршрута");
+        RouteLineParamDto routeLineParamDto = RouteLineParamMapper.map(routeLineNewParamDto,
+                stopService.getStopById(routeLineNewParamDto.getStopId()));
+        RouteParamDto routeParamDto = routeService.getRouteById(routeId);
+        RouteUtil.addStop(routeParamDto, routeLineParamDto.getStopOrder());
+        routeParamDto.getRouteLines().add(routeLineParamDto);
+        routeService.save(routeParamDto);
 
-        return "new-routeline";
+        return "redirect:/route/edit?id=" + routeParamDto.getRouteParamDtoId();
     }
 
     @PostMapping("/save")
