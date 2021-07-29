@@ -15,10 +15,13 @@
         <div class="routeParam">
             <label for="routeNumber">Маршрут № </label>
             <input type="number" id="routeNumber" name="routeNumber"
-                   th:value="${route?.routeNumber}" required>
+                   th:value="${route?.routeNumber}"
+                   min="1" max="999" required>
             <span class="formAdd" th:if="${#fields.hasErrors('routeNumber')}" th:errors="*{routeNumber}"></span>
             <input class="formAdd" type="text" th:value="${route?.routeParamDtoId}"
                    id="routeParamDtoId" name="routeParamDtoId" hidden><br>
+            <input class="formAdd" type="number" th:value="${route?.typeId}"
+                   id="typeId" name="typeId" hidden><br>
         </div>
         <div class="routeParam">
             <label for="description">Наименование</label>
@@ -92,13 +95,17 @@
                     <td class="tdStopCenter">
                         <input th:field="*{routeLines[__${status.index}__].distancePrev}" style="width: 35px">
                     </td>
-                    <td class="tdStopCenter"><a href=""
-                                                th:href="@{/route/edit/stop(routeId=${route.routeParamDtoId}, rlId=${routeLine.routeLineParamDtoId})}">Убрать</a>
+                    <td class="tdStopCenter">
+                        <a href=""
+                           th:href="@{/route/edit/stop(routeId=${route.routeParamDtoId}, rlId=${routeLine.routeLineParamDtoId})}">Убрать</a>
                     </td>
                 </tr>
             </table>
         </div>
     </form>
+    <div class="routeParam">
+        <a th:href="@{/dispatcher/route(type=${route.typeId})}">К маршрутам</a>
+    </div>
 </div>
 </body>
 </html>

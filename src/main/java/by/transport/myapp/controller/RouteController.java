@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class RouteController {
     private static final String ROUTE = "route";
     private static final String ROUTE_PARAMETERS = "route-parameters";
     private static final String PARAMETERS = "Параметры маршрута";
+    private static final String EDIT_ROUTE = "redirect:/route/edit?id=";
 
     public RouteController(RouteNumberService routeNumberService,
                            RouteService routeService,
@@ -83,9 +85,12 @@ public class RouteController {
     }
 
     @GetMapping("/new")
-    public String showNewRouteParameters(Model model) {
+    public String showNewRouteParameters(@RequestParam(name = "type") Integer typeId,
+                                         Model model) {
+        RouteParamDto routeParamDto = new RouteParamDto();
+        routeParamDto.setTypeId(typeId);
         model.addAttribute(HEADER_MESSAGE, "Создание маршрута");
-        model.addAttribute(ROUTE, new RouteParamDto());
+        model.addAttribute(ROUTE, routeParamDto);
 
         return ROUTE_PARAMETERS;
     }
@@ -93,15 +98,12 @@ public class RouteController {
     @GetMapping("/edit/stop")
     @Transactional
     public String editRouteStop(@RequestParam Integer routeId,
-                                @RequestParam Integer rlId,
-                                Model model) {
+                                @RequestParam Integer rlId) {
         RouteParamDto routeParamDto = routeService.getRouteById(routeId);
         RouteUtil.removeStop(routeParamDto, rlId);
         routeService.save(routeParamDto);
-        model.addAttribute(HEADER_MESSAGE, PARAMETERS);
-        model.addAttribute(ROUTE, routeParamDto);
 
-        return "redirect:/route/edit?id=" + routeParamDto.getRouteParamDtoId();
+        return EDIT_ROUTE + routeParamDto.getRouteParamDtoId();
     }
 
     @GetMapping("/add/stop")
@@ -121,8 +123,7 @@ public class RouteController {
     @PostMapping("/add/stop/{routeId}")
     @Transactional
     public String newRouteStop(@PathVariable Integer routeId,
-                               @ModelAttribute("routeLine") RouteLineNewParamDto routeLineNewParamDto,
-                               Model model) {
+                               @ModelAttribute("routeLine") RouteLineNewParamDto routeLineNewParamDto) {
         RouteLineParamDto routeLineParamDto = RouteLineParamMapper.map(routeLineNewParamDto,
                 stopService.getStopById(routeLineNewParamDto.getStopId()));
         RouteParamDto routeParamDto = routeService.getRouteById(routeId);
@@ -130,7 +131,7 @@ public class RouteController {
         routeParamDto.getRouteLines().add(routeLineParamDto);
         routeService.save(routeParamDto);
 
-        return "redirect:/route/edit?id=" + routeParamDto.getRouteParamDtoId();
+        return EDIT_ROUTE + routeParamDto.getRouteParamDtoId();
     }
 
     @PostMapping("/save")
@@ -140,7 +141,10 @@ public class RouteController {
         if (bindingResult.hasErrors()) {
             return ROUTE_PARAMETERS;
         }
+        if (routeParamDto.getRouteLines() == null) {
+            routeParamDto.setRouteLines(new ArrayList<>());
+        }
         routeService.save(routeParamDto);
-        return "redirect:/dispatcher/all";
+        return EDIT_ROUTE + routeParamDto.getRouteParamDtoId();
     }
 }

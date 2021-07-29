@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TransportTypeDao extends JpaRepository<TransportType, Integer> {
     TransportType findTransportTypeByDescription(String description);
+    TransportType findTransportTypeById(Integer id);
 }

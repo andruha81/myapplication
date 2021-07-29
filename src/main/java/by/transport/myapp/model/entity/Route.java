@@ -42,7 +42,7 @@ public class Route {
     @Column(name = "interval_dayoff", nullable = false)
     private int intervalDayoff;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "route_number_id")
     private RouteNumber routeNumber;
 

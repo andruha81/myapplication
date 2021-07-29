@@ -20,6 +20,7 @@ public interface RouteMapper {
 
     @Mapping(target = "routeParamDtoId", source = "route.id")
     @Mapping(target = "routeNumber", source = "route.routeNumber.number")
+    @Mapping(target = "typeId", source = "route.routeNumber.type.id")
     RouteParamDto routeToRouteParamDto(Route route);
 
     @Mapping(target = "id", source = "routeParamDto.routeParamDtoId")
