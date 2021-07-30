@@ -31,7 +31,7 @@ public class TransportController {
         model.addAttribute("transportType", transportTypeService.getTransportTypeById(typeId));
         model.addAttribute("routeNumbers", routeNumberService.getRouteNumbersByType(typeId));
         model.addAttribute("transport", new TransportDto());
-        return "new-transport";
+        return "transport/new-transport";
     }
 
     @GetMapping(value = "/edit")
@@ -41,7 +41,7 @@ public class TransportController {
         model.addAttribute("headerMessage", "Редактирование транспорта");
         model.addAttribute("transport", transportService.getTransportById(transportId));
         model.addAttribute("routeNumbers", routeNumberService.getRouteNumbersByType(typeId));
-        return "edit-transport";
+        return "transport/edit-transport";
     }
 
     @PostMapping(value = "/add")

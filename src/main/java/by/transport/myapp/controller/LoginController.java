@@ -28,13 +28,13 @@ public class LoginController {
         if (logout != null)
             model.addAttribute("message", "You have been logged out successfully.");
 
-        return "login";
+        return "user/login";
     }
 
     @GetMapping(value = "/registration")
     public String registration(Model model) {
         model.addAttribute("user", new User());
-        return "registration";
+        return "user/registration";
     }
 
     @PostMapping(value = "/registration")
@@ -46,7 +46,7 @@ public class LoginController {
                             "There is already a user registered with the user name provided");
         }
         if (bindingResult.hasErrors()) {
-            return "registration";
+            return "user/registration";
         } else {
             user.setPassword(encoder.encode(user.getPassword()));
             userService.saveUser(user);
@@ -54,7 +54,7 @@ public class LoginController {
             model.addAttribute("user", new User());
 
         }
-        return "registration";
+        return "user/registration";
     }
 
 }

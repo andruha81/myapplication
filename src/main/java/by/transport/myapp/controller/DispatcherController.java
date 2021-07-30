@@ -29,7 +29,7 @@ public class DispatcherController {
     public String showDispatcherControl(Model model) {
         model.addAttribute("headerMessage", "Диспетчер");
         model.addAttribute("transportTypes", transportTypeService.getTypes());
-        return "dispatcher";
+        return "dispatcher/dispatcher";
     }
 
     @GetMapping("/list")
@@ -38,7 +38,7 @@ public class DispatcherController {
         model.addAttribute("headerMessage", "Список: " + transportType.getDescription());
         model.addAttribute("transportType", transportType);
         model.addAttribute("transports", transportService.getTransportByTransportType(typeId));
-        return "transport-list";
+        return "dispatcher/transport-list";
     }
 
     @GetMapping("/route")
@@ -47,6 +47,13 @@ public class DispatcherController {
         model.addAttribute("headerMessage", "Маршруты: " + transportType.getDescription());
         model.addAttribute("transportType", transportType);
         model.addAttribute("routesNumber", routeNumberService.getRoutes(typeId));
-        return "route-list";
+        return "dispatcher/route-list";
+    }
+
+    @GetMapping("/stop")
+    public String showStops(Model model) {
+
+        model.addAttribute("headerMessage", "Остановки");
+        return "dispatcher/stop-list";
     }
 }

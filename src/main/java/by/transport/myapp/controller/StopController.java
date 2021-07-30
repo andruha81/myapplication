@@ -23,13 +23,13 @@ public class StopController {
     public String showStops(Model model) {
         model.addAttribute("headerMessage", "Остановки");
         model.addAttribute("stops", stopService.getStops());
-        return "stop";
+        return "stop/stop";
     }
 
     @GetMapping("/{stopId}")
     public String showStopDetail(@PathVariable Integer stopId, Model model) {
         model.addAttribute("stopN", stopService.getStopById(stopId).getName());
         model.addAttribute("stopDetail", routeLineService.getStopDetails(stopId));
-        return "stop::stopDetail";
+        return "stop/stop::stopDetail";
     }
 }
