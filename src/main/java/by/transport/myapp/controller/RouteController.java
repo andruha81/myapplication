@@ -30,7 +30,7 @@ public class RouteController {
     private static final String HEADER_MESSAGE = "headerMessage";
     private static final String ROUTE = "route/route";
     private static final String ROUTE_PARAMETERS = "route/route-parameters";
-    private static final String PARAMETERS = "Параметры маршрута";
+    private static final String PARAMETERS = "Редактирование маршрута";
     private static final String EDIT_ROUTE = "redirect:/route/edit?id=";
 
     public RouteController(RouteNumberService routeNumberService,

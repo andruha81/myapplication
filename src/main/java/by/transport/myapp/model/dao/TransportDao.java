@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface TransportDao extends JpaRepository<Transport, Integer> {
     List<Transport> findTransportByTransportType(TransportType transportType);
+    Transport findByModel(String model);
 }

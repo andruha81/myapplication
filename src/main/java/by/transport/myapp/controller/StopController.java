@@ -1,18 +1,21 @@
 package by.transport.myapp.controller;
 
+import by.transport.myapp.dto.StopDto;
 import by.transport.myapp.service.RouteLineService;
 import by.transport.myapp.service.StopService;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/stop")
 public class StopController {
     private final StopService stopService;
     private final RouteLineService routeLineService;
+    private static final String HEADER_MESSAGE = "headerMessage";
+    private static final String STOP_PARAMETERS = "stop/stop-parameters";
 
     public StopController(StopService stopService, RouteLineService routeLineService) {
         this.stopService = stopService;
@@ -21,7 +24,7 @@ public class StopController {
 
     @GetMapping("/all")
     public String showStops(Model model) {
-        model.addAttribute("headerMessage", "Остановки");
+        model.addAttribute(HEADER_MESSAGE, "Остановки");
         model.addAttribute("stops", stopService.getStops());
         return "stop/stop";
     }
@@ -31,5 +34,32 @@ public class StopController {
         model.addAttribute("stopN", stopService.getStopById(stopId).getName());
         model.addAttribute("stopDetail", routeLineService.getStopDetails(stopId));
         return "stop/stop::stopDetail";
+    }
+
+    @GetMapping("/edit")
+    public String showStopParameters(@RequestParam(name = "id") Integer stopId,
+                                     Model model) {
+        model.addAttribute(HEADER_MESSAGE, "Редактирование остановки");
+        model.addAttribute("stop", stopService.getStopById(stopId));
+        return STOP_PARAMETERS;
+    }
+
+    @GetMapping("/add")
+    public String addStop(Model model) {
+        model.addAttribute(HEADER_MESSAGE, "Создание остановки");
+        model.addAttribute("stop", new StopDto());
+        return STOP_PARAMETERS;
+    }
+
+    @PostMapping("/save")
+    @Transactional
+    public String saveStop(@ModelAttribute("stop") StopDto stopDto,
+                           Model model,
+                           BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return STOP_PARAMETERS;
+        }
+        stopService.save(stopDto);
+        return "redirect:/dispatcher/stop";
     }
 }

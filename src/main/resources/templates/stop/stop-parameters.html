@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Параметры остановки</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragments/header">
+</div>
+<div class="row">
+    <form autocomplete="off" action="#" th:action="@{/stop/save}"
+          th:object="${stop}" method="post">
+        <label class="formAdd" for="name">Остановка</label>
+        <input class="formAdd" type="text" id="name" name="name"
+               th:value="${stop?.name}" required>
+        <span class="formAdd" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        <input class="formAdd" type="text" th:value="${stop?.stopDtoId}"
+               id="stopDtoId" name="stopDtoId" hidden><br>
+        <input class="link_button" type="submit" style="margin: 10px" value="Сохранить">
+    </form>
+</div>
+</body>
+</html>

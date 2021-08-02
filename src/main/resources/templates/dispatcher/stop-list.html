@@ -9,18 +9,23 @@
 <body>
 <div th:replace="fragments/header">
 </div>
-<div class="row">
+<div>
   <div class="columnRoute">
     <table>
       <tr th:each="stop : ${stops}" class="lineTable">
         <td class="td">
-          <a href="#" th:onclick="|getStopDetail(${stop.stopDtoId})|">
-            <span th:text="${stop.name}">Number</span>
+          <a href="#" th:href="@{/stop/edit(id=${stop.stopDtoId})}">
+            <span th:text="${stop.name}">Stop</span>
           </a>
         </td>
       </tr>
     </table>
   </div>
+</div>
+<br style="clear: both;">
+<br>
+<div>
+  <a class="link_button" style="margin: 10px" href="/stop/add">Добавить</a>
 </div>
 </body>
 </html>

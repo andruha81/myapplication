@@ -37,10 +37,11 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
-    public void save(TransportDto transportDto) {
+    public boolean save(TransportDto transportDto) {
         TransportType transportType = transportTypeDao.findTransportTypeByDescription(transportDto.getType());
         RouteNumber routeNumber = routeNumberDao.getRouteNumberByNumber(transportDto.getRoute());
         transportDao.save(mapper.dtoToTransport(transportDto, transportType, routeNumber));
+        return true;
     }
 
     @Override

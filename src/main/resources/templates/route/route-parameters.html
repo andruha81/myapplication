@@ -68,7 +68,7 @@
         </div>
         <br style="clear: both;">
         <div class="routeParam">
-            <input type="submit" value="Сохранить">
+            <input class="link_button" type="submit" value="Сохранить">
         </div>
         <div class="routeParam">
             <h3>Остановки (<a href="" th:href="@{/route/add/stop(routeId=${route.routeParamDtoId})}">добавить</a>)</h3>
@@ -104,7 +104,7 @@
         </div>
     </form>
     <div class="routeParam">
-        <a th:href="@{/dispatcher/route(type=${route.typeId})}">К маршрутам</a>
+        <a class="link_button" th:href="@{/dispatcher/route(type=${route.typeId})}">К маршрутам</a>
     </div>
 </div>
 </body>

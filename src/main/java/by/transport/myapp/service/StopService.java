@@ -11,4 +11,5 @@ public interface StopService {
     StopDto getStopById(Integer id);
     Stop getStop(Integer id);
     List<StopDto> getStops();
+    boolean save(StopDto stopDto);
 }

@@ -35,4 +35,10 @@ public class StopServiceImpl implements StopService {
     public List<StopDto> getStops() {
         return stopDao.findAll().stream().map(stopMapper::stopToDto).sorted(Comparator.comparing(StopDto::getName)).collect(Collectors.toList());
     }
+
+    @Override
+    public boolean save(StopDto stopDto) {
+        stopDao.save(stopMapper.stopDtoToStop(stopDto));
+        return true;
+    }
 }
