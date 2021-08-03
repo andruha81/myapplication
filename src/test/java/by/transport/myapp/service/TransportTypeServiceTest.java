@@ -5,13 +5,14 @@ import by.transport.myapp.model.dao.TransportTypeDao;
 import by.transport.myapp.model.entity.TransportType;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.when;
@@ -40,6 +41,14 @@ public class TransportTypeServiceTest {
 
         when(transportTypeDao.findTransportTypeByDescription(description))
                 .thenReturn(transportType);
+
+        when(transportTypeDao.findAll()).thenReturn(new ArrayList<>());
+    }
+
+    @Test
+    public void getTypesTest() {
+        List<TransportType> transportTypes = transportTypeDao.findAll();
+        assertThat(transportTypes).isNotNull();
     }
 
     @Test
@@ -51,12 +60,12 @@ public class TransportTypeServiceTest {
     @Test
     public void getTransportTypeByIdTest() {
         TransportTypeDto found = transportTypeService.getTransportTypeById(id);
-        Assertions.assertNotEquals(null, found);
+        assertThat(found).isNotNull();
     }
 
     @Test
     public void getTransportTypeByDescriptionTest() {
         TransportType found = transportTypeService.getTransportTypeByDescription(description);
-        Assertions.assertNotEquals(null, found);
+        assertThat(found).isNotNull();
     }
 }

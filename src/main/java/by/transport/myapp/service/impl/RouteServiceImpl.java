@@ -43,7 +43,7 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public void save(RouteParamDto routeParamDto) {
+    public boolean save(RouteParamDto routeParamDto) {
         RouteNumber routeNumber = routeNumberDao.getRouteNumberByNumber(routeParamDto.getRouteNumber());
         if (routeNumber == null) {
             routeNumber = new RouteNumber();
@@ -53,5 +53,6 @@ public class RouteServiceImpl implements RouteService {
         Route route = routeMapper.RouteParamDtoToRoute(routeParamDto, routeNumber);
         RouteUtil.setRouteInRouteLine(route, route.getRouteLines());
         routeParamDto.setRouteParamDtoId(routeDao.save(route).getId());
+        return true;
     }
 }

@@ -5,13 +5,17 @@ import by.transport.myapp.model.dao.StopDao;
 import by.transport.myapp.model.entity.Stop;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -23,28 +27,36 @@ public class StopServiceTest {
     @MockBean
     StopDao stopDao;
 
+    private final Integer id = 1;
+
     @Before
     public void setUp() {
-        Stop stop = new Stop();
-        stop.setId(1);
-        stop.setName("Test stop");
+        when(stopDao.getById(id)).thenReturn(new Stop());
 
-        Mockito.when(stopDao.getById(stop.getId()))
-                .thenReturn(stop);
+        when(stopDao.findAll()).thenReturn(new ArrayList<>());
+    }
+
+    @Test
+    public void getStopByIdTest() {
+        StopDto found = stopService.getStopById(id);
+        assertThat(found).isNotNull();
     }
 
     @Test
     public void getStopTest() {
-        Integer id = 1;
         Stop found = stopService.getStop(id);
-        Assertions.assertNotEquals(null, found);
+        assertThat(found).isNotNull();
     }
 
     @Test
-    public void saveStopTest() {
-        boolean isSaved = stopService.save(new StopDto());
-        Assertions.assertTrue(isSaved);
+    public void getStopsTest() {
+        List<StopDto> found = stopService.getStops();
+        assertThat(found).isNotNull();
     }
 
-
+    @Test
+    public void saveTest() {
+        boolean isSaved = stopService.save(new StopDto());
+        assertThat(isSaved).isTrue();
+    }
 }

@@ -6,5 +6,5 @@ import by.transport.myapp.dto.RouteStopDto;
 public interface RouteService {
     RouteStopDto getRouteDetails(Integer id);
     RouteParamDto getRouteById(Integer id);
-    void save(RouteParamDto routeParamDto);
+    boolean save(RouteParamDto routeParamDto);
 }
