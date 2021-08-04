@@ -1,9 +1,7 @@
 package by.transport.myapp.service;
 
-import by.transport.myapp.dto.RouteParamDto;
-import by.transport.myapp.dto.RouteStopDto;
-import by.transport.myapp.model.dao.RouteDao;
-import by.transport.myapp.model.entity.Route;
+import by.transport.myapp.model.dao.UserDao;
+import by.transport.myapp.model.entity.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,40 +10,44 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class RouteServiceTest {
+public class UserServiceTest {
     @Autowired
-    RouteService routeService;
+    UserService userService;
 
     @MockBean
-    RouteDao routeDao;
+    UserDao userDao;
 
-    private final Integer id = 1;
+    private final String login = "Test user";
+    private final User user = new User();
 
     @Before
     public void setUp() {
-        Route route = new Route();
-        route.setId(id);
-        route.setRouteLines(new ArrayList<>());
+        user.setId(1);
+        user.setLogin(login);
+        user.setPassword("");
+        user.setUserRole("");
 
-        when(routeDao.getById(id)).thenReturn(route);
+        when(userDao.findUserByLogin(login))
+                .thenReturn(user);
+
+        when(userDao.save(user))
+                .thenReturn(user);
     }
 
     @Test
-    public void getRouteDetailsTest() {
-        RouteStopDto found = routeService.getRouteDetails(id);
+    public void loadUserByLoginTest() {
+        User found = userService.loadUserByLogin(login);
         assertThat(found).isNotNull();
     }
 
     @Test
-    public void getRouteByIdTest() {
-        RouteParamDto found = routeService.getRouteById(id);
+    public void saveUserTest() {
+        User found = userService.saveUser(user);
         assertThat(found).isNotNull();
     }
 }
