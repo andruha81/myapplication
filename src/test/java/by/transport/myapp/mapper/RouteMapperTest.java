@@ -6,6 +6,7 @@ import by.transport.myapp.dto.RouteStopDto;
 import by.transport.myapp.model.entity.Route;
 import by.transport.myapp.model.entity.RouteNumber;
 import by.transport.myapp.model.entity.TransportType;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,23 +23,32 @@ public class RouteMapperTest {
     @Autowired
     RouteMapper routeMapper;
 
-    private final Integer id = 1;
-    private final String description = "Test";
-    private final LocalTime startWeekday = LocalTime.of(1, 1);
-    private final LocalTime endWeekday = LocalTime.of(2, 2);
-    private final int intervalWeekday = 1;
-    private final LocalTime startDayoff = LocalTime.of(3, 3);
-    private final LocalTime endDayoff = LocalTime.of(4, 4);
-    private final int intervalDayoff = 1;
-    private final int number = 1;
+    private final TransportType transportType = new TransportType();
+    private final RouteNumber routeNumber = new RouteNumber();
+    private final Route route = new Route();
 
+    @Before
+    public void setUp() {
+        transportType.setId(1);
+        transportType.setDescription("Test");
+
+        routeNumber.setId(1);
+        routeNumber.setNumber(1);
+        routeNumber.setType(transportType);
+
+        route.setId(1);
+        route.setDescription("Test");
+        route.setRouteNumber(routeNumber);
+        route.setStartWeekday(LocalTime.of(1, 1));
+        route.setEndWeekday(LocalTime.of(1, 1));
+        route.setIntervalWeekday(1);
+        route.setStartDayoff(LocalTime.of(1, 1));
+        route.setEndDayoff(LocalTime.of(1, 1));
+        route.setIntervalDayoff(1);
+    }
 
     @Test
     public void routeToDtoTest() {
-        Route route = new Route();
-        route.setId(id);
-        route.setDescription(description);
-
         RouteDto routeDto = routeMapper.routeToDto(route);
         assertThat(routeDto).isNotNull();
         assertThat(routeDto.getRouteDtoId()).isEqualTo(route.getId());
@@ -47,20 +57,6 @@ public class RouteMapperTest {
 
     @Test
     public void routeToRouteStopDtoTest() {
-        TransportType transportType = new TransportType();
-        transportType.setId(id);
-        transportType.setDescription(description);
-
-        RouteNumber routeNumber = new RouteNumber();
-        routeNumber.setId(id);
-        routeNumber.setNumber(number);
-        routeNumber.setType(transportType);
-
-        Route route = new Route();
-        route.setId(id);
-        route.setRouteNumber(routeNumber);
-        route.setDescription(description);
-
         RouteStopDto routeStopDto = routeMapper.routeToRouteStopDto(route);
         assertThat(routeStopDto).isNotNull();
         assertThat(routeStopDto.getRouteStopDtoId()).isEqualTo(route.getId());
@@ -71,27 +67,16 @@ public class RouteMapperTest {
 
     @Test
     public void routeToRouteParamDtoTest() {
-        TransportType transportType = new TransportType();
-        transportType.setId(id);
-
-        RouteNumber routeNumber = new RouteNumber();
-        routeNumber.setId(id);
-        routeNumber.setNumber(number);
-        routeNumber.setType(transportType);
-
-        Route route = new Route();
-        route.setId(id);
-        route.setDescription(description);
-        route.setRouteNumber(routeNumber);
-        route.setDescription(description);
-        route.setStartWeekday(startWeekday);
-        route.setEndWeekday(endWeekday);
-        route.setIntervalWeekday(intervalWeekday);
-        route.setStartDayoff(startDayoff);
-        route.setEndDayoff(endDayoff);
-        route.setIntervalDayoff(intervalDayoff);
-
         RouteParamDto routeParamDto = routeMapper.routeToRouteParamDto(route);
         assertThat(routeParamDto).isNotNull();
+        assertThat(routeParamDto.getRouteParamDtoId()).isEqualTo(route.getId());
+        assertThat(routeParamDto.getDescription()).isEqualTo(route.getDescription());
+        assertThat(routeParamDto.getRouteNumber()).isEqualTo(route.getRouteNumber().getNumber());
+        assertThat(routeParamDto.getStartWeekday()).isEqualTo(route.getStartWeekday());
+        assertThat(routeParamDto.getEndWeekday()).isEqualTo(route.getEndWeekday());
+        assertThat(routeParamDto.getIntervalWeekday()).isEqualTo(route.getIntervalWeekday());
+        assertThat(routeParamDto.getStartDayoff()).isEqualTo(route.getStartDayoff());
+        assertThat(routeParamDto.getEndDayoff()).isEqualTo(route.getEndDayoff());
+        assertThat(routeParamDto.getIntervalDayoff()).isEqualTo(route.getIntervalDayoff());
     }
 }
