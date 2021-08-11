@@ -16,7 +16,7 @@ public class RouteUtil {
         int stopOrder = routeParamDto
                 .getRouteLines()
                 .stream()
-                .filter(x -> x.getRouteLineParamDtoId() == rlId)
+                .filter(x -> x.getRouteLineParamDtoId().equals(rlId))
                 .mapToInt(RouteLineParamDto::getStopOrder)
                 .findFirst()
                 .orElse(0);
