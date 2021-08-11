@@ -1,7 +1,9 @@
 package by.transport.myapp.service;
 
 import by.transport.myapp.dto.TransportDto;
+import by.transport.myapp.model.dao.RouteNumberDao;
 import by.transport.myapp.model.dao.TransportDao;
+import by.transport.myapp.model.dao.TransportTypeDao;
 import by.transport.myapp.model.entity.Transport;
 import by.transport.myapp.model.entity.TransportType;
 import org.junit.Before;
@@ -27,8 +29,11 @@ public class TransportServiceTest {
 
     @MockBean
     private TransportDao transportDao;
+    @MockBean
+    private TransportTypeDao transportTypeDao;
 
     private final Integer id = 1;
+    private final Integer typeId = 1;
     private final String model = "TestModel";
     private final int seatNum = 1;
     private final int carNum = 1;
@@ -41,19 +46,25 @@ public class TransportServiceTest {
         transport.setSeatNum(seatNum);
         transport.setCarNum(carNum);
 
+        TransportType transportType = new TransportType();
+
+        List<Transport> transports = new ArrayList<>();
+        transports.add(transport);
+
         when(transportDao.getById(transport.getId()))
                 .thenReturn(transport);
 
-        when(transportDao.findTransportByTransportType(new TransportType()))
-                .thenReturn(new ArrayList<>());
+        when(transportDao.findTransportByTransportType(transportType))
+                .thenReturn(transports);
+
+        when(transportTypeDao.getById(typeId))
+                .thenReturn(transportType);
     }
 
     @Test
     public void getTransportByTransportTypeTest() {
-        Integer typeId = 1;
-
         List<TransportDto> transports = transportService.getTransportByTransportType(typeId);
-        assertThat(transports).isNotNull();
+        assertThat(transports.size()).isNotZero();
     }
 
     @Test
@@ -75,12 +86,6 @@ public class TransportServiceTest {
         TransportDto found = transportService.getTransportById(id);
         assertThat(found.getCarNum())
                 .isEqualTo(carNum);
-    }
-
-    @Test
-    public void saveTest() {
-        var isSaved = transportService.save(new TransportDto());
-        assertThat(isSaved).isTrue();
     }
 
     @Test

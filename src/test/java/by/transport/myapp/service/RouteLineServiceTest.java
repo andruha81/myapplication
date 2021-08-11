@@ -1,8 +1,10 @@
 package by.transport.myapp.service;
 
 import by.transport.myapp.dto.RouteLineStopDto;
+import by.transport.myapp.model.dao.RouteDao;
 import by.transport.myapp.model.dao.RouteLineDao;
-import by.transport.myapp.model.entity.Stop;
+import by.transport.myapp.model.dao.StopDao;
+import by.transport.myapp.model.entity.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,18 +29,52 @@ public class RouteLineServiceTest {
 
     @MockBean
     RouteLineDao routeLineDao;
+    @MockBean
+    StopDao stopDao;
+    @MockBean
+    RouteDao routeDao;
+
+    private final Integer id = 1;
 
     @Before
     public void setUp() {
-        when(routeLineDao.getRouteLinesByStop(new Stop()))
-                .thenReturn(new ArrayList<>());
+        LocalTime localTime = LocalTime.of(1, 1);
+
+        Stop stop = new Stop();
+
+        TransportType transportType = new TransportType();
+        transportType.setDescription("test type");
+
+        RouteNumber routeNumber = new RouteNumber();
+        routeNumber.setType(transportType);
+
+        Route route = new Route();
+        route.setId(id);
+        route.setStartWeekday(localTime);
+        route.setStartDayoff(localTime);
+        route.setEndWeekday(localTime);
+        route.setEndDayoff(localTime);
+        route.setRouteNumber(routeNumber);
+
+        RouteLine routeLine = new RouteLine();
+        routeLine.setRouteRouteLine(route);
+
+        List<RouteLine> routeLines = new ArrayList<>();
+        routeLines.add(routeLine);
+
+        when(routeLineDao.getRouteLinesByStop(stop))
+                .thenReturn(routeLines);
+
+        when(stopDao.getById(id))
+                .thenReturn(stop);
+
+        when(routeDao.getById(id))
+                .thenReturn(route);
     }
 
     @Test
     public void getStopDetailsTest() {
-        Integer stopId = 1;
-
-        Map<String, List<RouteLineStopDto>> found = routeLineService.getStopDetails(stopId);
-        assertThat(found).isNotNull();
+        Map<String, List<RouteLineStopDto>> found = routeLineService.getStopDetails(id);
+        assertThat(found.size()).isNotZero();
     }
 }
