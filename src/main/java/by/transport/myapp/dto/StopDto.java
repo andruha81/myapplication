@@ -3,6 +3,7 @@ package by.transport.myapp.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -11,6 +12,7 @@ import java.util.Objects;
 public class StopDto implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer stopDtoId;
+    @NotBlank(message = "Name is mandatory")
     private String name;
 
     @Override

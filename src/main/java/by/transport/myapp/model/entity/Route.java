@@ -40,7 +40,7 @@ public class Route {
 
     @Column(name = "interval_weekday", nullable = false)
     @Min(value = 0, message = "Interval should not be less than 0")
-    @Max(value = 30, message = "Interval should not be greater than 30")
+    @Max(value = 120, message = "Interval should not be greater than 120")
     private int intervalWeekday;
 
     @Column(name = "start_dayoff", nullable = false)
@@ -53,7 +53,7 @@ public class Route {
 
     @Column(name = "interval_dayoff", nullable = false)
     @Min(value = 0, message = "Interval should not be less than 0")
-    @Max(value = 30, message = "Interval should not be greater than 30")
+    @Max(value = 120, message = "Interval should not be greater than 120")
     private int intervalDayoff;
 
     @ManyToOne(cascade = CascadeType.PERSIST)

@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.Set;
 
 @Getter
@@ -21,6 +23,8 @@ public class RouteNumber {
     private Integer id;
 
     @Column(nullable = false, unique = true)
+    @Min(value = 1, message = "Number should not be less than 1")
+    @Max(value = 999, message = "Number should not be greater than 999")
     private int number;
 
     @OneToMany(mappedBy = "routeNumber", cascade = CascadeType.REMOVE)

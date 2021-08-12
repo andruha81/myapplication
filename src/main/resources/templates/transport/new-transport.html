@@ -16,21 +16,22 @@
 
         <label class="formAdd" for="model">Модель</label>
         <input class="formAdd" type="text" th:field="*{model}" id="model" placeholder="Модель" required>
-        <span class="formAdd" th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></span><br>
+        <span class="error" th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></span><br>
 
         <label class="formAdd" for="type">Тип траспорта</label>
         <input class="formAdd" type="text" name="type" id="type"
                th:value="${transportType.description}" readonly><br>
+        <span class="error" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></span><br>
 
         <label class="formAdd" for="seatNum">Кол-во мест</label>
         <input class="formAdd" type="number" th:field="*{seatNum}" id="seatNum" placeholder="Кол-во мест"
-               min="1" max="1000" required>
-        <span class="formAdd" th:if="${#fields.hasErrors('seatNum')}" th:errors="*{seatNum}"></span><br>
+               min="1" max="999" required>
+        <span class="error" th:if="${#fields.hasErrors('seatNum')}" th:errors="*{seatNum}"></span><br>
 
         <label class="formAdd" for="carNum">Кол-во секций</label>
         <input class="formAdd" type="number" th:field="*{carNum}" id="carNum" placeholder="Кол-во секций"
-               min="1" max="5" required>
-        <span class="formAdd" th:if="${#fields.hasErrors('carNum')}" th:errors="*{carNum}"></span><br>
+               min="1" max="9" required>
+        <span class="error" th:if="${#fields.hasErrors('carNum')}" th:errors="*{carNum}"></span><br>
 
         <label class="formAdd" for="route">Маршрут</label>
         <select class="formAdd" id="route" th:field="*{route}">

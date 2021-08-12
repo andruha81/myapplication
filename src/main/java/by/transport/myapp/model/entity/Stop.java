@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Getter
@@ -22,6 +23,7 @@ public class Stop {
     private Integer id;
 
     @Column(nullable = false)
+    @NotBlank(message = "Name is mandatory")
     private String name;
 
     @OneToMany(mappedBy = "stop", cascade = CascadeType.REMOVE)

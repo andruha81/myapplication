@@ -162,3 +162,7 @@ select, option{
     font-size: 16px;
     width: 100px;
 }
+
+.error {
+    color: #FF1C19;
+}

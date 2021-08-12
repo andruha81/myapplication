@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping("/stop")
 public class StopController {
@@ -53,8 +55,7 @@ public class StopController {
 
     @PostMapping("/save")
     @Transactional
-    public String saveStop(@ModelAttribute("stop") StopDto stopDto,
-                           Model model,
+    public String saveStop(@ModelAttribute("stop") @Valid StopDto stopDto,
                            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return STOP_PARAMETERS;

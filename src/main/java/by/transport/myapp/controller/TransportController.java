@@ -1,6 +1,7 @@
 package by.transport.myapp.controller;
 
 import by.transport.myapp.dto.TransportDto;
+import by.transport.myapp.model.entity.TransportType;
 import by.transport.myapp.service.RouteNumberService;
 import by.transport.myapp.service.TransportService;
 import by.transport.myapp.service.TransportTypeService;
@@ -9,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RequestMapping(value = "/transport")
 @Controller
@@ -46,10 +49,17 @@ public class TransportController {
 
     @PostMapping(value = "/add")
     @Transactional
-    public String addTransport(@ModelAttribute("transport") TransportDto transportDto,
-                               BindingResult bindingResult) {
+    public String addTransport(@ModelAttribute("transport") @Valid TransportDto transportDto,
+                               BindingResult bindingResult,
+                               Model model) {
         if (bindingResult.hasErrors()) {
-            return "index";
+            Integer typeId = transportTypeService.getTransportTypeByDescription(transportDto.getType()).getId();
+            model.addAttribute("routeNumbers", routeNumberService.getRouteNumbersByType(typeId));
+            if (transportDto.getTransportDtoId() != null) {
+                return "transport/edit-transport";
+            }
+            model.addAttribute("transportType", transportTypeService.getTransportTypeById(typeId));
+            return "transport/new-transport";
         }
         transportService.save(transportDto);
         return "redirect:/dispatcher/list?type=" + transportTypeService.getTransportTypeByDescription(transportDto.getType()).getId();

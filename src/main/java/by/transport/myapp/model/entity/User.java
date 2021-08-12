@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
@@ -20,9 +21,11 @@ public class User {
     private Integer id;
 
     @Column
+    @NotBlank(message = "Login is mandatory")
     private String login;
 
     @Column
+    @NotBlank(message = "Password is mandatory")
     private String password;
 
     @Column(name = "user_role")
