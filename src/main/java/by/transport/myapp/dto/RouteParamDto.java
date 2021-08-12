@@ -24,14 +24,14 @@ public class RouteParamDto implements Serializable {
     private LocalTime startWeekday;
     @NotNull(message = "End Weekday is mandatory")
     private LocalTime endWeekday;
-    @Min(value = 0, message = "Interval should not be less than 0")
+    @Min(value = 1, message = "Interval should not be less than 1")
     @Max(value = 120, message = "Interval should not be greater than 120")
     private int intervalWeekday;
     @NotNull(message = "Start Dayoff is mandatory")
     private LocalTime startDayoff;
     @NotNull(message = "End Dayoff is mandatory")
     private LocalTime endDayoff;
-    @Min(value = 0, message = "Interval should not be less than 0")
+    @Min(value = 1, message = "Interval should not be less than 1")
     @Max(value = 120, message = "Interval should not be greater than 120")
     private int intervalDayoff;
     @Min(value = 1, message = "Number should not be less than 1")

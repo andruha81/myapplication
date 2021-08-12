@@ -23,15 +23,18 @@
             <br>
 
             <label class="formAdd" for="stopOrder">Порядок остановки</label>
-            <input class="formAdd" type="number" id="stopOrder" min="1" max="99" th:field="*{stopOrder}">
+            <input class="formAdd" type="number" id="stopOrder" min="1" max="99" required th:field="*{stopOrder}">
+            <span class="error" th:if="${#fields.hasErrors('stopOrder')}" th:errors="*{stopOrder}"></span>
             <br>
 
             <label class="formAdd" for="timePrev">Время до предыдущей остановки</label>
-            <input class="formAdd" type="number" id="timePrev" min="1" max="99" th:field="*{timePrev}">
+            <input class="formAdd" type="number" id="timePrev" min="0" max="99" required th:field="*{timePrev}">
+            <span class="error" th:if="${#fields.hasErrors('timePrev')}" th:errors="*{timePrev}"></span>
             <br>
 
             <label class="formAdd" for="distancePrev">Дистанция до предыдущей остановки</label>
-            <input class="formAdd" type="number" id="distancePrev" min="1" max="9999" th:field="*{distancePrev}">
+            <input class="formAdd" type="number" id="distancePrev" min="0" max="9999" required th:field="*{distancePrev}">
+            <span class="error" th:if="${#fields.hasErrors('distancePrev')}" th:errors="*{distancePrev}"></span>
             <br>
 
             <input class="formAdd" type="submit" value="Сохранить">

@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -32,6 +33,7 @@ public class RouteController {
     private static final String ROUTE_PARAMETERS = "route/route-parameters";
     private static final String PARAMETERS = "Редактирование маршрута";
     private static final String EDIT_ROUTE = "redirect:/route/edit?id=";
+    private static final String ROUTE_DTO = "route";
 
     public RouteController(RouteNumberService routeNumberService,
                            RouteService routeService,
@@ -79,7 +81,7 @@ public class RouteController {
         RouteParamDto routeParamDto = routeService.getRouteById(routeId);
         Collections.sort(routeParamDto.getRouteLines());
         model.addAttribute(HEADER_MESSAGE, PARAMETERS);
-        model.addAttribute("route", routeParamDto);
+        model.addAttribute(ROUTE_DTO, routeParamDto);
 
         return ROUTE_PARAMETERS;
     }
@@ -90,7 +92,7 @@ public class RouteController {
         RouteParamDto routeParamDto = new RouteParamDto();
         routeParamDto.setTypeId(typeId);
         model.addAttribute(HEADER_MESSAGE, "Создание маршрута");
-        model.addAttribute("route", routeParamDto);
+        model.addAttribute(ROUTE_DTO, routeParamDto);
 
         return ROUTE_PARAMETERS;
     }
@@ -113,7 +115,7 @@ public class RouteController {
         List<StopDto> stops = StopUtil.removeStops(stopService.getStops(), routeParamDto.getRouteLines());
 
         model.addAttribute(HEADER_MESSAGE, "Добавление остановки к маршруту");
-        model.addAttribute("route", routeParamDto);
+        model.addAttribute(ROUTE_DTO, routeParamDto);
         model.addAttribute("routeLine", new RouteLineNewParamDto());
         model.addAttribute("stops", stops);
 
@@ -123,10 +125,20 @@ public class RouteController {
     @PostMapping("/add/stop/{routeId}")
     @Transactional
     public String newRouteStop(@PathVariable Integer routeId,
-                               @ModelAttribute("routeLine") RouteLineNewParamDto routeLineNewParamDto) {
+                               @ModelAttribute("routeLine") @Valid RouteLineNewParamDto routeLineNewParamDto,
+                               BindingResult bindingResult,
+                               Model model) {
+        RouteParamDto routeParamDto = routeService.getRouteById(routeId);
+
+        if (bindingResult.hasErrors()) {
+            List<StopDto> stops = StopUtil.removeStops(stopService.getStops(), routeParamDto.getRouteLines());
+            model.addAttribute(ROUTE_DTO, routeParamDto);
+            model.addAttribute("stops", stops);
+            return "route/new-routeline";
+        }
+
         RouteLineParamDto routeLineParamDto = RouteLineParamMapper.map(routeLineNewParamDto,
                 stopService.getStopById(routeLineNewParamDto.getStopId()));
-        RouteParamDto routeParamDto = routeService.getRouteById(routeId);
         RouteUtil.addStop(routeParamDto, routeLineParamDto.getStopOrder());
         routeParamDto.getRouteLines().add(routeLineParamDto);
         routeService.save(routeParamDto);
@@ -136,7 +148,7 @@ public class RouteController {
 
     @PostMapping("/save")
     @Transactional
-    public String saveRoute(@ModelAttribute("route") RouteParamDto routeParamDto,
+    public String saveRoute(@ModelAttribute("route") @Valid RouteParamDto routeParamDto,
                             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ROUTE_PARAMETERS;

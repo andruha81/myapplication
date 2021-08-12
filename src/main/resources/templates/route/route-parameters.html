@@ -17,7 +17,7 @@
             <input type="number" id="routeNumber" name="routeNumber"
                    th:value="${route?.routeNumber}"
                    min="1" max="999" required>
-            <span class="formAdd" th:if="${#fields.hasErrors('routeNumber')}" th:errors="*{routeNumber}"></span>
+            <span class="error" th:if="${#fields.hasErrors('routeNumber')}" th:errors="*{routeNumber}"></span>
             <input class="formAdd" type="text" th:value="${route?.routeParamDtoId}"
                    id="routeParamDtoId" name="routeParamDtoId" hidden><br>
             <input class="formAdd" type="number" th:value="${route?.typeId}"
@@ -27,7 +27,7 @@
             <label for="description">Наименование</label>
             <input type="text" id="description" name="description"
                    th:value="${route?.description}" required style="width: 200px">
-            <span class="formAdd" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span><br>
+            <span class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span><br>
         </div>
         <div class="routeParamHalf">
             <h3 class="formAdd">Рабочие дни</h3>
@@ -35,17 +35,19 @@
             <label class="formAdd" for="startWeekday">Начало работы</label>
             <input class="formAdd" type="time" id="startWeekday" name="startWeekday"
                    th:value="${route?.startWeekday}" required style="width: 70px">
-            <span class="formAdd" th:if="${#fields.hasErrors('startWeekday')}" th:errors="*{startWeekday}"></span><br>
+            <span class="error" th:if="${#fields.hasErrors('startWeekday')}" th:errors="*{startWeekday}"></span><br>
 
             <label class="formAdd" for="endWeekday">Окончание работы</label>
             <input class="formAdd" type="time" id="endWeekday" name="endWeekday"
                    th:value="${route?.endWeekday}" required style="width: 70px">
-            <span class="formAdd" th:if="${#fields.hasErrors('endWeekday')}" th:errors="*{endWeekday}"></span><br>
+            <span class="error" th:if="${#fields.hasErrors('endWeekday')}" th:errors="*{endWeekday}"></span><br>
 
             <label class="formAdd" for="intervalWeekday">Интервал движения</label>
             <input class="formAdd" type="number" id="intervalWeekday" name="intervalWeekday"
-                   th:value="${route?.intervalWeekday}" required style="width: 50px">
-            <span class="formAdd" th:if="${#fields.hasErrors('intervalWeekday')}" th:errors="*{intervalWeekday}"></span><br>
+                   th:value="${route?.intervalWeekday}"
+                   min="1" max="120" required style="width: 50px">
+            <span class="error" th:if="${#fields.hasErrors('intervalWeekday')}"
+                  th:errors="*{intervalWeekday}"></span><br>
         </div>
         <div class="routeParamHalf">
             <h3 class="formAdd">Выходные дни</h3>
@@ -53,17 +55,18 @@
             <label class="formAdd" for="startDayoff">Начало работы</label>
             <input class="formAdd" type="time" id="startDayoff" name="startDayoff"
                    th:value="${route?.startDayoff}" required style="width: 70px">
-            <span class="formAdd" th:if="${#fields.hasErrors('startDayoff')}" th:errors="*{startDayoff}"></span><br>
+            <span class="error" th:if="${#fields.hasErrors('startDayoff')}" th:errors="*{startDayoff}"></span><br>
 
             <label class="formAdd" for="endDayoff">Окончание работы</label>
             <input class="formAdd" type="time" id="endDayoff" name="endDayoff"
                    th:value="${route?.endDayoff}" required style="width: 70px">
-            <span class="formAdd" th:if="${#fields.hasErrors('endDayoff')}" th:errors="*{endDayoff}"></span><br>
+            <span class="error" th:if="${#fields.hasErrors('endDayoff')}" th:errors="*{endDayoff}"></span><br>
 
             <label class="formAdd" for="intervalDayoff">Интервал движения</label>
             <input class="formAdd" type="number" id="intervalDayoff" name="intervalDayoff"
-                   th:value="${route?.intervalDayoff}" required style="width: 50px">
-            <span class="formAdd" th:if="${#fields.hasErrors('intervalDayoff')}"
+                   th:value="${route?.intervalDayoff}"
+                   min="1" max="120" required style="width: 50px">
+            <span class="error" th:if="${#fields.hasErrors('intervalDayoff')}"
                   th:errors="*{intervalDayoff}"></span><br>
         </div>
         <br style="clear: both;">
@@ -90,10 +93,16 @@
                         <input type="hidden" th:field="*{routeLines[__${status.index}__].stopDto.stopDtoId}">
                     </td>
                     <td class="tdStopCenter">
-                        <input th:field="*{routeLines[__${status.index}__].timePrev}" style="width: 35px">
+                        <input th:field="*{routeLines[__${status.index}__].timePrev}" style="width: 35px"
+                               min="0" max="59" required>
+                        <span class="error" th:if="${#fields.hasErrors('routeLines[__${status.index}__].timePrev')}"
+                              th:errors="*{routeLines[__${status.index}__].timePrev}"></span>
                     </td>
                     <td class="tdStopCenter">
-                        <input th:field="*{routeLines[__${status.index}__].distancePrev}" style="width: 35px">
+                        <input th:field="*{routeLines[__${status.index}__].distancePrev}" style="width: 35px"
+                               min="0" max="4999" required>
+                        <span class="error" th:if="${#fields.hasErrors('routeLines[__${status.index}__].timePrev')}"
+                              th:errors="*{routeLines[__${status.index}__].distancePrev}"></span>
                     </td>
                     <td class="tdStopCenter">
                         <a href=""

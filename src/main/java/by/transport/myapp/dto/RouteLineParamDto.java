@@ -16,7 +16,7 @@ public class RouteLineParamDto implements Serializable, Comparable<RouteLinePara
     @Min(value = 1, message = "Stop Order should not be less than 1")
     @Max(value = 99, message = "Stop Order should not be greater than 99")
     private int stopOrder;
-    @Min(value = 1, message = "Time Prev should not be less than 1")
+    @Min(value = 0, message = "Time Prev should not be less than 0")
     @Max(value = 59, message = "Time Prev should not be greater than 59")
     private int timePrev;
     @Min(value = 0, message = "Time Prev should not be less than 0")

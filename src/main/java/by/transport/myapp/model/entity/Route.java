@@ -39,7 +39,7 @@ public class Route {
     private LocalTime endWeekday;
 
     @Column(name = "interval_weekday", nullable = false)
-    @Min(value = 0, message = "Interval should not be less than 0")
+    @Min(value = 1, message = "Interval should not be less than 1")
     @Max(value = 120, message = "Interval should not be greater than 120")
     private int intervalWeekday;
 
@@ -52,7 +52,7 @@ public class Route {
     private LocalTime endDayoff;
 
     @Column(name = "interval_dayoff", nullable = false)
-    @Min(value = 0, message = "Interval should not be less than 0")
+    @Min(value = 1, message = "Interval should not be less than 1")
     @Max(value = 120, message = "Interval should not be greater than 120")
     private int intervalDayoff;
 
