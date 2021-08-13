@@ -75,6 +75,7 @@
         </div>
         <div class="routeParam">
             <h3>Остановки (<a href="" th:href="@{/route/add/stop(routeId=${route.routeParamDtoId})}">добавить</a>)</h3>
+            <span class="error" th:if="${NotSaved}!=null" th:text="${NotSaved}"></span><br>
             <table class="tableStops">
                 <tr class="trRl">
                     <th class="tdStopCenter">№</th>
@@ -101,7 +102,7 @@
                     <td class="tdStopCenter">
                         <input th:field="*{routeLines[__${status.index}__].distancePrev}" style="width: 35px"
                                min="0" max="4999" required>
-                        <span class="error" th:if="${#fields.hasErrors('routeLines[__${status.index}__].timePrev')}"
+                        <span class="error" th:if="${#fields.hasErrors('routeLines[__${status.index}__].distancePrev')}"
                               th:errors="*{routeLines[__${status.index}__].distancePrev}"></span>
                     </td>
                     <td class="tdStopCenter">

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -81,6 +82,7 @@ public class RouteController {
         RouteParamDto routeParamDto = routeService.getRouteById(routeId);
         Collections.sort(routeParamDto.getRouteLines());
         model.addAttribute(HEADER_MESSAGE, PARAMETERS);
+        model.addAttribute("NotSaved", "");
         model.addAttribute(ROUTE_DTO, routeParamDto);
 
         return ROUTE_PARAMETERS;
@@ -92,6 +94,7 @@ public class RouteController {
         RouteParamDto routeParamDto = new RouteParamDto();
         routeParamDto.setTypeId(typeId);
         model.addAttribute(HEADER_MESSAGE, "Создание маршрута");
+        model.addAttribute("NotSaved", "");
         model.addAttribute(ROUTE_DTO, routeParamDto);
 
         return ROUTE_PARAMETERS;
@@ -109,8 +112,13 @@ public class RouteController {
     }
 
     @GetMapping("/add/stop")
-    public String addRouteStop(@RequestParam Integer routeId,
-                               Model model) {
+    public String addRouteStop(@RequestParam(required = false) Integer routeId, Model model) {
+        if (routeId == null) {
+            model.addAttribute("NotSaved", "Перед добавлением остановки необходмимо сохранить маршрут");
+            model.addAttribute(ROUTE_DTO, new RouteParamDto());
+            return ROUTE_PARAMETERS;
+        }
+
         RouteParamDto routeParamDto = routeService.getRouteById(routeId);
         List<StopDto> stops = StopUtil.removeStops(stopService.getStops(), routeParamDto.getRouteLines());
 
