@@ -1,7 +1,6 @@
 package by.transport.myapp.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -10,6 +9,9 @@ import java.io.Serializable;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class TransportDto implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer transportDtoId;

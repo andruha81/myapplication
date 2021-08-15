@@ -1,7 +1,6 @@
 package by.transport.myapp.controller;
 
 import by.transport.myapp.dto.TransportDto;
-import by.transport.myapp.model.entity.TransportType;
 import by.transport.myapp.service.RouteNumberService;
 import by.transport.myapp.service.TransportService;
 import by.transport.myapp.service.TransportTypeService;
@@ -19,6 +18,7 @@ public class TransportController {
     private final TransportService transportService;
     private final TransportTypeService transportTypeService;
     private final RouteNumberService routeNumberService;
+    private static final String ROUTE_NUMBER = "routeNumbers";
 
     public TransportController(TransportService transportService,
                                TransportTypeService transportTypeService,
@@ -32,7 +32,7 @@ public class TransportController {
     public String addTransportForm(@RequestParam(name = "type") Integer typeId, Model model) {
         model.addAttribute("headerMessage", "Добавление транспорта");
         model.addAttribute("transportType", transportTypeService.getTransportTypeById(typeId));
-        model.addAttribute("routeNumbers", routeNumberService.getRouteNumbersByType(typeId));
+        model.addAttribute(ROUTE_NUMBER, routeNumberService.getRouteNumbersByType(typeId));
         model.addAttribute("transport", new TransportDto());
         return "transport/new-transport";
     }
@@ -43,18 +43,17 @@ public class TransportController {
                                     Model model) {
         model.addAttribute("headerMessage", "Редактирование транспорта");
         model.addAttribute("transport", transportService.getTransportById(transportId));
-        model.addAttribute("routeNumbers", routeNumberService.getRouteNumbersByType(typeId));
+        model.addAttribute(ROUTE_NUMBER, routeNumberService.getRouteNumbersByType(typeId));
         return "transport/edit-transport";
     }
 
     @PostMapping(value = "/add")
-    @Transactional
     public String addTransport(@ModelAttribute("transport") @Valid TransportDto transportDto,
                                BindingResult bindingResult,
                                Model model) {
         if (bindingResult.hasErrors()) {
             Integer typeId = transportTypeService.getTransportTypeByDescription(transportDto.getType()).getId();
-            model.addAttribute("routeNumbers", routeNumberService.getRouteNumbersByType(typeId));
+            model.addAttribute(ROUTE_NUMBER, routeNumberService.getRouteNumbersByType(typeId));
             if (transportDto.getTransportDtoId() != null) {
                 return "transport/edit-transport";
             }

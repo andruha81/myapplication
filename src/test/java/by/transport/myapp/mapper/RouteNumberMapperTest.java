@@ -16,7 +16,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @RunWith(SpringRunner.class)
 public class RouteNumberMapperTest {
     @Autowired
-    RouteNumberMapper routeNumberMapper;
+    private RouteNumberMapper routeNumberMapper;
 
     @Test
     public void routeNumberToDtoTest() {

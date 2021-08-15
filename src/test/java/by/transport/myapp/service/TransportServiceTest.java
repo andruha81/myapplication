@@ -23,7 +23,6 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class TransportServiceTest {
-
     @Autowired
     private TransportService transportService;
 

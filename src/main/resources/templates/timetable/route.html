@@ -10,12 +10,12 @@
 
     <script th:inline="javascript">
         function getRouteDetail(id) {
-            var url = "/route/" + id;
+            let url = "/timetable/routes/" + id;
             $("#routeStop").load(url);
         }
 
         function getStopDetail(stopId, routeId) {
-            var url = "/route/stop/" + stopId;
+            let url = "/timetable/routes/stop/" + stopId;
             $("#stopDetail").load(url);
         }
     </script>
@@ -83,7 +83,7 @@
                 <h3 th:text="${stopN}"></h3>
             </div>
             <table>
-                <tr th:each="routeLines : ${stopDetail}">
+                <tr th:each="routeLines : ${stopDetails}">
                     <td>
                         <table>
                             <tr>

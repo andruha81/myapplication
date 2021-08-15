@@ -17,16 +17,16 @@
         </div>
     </div>
     <div class="columnHead">
-        <a href="/stop/all">Остановки</a>
+        <a href="/timetable/stops/all">Остановки</a>
     </div>
     <div class="columnHead">
-        <a href="/route/type/3">Трамваи</a>
+        <a href="/timetable/routes/type/3">Трамваи</a>
     </div>
     <div class="columnHead">
-        <a href="/route/type/2">Троллейбусы</a>
+        <a href="/timetable/routes/type/2">Троллейбусы</a>
     </div>
     <div class="columnHead">
-        <a href="/route/type/1">Автобусы</a>
+        <a href="/timetable/routes/type/1">Автобусы</a>
     </div>
     <div class="columnHead">
         <div sec:authorize="isAuthenticated()">
@@ -50,7 +50,7 @@
     </div>
 </div>
 <div class="header">
-    <img class="imgHead" th:src="@{/image/transport.jpg}" alt="transport">
+    <img class="imgHead" th:src="@{/image/transport.jpg}" src="#" alt="transport">
     <div class="headerMessage">
         <h1 th:text="${headerMessage}"></h1>
     </div>

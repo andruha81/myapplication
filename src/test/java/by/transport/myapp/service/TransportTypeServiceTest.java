@@ -20,15 +20,14 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class TransportTypeServiceTest {
-
     @Autowired
-    TransportTypeService transportTypeService;
+    private TransportTypeService transportTypeService;
 
     @MockBean
-    TransportTypeDao transportTypeDao;
+    private TransportTypeDao transportTypeDao;
 
     private final Integer id = 1;
-    String description = "Test type";
+    private final String description = "Test type";
 
     @Before
     public void setUp() {

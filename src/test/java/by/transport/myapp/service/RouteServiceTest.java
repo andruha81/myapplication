@@ -21,10 +21,10 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 public class RouteServiceTest {
     @Autowired
-    RouteService routeService;
+    private RouteService routeService;
 
     @MockBean
-    RouteDao routeDao;
+    private RouteDao routeDao;
 
     private final Integer id = 1;
 

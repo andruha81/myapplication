@@ -1,7 +1,6 @@
 package by.transport.myapp.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -9,6 +8,9 @@ import java.util.Objects;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class StopDto implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer stopDtoId;

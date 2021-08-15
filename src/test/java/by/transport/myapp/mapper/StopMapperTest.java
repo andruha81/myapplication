@@ -14,7 +14,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @RunWith(SpringRunner.class)
 public class StopMapperTest {
     @Autowired
-    StopMapper stopMapper;
+    private StopMapper stopMapper;
 
     private final Integer id = 1;
     private final String name = "Test stop";

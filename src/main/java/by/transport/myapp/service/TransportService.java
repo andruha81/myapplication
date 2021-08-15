@@ -8,6 +8,6 @@ import java.util.List;
 @Service
 public interface TransportService {
     List<TransportDto> getTransportByTransportType(Integer typeId);
-    boolean save(TransportDto transportDto);
+    Integer save(TransportDto transportDto);
     TransportDto getTransportById(Integer id);
 }

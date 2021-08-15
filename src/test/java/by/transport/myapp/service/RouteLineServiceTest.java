@@ -25,14 +25,14 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 public class RouteLineServiceTest {
     @Autowired
-    RouteLineService routeLineService;
+    private RouteLineService routeLineService;
 
     @MockBean
-    RouteLineDao routeLineDao;
+    private RouteLineDao routeLineDao;
     @MockBean
-    StopDao stopDao;
+    private StopDao stopDao;
     @MockBean
-    RouteDao routeDao;
+    private RouteDao routeDao;
 
     private final Integer id = 1;
 

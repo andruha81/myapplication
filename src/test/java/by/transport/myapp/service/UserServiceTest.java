@@ -17,10 +17,10 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 public class UserServiceTest {
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @MockBean
-    UserDao userDao;
+    private UserDao userDao;
 
     private final String login = "Test user";
     private final User user = new User();

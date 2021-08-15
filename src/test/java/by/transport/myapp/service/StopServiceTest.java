@@ -1,6 +1,7 @@
 package by.transport.myapp.service;
 
 import by.transport.myapp.dto.StopDto;
+import by.transport.myapp.mapper.StopMapper;
 import by.transport.myapp.model.dao.StopDao;
 import by.transport.myapp.model.entity.Stop;
 import org.junit.Before;
@@ -16,24 +17,38 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.any;
 
-@SpringBootTest
+@SpringBootTest()
 @RunWith(SpringRunner.class)
 public class StopServiceTest {
-
     @Autowired
-    StopService stopService;
+    private StopService stopService;
 
     @MockBean
-    StopDao stopDao;
+    private StopDao stopDao;
 
+    private StopDto stopDto;
     private final Integer id = 1;
 
     @Before
     public void setUp() {
+        Stop stop = Stop.builder()
+                .id(id)
+                .name("Test stop")
+                .build();
+
+        stopDto = StopDto.builder()
+                .stopDtoId(id)
+                .name("Test stop")
+                .build();
+
         when(stopDao.getById(id)).thenReturn(new Stop());
 
         when(stopDao.findAll()).thenReturn(new ArrayList<>());
+
+        when(stopDao.save(any(Stop.class)))
+                .thenReturn(stop);
     }
 
     @Test
@@ -56,7 +71,7 @@ public class StopServiceTest {
 
     @Test
     public void saveTest() {
-        boolean isSaved = stopService.save(new StopDto());
-        assertThat(isSaved).isTrue();
+        Integer stopId = stopService.save(stopDto);
+        assertThat(stopId).isNotNull();
     }
 }

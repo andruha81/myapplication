@@ -23,12 +23,12 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 public class RouteNumberServiceTest {
     @Autowired
-    RouteNumberService routeNumberService;
+    private RouteNumberService routeNumberService;
 
     @MockBean
-    RouteNumberDao routeNumberDao;
+    private RouteNumberDao routeNumberDao;
     @MockBean
-    TransportTypeDao transportTypeDao;
+    private TransportTypeDao transportTypeDao;
 
     private final Integer typeId = 1;
     private final int number = 1;

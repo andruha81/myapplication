@@ -14,7 +14,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @RunWith(SpringRunner.class)
 public class TransportTypeMapperTest {
     @Autowired
-    TransportTypeMapper transportTypeMapper;
+    private TransportTypeMapper transportTypeMapper;
 
     private final Integer id = 1;
     private final String description = "Test";
