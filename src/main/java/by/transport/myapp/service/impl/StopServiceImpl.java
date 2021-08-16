@@ -34,12 +34,6 @@ public class StopServiceImpl implements StopService {
     }
 
     @Override
-    public Stop getStop(Integer id) {
-        logger.info("StopServiceImpl2");
-        return stopDao.getById(id);
-    }
-
-    @Override
     public List<StopDto> getStops() {
         List<StopDto> stops = stopDao.findAll()
                 .stream()
@@ -47,9 +41,9 @@ public class StopServiceImpl implements StopService {
                 .sorted(Comparator.comparing(StopDto::getName))
                 .collect(Collectors.toList());
         if (!stops.isEmpty()) {
-            logger.info("Get stops from database");
+            logger.info("Got stops");
         } else {
-            logger.error("There are none stops in database");
+            logger.error("Didn't get stops");
         }
         return stops;
     }

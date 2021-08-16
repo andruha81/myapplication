@@ -71,16 +71,16 @@ public class TransportControllerTest {
         when(transportTypeService.getTransportTypeById(typeId))
                 .thenReturn(transportType);
 
-        when(routeNumberService.getRouteNumbersByType(typeId))
+        when(routeNumberService.getRouteNumbersByType(transportType))
                 .thenReturn(numbers);
 
         when(transportService.getTransportById(transportId))
                 .thenReturn(transport);
 
         when(transportTypeService.getTransportTypeByDescription(typeDescription))
-                .thenReturn(type);
+                .thenReturn(transportType);
 
-        when(transportService.save(transport))
+        when(transportService.save(transport, transportType))
                 .thenReturn(transportId);
     }
 
@@ -99,7 +99,7 @@ public class TransportControllerTest {
                 .andExpect(model().size(4));
 
         verify(transportTypeService, times(1)).getTransportTypeById(typeId);
-        verify(routeNumberService, times(1)).getRouteNumbersByType(typeId);
+        verify(routeNumberService, times(1)).getRouteNumbersByType(transportType);
         verifyNoMoreInteractions(transportTypeService);
         verifyNoMoreInteractions(routeNumberService);
     }
@@ -119,7 +119,7 @@ public class TransportControllerTest {
                 .andExpect(model().size(3));
 
         verify(transportService, times(1)).getTransportById(typeId);
-        verify(routeNumberService, times(1)).getRouteNumbersByType(typeId);
+        verify(routeNumberService, times(1)).getRouteNumbersByType(transportType);
         verifyNoMoreInteractions(transportService);
         verifyNoMoreInteractions(routeNumberService);
     }

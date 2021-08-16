@@ -58,12 +58,6 @@ public class StopServiceTest {
     }
 
     @Test
-    public void getStopTest() {
-        Stop found = stopService.getStop(id);
-        assertThat(found).isNotNull();
-    }
-
-    @Test
     public void getStopsTest() {
         List<StopDto> found = stopService.getStops();
         assertThat(found).isNotNull();

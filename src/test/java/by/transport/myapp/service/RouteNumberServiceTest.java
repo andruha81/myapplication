@@ -51,7 +51,7 @@ public class RouteNumberServiceTest {
 
     @Test
     public void getRouteNumbersByTypeTest() {
-        List<Integer> found = routeNumberService.getRouteNumbersByType(typeId);
+        List<Integer> found = routeNumberService.getRouteNumbersByType(new TransportTypeDto());
         assertThat(found.size()).isNotZero();
     }
 

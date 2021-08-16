@@ -1,6 +1,7 @@
 package by.transport.myapp.service;
 
 import by.transport.myapp.dto.TransportDto;
+import by.transport.myapp.dto.TransportTypeDto;
 import by.transport.myapp.model.dao.RouteNumberDao;
 import by.transport.myapp.model.dao.TransportDao;
 import by.transport.myapp.model.dao.TransportTypeDao;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -53,16 +55,13 @@ public class TransportServiceTest {
         when(transportDao.getById(transport.getId()))
                 .thenReturn(transport);
 
-        when(transportDao.findTransportByTransportType(transportType))
+        when(transportDao.findTransportByTransportType(any(TransportType.class)))
                 .thenReturn(transports);
-
-        when(transportTypeDao.getById(typeId))
-                .thenReturn(transportType);
     }
 
     @Test
     public void getTransportByTransportTypeTest() {
-        List<TransportDto> transports = transportService.getTransportByTransportType(typeId);
+        List<TransportDto> transports = transportService.getTransportByTransportType(new TransportTypeDto());
         assertThat(transports.size()).isNotZero();
     }
 

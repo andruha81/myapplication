@@ -11,8 +11,6 @@ import java.util.List;
 public interface StopService {
     StopDto getStopById(Integer id) throws EntityNotFoundException;
 
-    Stop getStop(Integer id);
-
     List<StopDto> getStops();
 
     Integer save(StopDto stopDto);

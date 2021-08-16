@@ -26,7 +26,16 @@ public class TransportTypeServiceImpl implements TransportTypeService {
 
     @Override
     public List<TransportTypeDto> getTypes() {
-        return transportTypeDao.findAll().stream().map(mapper::transportTypeToDto).collect(Collectors.toList());
+        List<TransportType> transportTypes = transportTypeDao.findAll();
+        if (!transportTypes.isEmpty()) {
+            logger.info("Got transport types");
+        } else {
+            logger.error("Didn't get transport types");
+        }
+
+        return transportTypes.stream()
+                .map(mapper::transportTypeToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -44,8 +53,9 @@ public class TransportTypeServiceImpl implements TransportTypeService {
     }
 
     @Override
-    public TransportType getTransportTypeByDescription(String description) {
-        logger.error("TransportTypeServiceImpl");
-        return transportTypeDao.findTransportTypeByDescription(description);
+    public TransportTypeDto getTransportTypeByDescription(String description) throws EntityNotFoundException {
+        TransportType transportType = transportTypeDao.findTransportTypeByDescription(description);
+        logger.info(String.format("Got transport type %s by description %s", transportType.getDescription(), description));
+        return mapper.transportTypeToDto(transportType);
     }
 }

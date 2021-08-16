@@ -64,7 +64,7 @@ public class TransportTypeServiceTest {
 
     @Test
     public void getTransportTypeByDescriptionTest() {
-        TransportType found = transportTypeService.getTransportTypeByDescription(description);
+        TransportTypeDto found = transportTypeService.getTransportTypeByDescription(description);
         assertThat(found).isNotNull();
     }
 }

@@ -34,7 +34,7 @@
         <span class="error" th:if="${#fields.hasErrors('carNum')}" th:errors="*{carNum}"></span><br>
 
         <label class="formAdd" for="route">Маршрут</label>
-        <select class="formAdd" id="route" th:field="*{route}">
+        <select class="formAdd" id="route" th:field="*{route}" required>
             <option th:each="routeNumber : ${routeNumbers}"
                     th:value="${routeNumber}"
                     th:text="${routeNumber}"></option>
