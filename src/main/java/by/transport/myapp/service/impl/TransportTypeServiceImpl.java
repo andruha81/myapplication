@@ -37,8 +37,10 @@ public class TransportTypeServiceImpl implements TransportTypeService {
     }
 
     @Override
-    public TransportTypeDto getTransportTypeById(Integer id) {
-        return mapper.transportTypeToDto(transportTypeDao.getById(id));
+    public TransportTypeDto getTransportTypeById(Integer id) throws EntityNotFoundException {
+        TransportType transportType = transportTypeDao.getById(id);
+        logger.info(String.format("Get transport type %s by id %d", transportType.getDescription(), id));
+        return mapper.transportTypeToDto(transportType);
     }
 
     @Override

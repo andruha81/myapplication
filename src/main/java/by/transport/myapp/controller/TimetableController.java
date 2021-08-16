@@ -1,8 +1,6 @@
 package by.transport.myapp.controller;
 
-import by.transport.myapp.dto.RouteLineStopDto;
-import by.transport.myapp.dto.RouteNumberDto;
-import by.transport.myapp.dto.StopDto;
+import by.transport.myapp.dto.*;
 import by.transport.myapp.service.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +26,6 @@ public class TimetableController {
     private static final String HEADER_MESSAGE = "headerMessage";
     private static final String STOP_N = "stopN";
     private static final String STOP_DETAILS = "stopDetails";
-    private static final String REDIRECT_STOPS = "redirect:/timetable/stops/all";
     private static final String REDIRECT_MAIN = "redirect:/";
 
     public TimetableController(StopService stopService,
@@ -52,39 +49,38 @@ public class TimetableController {
         return "timetable/stop";
     }
 
-    @GetMapping("/stops/{stopId}")
-    public String showStopDetail(@PathVariable Integer stopId, Model model) {
+    @GetMapping("/stops/{stopId}/{detail}")
+    public String showStopDetail(@PathVariable Integer stopId, @PathVariable String detail, Model model) {
         StopDto stopDto;
-        Map<String, List<RouteLineStopDto>> routeLines;
+        Map<String, List<RouteLineStopDto>> stopDetails;
 
         if (stopId == null || stopId <= 0) {
             logger.error(String.format("Incorrect stop id %d", stopId));
-            return REDIRECT_STOPS;
+            return null;
         }
 
         try {
             stopDto = stopService.getStopById(stopId);
         } catch (EntityNotFoundException e) {
             logger.error(String.format("Can't find stop with id %d", stopId));
-            return REDIRECT_STOPS;
+            return null;
         }
 
         try {
-            routeLines = routeLineService.getStopDetails(stopId);
+            stopDetails = routeLineService.getStopDetails(stopDto);
         } catch (EntityNotFoundException e) {
-            logger.error(String.format("Can't find details for stop with id %d", stopId));
-            return REDIRECT_STOPS;
+            logger.error(String.format("Can't find stop details for stop %s with id %d", stopDto.getName(), stopId));
+            return REDIRECT_MAIN;
         }
 
-        model.addAttribute(HEADER_MESSAGE, "Остановки");
         model.addAttribute(STOP_N, stopDto.getName());
-        model.addAttribute(STOP_DETAILS, routeLines);
-        return "timetable/stop::stopDetail";
+        model.addAttribute(STOP_DETAILS, stopDetails);
+        return "timetable/" + detail + "::stopDetail";
     }
 
     @GetMapping("/routes/type/{id}")
     public String showRoutes(@PathVariable Integer id, Model model) {
-        String typeDescription;
+        TransportTypeDto transportTypeDto;
         List<RouteNumberDto> numbers;
 
         if (id == null || id <= 0) {
@@ -93,20 +89,20 @@ public class TimetableController {
         }
 
         try {
-            typeDescription = typeService.getTypeDescription(id);
+            transportTypeDto = typeService.getTransportTypeById(id);
         } catch (EntityNotFoundException e) {
             logger.error(String.format("Can't find transport type with id %d", id));
             return REDIRECT_MAIN;
         }
 
         try {
-            numbers = routeNumberService.getRoutes(id);
+            numbers = routeNumberService.getRoutes(transportTypeDto);
         } catch (EntityNotFoundException e) {
             logger.error(String.format("Can't find route numbers for transport type with id %d", id));
             return REDIRECT_MAIN;
         }
 
-        model.addAttribute(HEADER_MESSAGE, typeDescription);
+        model.addAttribute(HEADER_MESSAGE, transportTypeDto.getDescription());
         model.addAttribute("routesNumber", numbers);
         model.addAttribute("routeN", null);
         model.addAttribute("descN", null);
@@ -118,22 +114,24 @@ public class TimetableController {
 
     @GetMapping("/routes/{id}")
     public String showRouteDetails(@PathVariable Integer id, Model model) {
+        RouteStopDto routeStopDto;
+
         if (id == null || id <= 0) {
-            return "timetable/route";
+            logger.error(String.format("Incorrect route id %d", id));
+            return REDIRECT_MAIN;
         }
-        var routeStopDto = routeService.getRouteDetails(id);
+
+        try {
+            routeStopDto = routeService.getRouteDetails(id);
+        } catch (EntityNotFoundException e) {
+            logger.error(String.format("Can't find route with id %d", id));
+            return REDIRECT_MAIN;
+        }
 
         model.addAttribute("routeN", routeStopDto.getType() + " № " + routeStopDto.getNumber());
         model.addAttribute("descN", routeStopDto.getDescription());
         model.addAttribute("routeDetail", routeStopDto.getRouteLines());
         model.addAttribute(STOP_DETAILS, null);
         return "timetable/route::routeStop";
-    }
-
-    @GetMapping("/routes/stop/{stopId}")
-    public String showRouteStopDetail(@PathVariable Integer stopId, Model model) {
-        model.addAttribute(STOP_N, stopService.getStopById(stopId).getName());
-        model.addAttribute(STOP_DETAILS, routeLineService.getStopDetails(stopId));
-        return "timetable/route::stopDetail";
     }
 }

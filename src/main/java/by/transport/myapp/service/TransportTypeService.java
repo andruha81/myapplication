@@ -11,7 +11,7 @@ public interface TransportTypeService {
 
     String getTypeDescription(Integer id) throws EntityNotFoundException;
 
-    TransportTypeDto getTransportTypeById(Integer id);
+    TransportTypeDto getTransportTypeById(Integer id) throws EntityNotFoundException;
 
     TransportType getTransportTypeByDescription(String description);
 }

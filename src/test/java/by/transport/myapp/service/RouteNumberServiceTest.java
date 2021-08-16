@@ -1,6 +1,7 @@
 package by.transport.myapp.service;
 
 import by.transport.myapp.dto.RouteNumberDto;
+import by.transport.myapp.dto.TransportTypeDto;
 import by.transport.myapp.model.dao.RouteNumberDao;
 import by.transport.myapp.model.dao.TransportTypeDao;
 import by.transport.myapp.model.entity.RouteNumber;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -35,18 +37,16 @@ public class RouteNumberServiceTest {
 
     @Before
     public void setUp() {
-        TransportType transportType = new TransportType();
-
         List<RouteNumber> routeNumbers = new ArrayList<>();
         routeNumbers.add(new RouteNumber());
 
-        when(routeNumberDao.getRouteNumbersByType(transportType))
+        when(routeNumberDao.getRouteNumbersByType(any(TransportType.class)))
                 .thenReturn(routeNumbers);
 
         when(routeNumberDao.getRouteNumberByNumber(number)).thenReturn(new RouteNumber());
 
         when(transportTypeDao.getById(typeId))
-                .thenReturn(transportType);
+                .thenReturn(new TransportType());
     }
 
     @Test
@@ -57,7 +57,7 @@ public class RouteNumberServiceTest {
 
     @Test
     public void getRoutesTest() {
-        List<RouteNumberDto> found = routeNumberService.getRoutes(typeId);
+        List<RouteNumberDto> found = routeNumberService.getRoutes(new TransportTypeDto());
         assertThat(found.size()).isNotZero();
     }
 

@@ -15,7 +15,7 @@
         }
 
         function getStopDetail(stopId, routeId) {
-            let url = "/timetable/routes/stop/" + stopId;
+            let url = "/timetable/stops/" + stopId + "/route";
             $("#stopDetail").load(url);
         }
     </script>

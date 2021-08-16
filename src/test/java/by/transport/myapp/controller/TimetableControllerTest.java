@@ -43,6 +43,7 @@ public class TimetableControllerTest {
     private StopDto stopDto;
 
     private RouteStopDto routeStopDto;
+    private TransportTypeDto typeDto;
     private final Integer stopId = 1;
     private final Integer typeId = 1;
     private final Integer routeId = 1;
@@ -62,6 +63,11 @@ public class TimetableControllerTest {
                 .build();
 
         stops.add(stopDto);
+
+        typeDto = TransportTypeDto.builder()
+                .transportTypeDtoId(typeId)
+                .description(typeDescription)
+                .build();
 
         routeLineStopDto = RouteLineStopDto.builder()
                 .routeLineStopDtoId(1)
@@ -97,13 +103,13 @@ public class TimetableControllerTest {
         when(stopService.getStopById(stopId))
                 .thenReturn(stopDto);
 
-        when(routeLineService.getStopDetails(stopId))
+        when(routeLineService.getStopDetails(stopDto))
                 .thenReturn(routeLines);
 
-        when(typeService.getTypeDescription(typeId))
-                .thenReturn(typeDescription);
+        when(typeService.getTransportTypeById(typeId))
+                .thenReturn(typeDto);
 
-        when(routeNumberService.getRoutes(typeId))
+        when(routeNumberService.getRoutes(typeDto))
                 .thenReturn(routeNumbers);
 
         when(routeService.getRouteDetails(routeId))
@@ -125,17 +131,17 @@ public class TimetableControllerTest {
 
     @Test
     public void showStopDetailTest() throws Exception {
-        mockMvc.perform(get("/timetable/stops/{stopId}", stopId))
+        mockMvc.perform(get("/timetable/stops/{stopId}/{detail}", stopId, "route"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("timetable/stop::stopDetail"))
+                .andExpect(view().name("timetable/route::stopDetail"))
                 .andExpect(model().attributeExists("stopN"))
                 .andExpect(model().attributeExists("stopDetails"))
                 .andExpect(model().attribute("stopN", stopDto.getName()))
                 .andExpect(model().attribute("stopDetails", routeLines))
-                .andExpect(model().size(3));
+                .andExpect(model().size(2));
 
         verify(stopService, times(1)).getStopById(stopId);
-        verify(routeLineService, times(1)).getStopDetails(stopId);
+        verify(routeLineService, times(1)).getStopDetails(stopDto);
         verifyNoMoreInteractions(stopService);
         verifyNoMoreInteractions(routeLineService);
     }
@@ -150,8 +156,8 @@ public class TimetableControllerTest {
                 .andExpect(model().attribute("headerMessage", typeDescription))
                 .andExpect(model().size(7));
 
-        verify(typeService, times(1)).getTypeDescription(typeId);
-        verify(routeNumberService, times(1)).getRoutes(typeId);
+        verify(typeService, times(1)).getTransportTypeById(typeId);
+        verify(routeNumberService, times(1)).getRoutes(typeDto);
         verifyNoMoreInteractions(typeService);
         verifyNoMoreInteractions(routeNumberService);
     }
@@ -171,22 +177,5 @@ public class TimetableControllerTest {
 
         verify(routeService, times(1)).getRouteDetails(routeId);
         verifyNoMoreInteractions(routeService);
-    }
-
-    @Test
-    public void showRouteStopDetail() throws Exception {
-        mockMvc.perform(get("/timetable/routes/stop/{stopId}", stopId))
-                .andExpect(status().isOk())
-                .andExpect(view().name("timetable/route::stopDetail"))
-                .andExpect(model().attributeExists("stopN"))
-                .andExpect(model().attributeExists("stopDetails"))
-                .andExpect(model().attribute("stopN", stopDto.getName()))
-                .andExpect(model().attribute("stopDetails", routeLines))
-                .andExpect(model().size(2));
-
-        verify(stopService, times(1)).getStopById(stopId);
-        verify(routeLineService, times(1)).getStopDetails(stopId);
-        verifyNoMoreInteractions(stopService);
-        verifyNoMoreInteractions(routeLineService);
     }
 }

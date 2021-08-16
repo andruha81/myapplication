@@ -10,7 +10,7 @@
 
     <script th:inline="javascript">
         function getStopDetail(stopId) {
-            let url = "/timetable/stops/" + stopId;
+            let url = "/timetable/stops/" + stopId + "/stop";
             $("#stopDetail").load(url);
         }
     </script>

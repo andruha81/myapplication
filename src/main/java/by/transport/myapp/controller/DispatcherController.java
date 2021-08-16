@@ -51,7 +51,7 @@ public class DispatcherController {
         TransportTypeDto transportType = transportTypeService.getTransportTypeById(typeId);
         model.addAttribute(HEADER_MESSAGE, "Маршруты: " + transportType.getDescription());
         model.addAttribute("transportType", transportType);
-        model.addAttribute("routesNumber", routeNumberService.getRoutes(typeId));
+        model.addAttribute("routesNumber", routeNumberService.getRoutes(transportType));
         return "dispatcher/route-list";
     }
 

@@ -95,7 +95,7 @@ public class DispatcherControllerTest {
         when(transportService.getTransportByTransportType(typeId))
                 .thenReturn(transports);
 
-        when(routeNumberService.getRoutes(typeId))
+        when(routeNumberService.getRoutes(transportType))
                 .thenReturn(numbers);
     }
 
@@ -158,7 +158,7 @@ public class DispatcherControllerTest {
                 .andExpect(model().size(3));
 
         verify(transportTypeService, times(1)).getTransportTypeById(typeId);
-        verify(routeNumberService, times(1)).getRoutes(typeId);
+        verify(routeNumberService, times(1)).getRoutes(transportType);
         verifyNoMoreInteractions(transportTypeService);
         verifyNoMoreInteractions(routeNumberService);
     }

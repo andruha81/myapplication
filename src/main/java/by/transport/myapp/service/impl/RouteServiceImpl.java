@@ -17,6 +17,8 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 public class RouteServiceImpl implements RouteService {
     private final RouteDao routeDao;
@@ -34,9 +36,9 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public RouteStopDto getRouteDetails(Integer id) {
-
+    public RouteStopDto getRouteDetails(Integer id) throws EntityNotFoundException {
         var route = routeDao.getById(id);
+        logger.info(String.format("Get route details for route %s by id %d", route.getDescription(), id));
         var routeStopDto = routeMapper.routeToRouteStopDto(route);
         routeStopDto.getRouteLines().forEach(x -> TimeUtil.findTime(x, route));
         return routeStopDto;
@@ -44,7 +46,6 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public RouteParamDto getRouteById(Integer id) {
-        logger.info("RouteServiceImpl2");
         return routeMapper.routeToRouteParamDto(routeDao.getById(id));
     }
 

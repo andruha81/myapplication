@@ -1,6 +1,7 @@
 package by.transport.myapp.service;
 
 import by.transport.myapp.dto.RouteLineStopDto;
+import by.transport.myapp.dto.StopDto;
 import by.transport.myapp.model.dao.RouteDao;
 import by.transport.myapp.model.dao.RouteLineDao;
 import by.transport.myapp.model.dao.StopDao;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -62,7 +64,7 @@ public class RouteLineServiceTest {
         List<RouteLine> routeLines = new ArrayList<>();
         routeLines.add(routeLine);
 
-        when(routeLineDao.getRouteLinesByStop(stop))
+        when(routeLineDao.getRouteLinesByStop(any(Stop.class)))
                 .thenReturn(routeLines);
 
         when(stopDao.getById(id))
@@ -74,7 +76,7 @@ public class RouteLineServiceTest {
 
     @Test
     public void getStopDetailsTest() {
-        Map<String, List<RouteLineStopDto>> found = routeLineService.getStopDetails(id);
+        Map<String, List<RouteLineStopDto>> found = routeLineService.getStopDetails(new StopDto());
         assertThat(found.size()).isNotZero();
     }
 }
