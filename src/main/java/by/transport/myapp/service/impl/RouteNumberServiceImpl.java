@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,8 +49,10 @@ public class RouteNumberServiceImpl implements RouteNumberService {
     }
 
     @Override
-    public RouteNumber getRouteNumberByNumber(int number) {
-        return routeNumberDao.getRouteNumberByNumber(number);
+    public RouteNumber getRouteNumberByNumber(int number) throws EntityNotFoundException {
+        RouteNumber routeNumber = routeNumberDao.getRouteNumberByNumber(number);
+        logger.info(String.format("Got route number %d by number %d", routeNumber.getNumber(),number));
+        return routeNumber;
     }
 
     private List<RouteNumber> getNumbers(TransportType transportType) {

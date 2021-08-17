@@ -45,23 +45,18 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public RouteParamDto getRouteById(Integer id) {
-        return routeMapper.routeToRouteParamDto(routeDao.getById(id));
+    public RouteParamDto getRouteById(Integer id) throws EntityNotFoundException {
+        Route route = routeDao.getById(id);
+        logger.info(String.format("Got route %s by id %d", route.getDescription(), id));
+        return routeMapper.routeToRouteParamDto(route);
     }
 
     @Override
     @Transactional
-    public boolean save(RouteParamDto routeParamDto) {
-        logger.info("RouteServiceImpl3");
-        RouteNumber routeNumber = routeNumberDao.getRouteNumberByNumber(routeParamDto.getRouteNumber());
-        if (routeNumber == null) {
-            routeNumber = new RouteNumber();
-            routeNumber.setNumber(routeParamDto.getRouteNumber());
-            routeNumber.setType(transportTypeDao.findTransportTypeById(routeParamDto.getTypeId()));
-        }
+    public Integer save(RouteParamDto routeParamDto, RouteNumber routeNumber) {
         Route route = routeMapper.RouteParamDtoToRoute(routeParamDto, routeNumber);
         RouteUtil.setRouteInRouteLine(route, route.getRouteLines());
         routeParamDto.setRouteParamDtoId(routeDao.save(route).getId());
-        return true;
+        return routeParamDto.getRouteParamDtoId();
     }
 }
