@@ -14,19 +14,23 @@
           th:object="${route}" method="post">
         <div class="routeParam">
             <label for="routeNumber">Маршрут № </label>
-            <input type="number" id="routeNumber" name="routeNumber"
-                   th:value="${route?.routeNumber}"
-                   min="1" max="999" required>
+            <select class="formAdd" id="routeNumber" th:field="*{routeNumber}" required style="width: 80px">
+                <option th:each="num : ${routeNumbers}"
+                        th:value="${num.number}"
+                        th:text="${num.number}"></option>
+            </select><br>
+
             <span class="error" th:if="${#fields.hasErrors('routeNumber')}" th:errors="*{routeNumber}"></span>
             <input class="formAdd" type="text" th:value="${route?.routeParamDtoId}"
                    id="routeParamDtoId" name="routeParamDtoId" hidden><br>
             <input class="formAdd" type="number" th:value="${route?.typeId}"
                    id="typeId" name="typeId" hidden><br>
+            <div class="error" th:if="${#fields.hasErrors('global')}" th:errors="*{global}"></div><br>
         </div>
         <div class="routeParam">
             <label for="description">Наименование</label>
             <input type="text" id="description" name="description"
-                   th:value="${route?.description}" required style="width: 200px">
+                   th:value="${route?.description}" required style="width: 300px">
             <span class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span><br>
         </div>
         <div class="routeParamHalf">
@@ -116,6 +120,9 @@
     <div class="routeParam">
         <a class="link_button" th:href="@{/dispatcher/route(type=${route.typeId})}">К маршрутам</a>
     </div>
+</div>
+<br style="clear: both;">
+<div th:replace="fragments/footer">
 </div>
 </body>
 </html>

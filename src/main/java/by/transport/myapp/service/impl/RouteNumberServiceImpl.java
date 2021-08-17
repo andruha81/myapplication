@@ -49,10 +49,36 @@ public class RouteNumberServiceImpl implements RouteNumberService {
     }
 
     @Override
+    public List<RouteNumberDto> getRouteNumbers() {
+        List<RouteNumber> numbers = routeNumberDao.findAll();
+        if (!numbers.isEmpty()) {
+            logger.info("Got route numbers");
+        } else {
+            logger.error("Didn't get route numbers");
+        }
+        return numbers.stream()
+                .map(routeNumberMapper::routeNumberToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public RouteNumber getRouteNumberByNumber(int number) throws EntityNotFoundException {
         RouteNumber routeNumber = routeNumberDao.getRouteNumberByNumber(number);
-        logger.info(String.format("Got route number %d by number %d", routeNumber.getNumber(),number));
+        logger.info(String.format("Got route number %d by number %d", routeNumber.getNumber(), number));
         return routeNumber;
+    }
+
+    @Override
+    public Integer save(RouteNumberDto routeNumberDto, TransportTypeDto transportTypeDto) {
+        TransportType type = typeMapper.dtoToTransportType(transportTypeDto);
+        return routeNumberDao.save(routeNumberMapper.dtoToRouteNumber(routeNumberDto, type)).getId();
+    }
+
+    @Override
+    public RouteNumberDto getRouteNumberById(Integer routeNumberId) throws EntityNotFoundException {
+        RouteNumber routeNumber = routeNumberDao.getById(routeNumberId);
+        logger.info(String.format("Got route number %d by id %d", routeNumber.getNumber(), routeNumberId));
+        return routeNumberMapper.routeNumberToDto(routeNumber);
     }
 
     private List<RouteNumber> getNumbers(TransportType transportType) {

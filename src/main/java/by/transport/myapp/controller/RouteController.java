@@ -68,6 +68,7 @@ public class RouteController {
 
         model.addAttribute(HEADER_MESSAGE, PARAMETERS);
         model.addAttribute(NOT_SAVED, "");
+        model.addAttribute("routeNumbers", routeNumberService.getRouteNumbers());
         model.addAttribute(ROUTE_DTO, routeParamDto);
 
         return ROUTE_PARAMETERS;
@@ -86,6 +87,7 @@ public class RouteController {
 
         model.addAttribute(HEADER_MESSAGE, "Создание маршрута");
         model.addAttribute(NOT_SAVED, "");
+        model.addAttribute("routeNumbers", routeNumberService.getRouteNumbers());
         model.addAttribute(ROUTE_DTO, routeParamDto);
 
         return ROUTE_PARAMETERS;

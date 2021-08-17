@@ -16,10 +16,10 @@ import javax.validation.Valid;
 @RequestMapping("/stop")
 public class StopController {
     private final StopService stopService;
+    private final Logger logger = LogManager.getLogger(StopController.class);
     private static final String HEADER_MESSAGE = "headerMessage";
     private static final String STOP_PARAMETERS = "stop/stop-parameters";
     private static final String REDIRECT_DISPATCHER = "redirect:/dispatcher/all";
-    private final Logger logger = LogManager.getLogger(StopController.class);
 
     public StopController(StopService stopService) {
         this.stopService = stopService;

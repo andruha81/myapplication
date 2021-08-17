@@ -4,6 +4,10 @@ body {
     font-family: 'Merriweather', serif;
 }
 
+footer {
+    text-align: right;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;

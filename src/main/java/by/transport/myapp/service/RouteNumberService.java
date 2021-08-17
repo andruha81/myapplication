@@ -12,5 +12,11 @@ public interface RouteNumberService {
 
     List<RouteNumberDto> getRoutes(TransportTypeDto typeDto);
 
+    List<RouteNumberDto> getRouteNumbers();
+
+    RouteNumberDto getRouteNumberById(Integer routeNumberId) throws EntityNotFoundException;
+
     RouteNumber getRouteNumberByNumber(int number) throws EntityNotFoundException;
+
+    Integer save(RouteNumberDto routeNumberDto, TransportTypeDto transportTypeDto);
 }

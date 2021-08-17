@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Параметры остановки</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragments/header">
+</div>
+<div class="row">
+    <form autocomplete="off" action="#" th:action="@{/routeNumber/save}"
+          th:object="${routeNumber}" method="post">
+
+        <label class="formAdd" for="number">Номер маршрута</label>
+        <input class="formAdd" type="number" id="number" name="number"
+               th:value="${routeNumber?.number}"
+               min="1" max="999" required>
+        <span class="error" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></span>
+
+        <input class="formAdd" type="text" th:value="${routeNumber?.routeNumberDtoId}"
+               id="routeNumberDtoId" name="routeNumberDtoId" hidden><br>
+
+        <label class="formAdd" for="transportType">Тип траспорта</label>
+        <select class="formAdd" id="transportType" th:field="*{transportType}" required>
+            <option th:each="type : ${types}"
+                    th:value="${type.description}"
+                    th:text="${type.description}"></option>
+        </select><br>
+
+        <input class="link_button" type="submit" style="margin: 10px" value="Сохранить">
+    </form>
+</div>
+<br style="clear: both;">
+<div th:replace="fragments/footer">
+</div>
+</body>
+</html>

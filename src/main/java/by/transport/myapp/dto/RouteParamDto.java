@@ -1,5 +1,6 @@
 package by.transport.myapp.dto;
 
+import by.transport.myapp.constraint.CompareTime;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@CompareTime(beforeWeek = "startWeekday", afterWeek = "endWeekday", beforeOff = "startDayoff", afterOff = "endDayoff")
 public class RouteParamDto implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer routeParamDtoId;

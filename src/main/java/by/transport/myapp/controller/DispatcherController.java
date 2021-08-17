@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -111,5 +112,14 @@ public class DispatcherController {
         model.addAttribute("stops", stopService.getStops());
         model.addAttribute(HEADER_MESSAGE, "Остановки");
         return "dispatcher/stop-list";
+    }
+
+    @GetMapping("/number")
+    public String showRouteNumbers(Model model) {
+        List<RouteNumberDto> numbers = routeNumberService.getRouteNumbers();
+        Collections.sort(numbers);
+        model.addAttribute("numbers", numbers);
+        model.addAttribute(HEADER_MESSAGE, "Номер маршрутов");
+        return "dispatcher/number-list";
     }
 }

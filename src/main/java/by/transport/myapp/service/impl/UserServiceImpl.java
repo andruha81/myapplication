@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
-    private final Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
     public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;
@@ -19,14 +18,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User loadUserByLogin(String login) {
-        logger.error("UserServiceImpl");
         return userDao.findUserByLogin(login);
     }
 
     @Override
     @Transactional
     public User saveUser(User user) {
-        logger.error("UserServiceImpl");
         return userDao.save(user);
     }
 }
