@@ -13,9 +13,9 @@
     <table>
         <tr class="trRl">
             <th class="tdRlCenter">№</th>
-            <th class="tdRlCenter">Модель</th>
-            <th class="tdRlCenter">Кол-во мест</th>
-            <th class="tdRlCenter">Маршрут</th>
+            <th class="tdRlCenter" th:text="#{tableTransport.model}"></th>
+            <th class="tdRlCenter" th:text="#{tableTransport.seat}"></th>
+            <th class="tdRlCenter" th:text="#{tableTransport.route}"></th>
             <th class="tdRlCenter"></th>
         </tr>
         <tr class="trRl" th:each="transport, transportStat : ${transports}">
@@ -24,17 +24,17 @@
             <td class="tdRlCenter" th:text="${transport.seatNum}"></td>
             <td class="tdRlCenter" th:text="${transport.route}"></td>
             <td class="tdRlLeft">
-                <a th:href="@{/transport/edit(id=${transport.transportDtoId}, type=${transportType.transportTypeDtoId})}">Изменить</a>
+                <a th:href="@{/transport/edit(id=${transport.transportDtoId}, type=${transportType.transportTypeDtoId})}" th:text="#{dispatcher.change}"></a>
             </td>
         </tr>
     </table>
 </div>
-<div class="row">
+<div class="row" style="margin: 10px">
     <div class="columnList">
-        <a th:href="@{/transport/add(type=${transportType.transportTypeDtoId})}">Добавить</a>
+        <a class="link_button" th:href="@{/transport/add(type=${transportType.transportTypeDtoId})}" th:text="#{dispatcher.add}"></a>
     </div>
     <div class="columnList">
-        <a th:href="@{/dispatcher/route(type=${transportType.transportTypeDtoId})}">Маршруты</a>
+        <a class="link_button" th:href="@{/dispatcher/route(type=${transportType.transportTypeDtoId})}" th:text="#{dispatcher.routes}"></a>
     </div>
 </div>
 <br style="clear: both;">

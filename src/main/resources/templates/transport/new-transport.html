@@ -14,33 +14,33 @@
     <form autocomplete="off" action="#" th:action="@{/transport/add}"
           th:object="${transport}" method="post">
 
-        <label class="formAdd" for="model">Модель</label>
+        <label class="formAdd" for="model" th:text="#{transportLang.model}"></label>
         <input class="formAdd" type="text" th:field="*{model}" id="model" placeholder="Модель" required>
         <span class="error" th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></span><br>
 
-        <label class="formAdd" for="type">Тип траспорта</label>
+        <label class="formAdd" for="type" th:text="#{transportLang.type}"></label>
         <input class="formAdd" type="text" name="type" id="type"
                th:value="${transportType.description}" readonly><br>
         <span class="error" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></span><br>
 
-        <label class="formAdd" for="seatNum">Кол-во мест</label>
+        <label class="formAdd" for="seatNum" th:text="#{transportLang.seat}"></label>
         <input class="formAdd" type="number" th:field="*{seatNum}" id="seatNum" placeholder="Кол-во мест"
                min="1" max="999" required>
         <span class="error" th:if="${#fields.hasErrors('seatNum')}" th:errors="*{seatNum}"></span><br>
 
-        <label class="formAdd" for="carNum">Кол-во секций</label>
+        <label class="formAdd" for="carNum" th:text="#{transportLang.car}"></label>
         <input class="formAdd" type="number" th:field="*{carNum}" id="carNum" placeholder="Кол-во секций"
                min="1" max="9" required>
         <span class="error" th:if="${#fields.hasErrors('carNum')}" th:errors="*{carNum}"></span><br>
 
-        <label class="formAdd" for="route">Маршрут</label>
+        <label class="formAdd" for="route" th:text="#{transportLang.route}"></label>
         <select class="formAdd" id="route" th:field="*{route}" required>
             <option th:each="routeNumber : ${routeNumbers}"
                     th:value="${routeNumber}"
                     th:text="${routeNumber}"></option>
         </select><br>
 
-        <input class="formAdd" type="submit" value="Добавить транспорт">
+        <input class="formAdd" type="submit" th:value="#{transportLang.add}">
     </form>
 </div>
 <br style="clear: both;">

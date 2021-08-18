@@ -14,25 +14,25 @@
         <a href="/timetable/routes/type/1">
             <img class="img" th:src="@{/image/bus.jpg}" src="#" alt="bus"/>
         </a>
-        <p>Расписание автобусов</p>
+        <p th:text="#{langFullBus}"></p>
     </div>
     <div class="columnMain">
         <a href="/timetable/routes/type/2">
             <img class="img" th:src="@{/image/trolley.jpg}" src="#" alt="trolley"/>
         </a>
-        <p>Расписание троллейбусов</p>
+        <p th:text="#{langFullTrolley}"></p>
     </div>
     <div class="columnMain">
         <a href="/timetable/routes/type/3">
             <img class="img" th:src="@{/image/tram.jpg}" src="#" alt="tram"/>
         </a>
-        <p>Расписание трамваев</p>
+        <p th:text="#{langFullTram}"></p>
     </div>
     <div class="columnMain">
         <a href="/timetable/stops/all">
             <img class="img" th:src="@{/image/stop.jpg}" src="#" alt="stop"/>
         </a>
-        <p>По названию остановки</p>
+        <p th:text="#{langFullStop}"></p>
     </div>
 </div>
 <br style="clear: both;">

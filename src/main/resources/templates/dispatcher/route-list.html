@@ -35,12 +35,12 @@
     </div>
 </div>
 <br style="clear: both;">
-<div class="row">
+<div class="row" style="margin: 10px">
     <div class="columnList">
-        <a th:href="@{/route/new(type=${transportType.transportTypeDtoId})}">Добавить</a>
+        <a class="link_button" th:href="@{/route/new(type=${transportType.transportTypeDtoId})}" th:text="#{dispatcher.add}"></a>
     </div>
     <div class="columnList">
-        <a th:href="@{/dispatcher/list(type=${transportType.transportTypeDtoId})}">Список транспортов</a>
+        <a class="link_button" th:href="@{/dispatcher/list(type=${transportType.transportTypeDtoId})}" th:text="#{dispatcher.list}"></a>
     </div>
 </div>
 <br style="clear: both;">

@@ -14,7 +14,7 @@
         <table class="dispTypeTable">
             <tr>
                 <td class="td" rowspan="2">
-                    <label for="type">Вид транспортного средства</label><br>
+                    <label for="type" th:text="#{dispatcher.type}"></label><br>
                     <select id="type" name="type" class="dispTypeSelect">
                         <option th:each="type : ${transportTypes}"
                                 th:value="${type.transportTypeDtoId}"
@@ -22,12 +22,12 @@
                     </select>
                 </td>
                 <td class="td">
-                    <input class="link_button" type="submit" value="Список" formaction="/dispatcher/list">
+                    <input class="link_button" type="submit" th:value="#{dispatcher.list}" formaction="/dispatcher/list">
                 </td>
             </tr>
             <tr>
                 <td class="td">
-                    <input class="link_button" type="submit" value="Маршруты" formaction="/dispatcher/route">
+                    <input class="link_button" type="submit" th:value="#{dispatcher.route}" formaction="/dispatcher/route">
                 </td>
             </tr>
         </table>
@@ -36,11 +36,11 @@
 <hr style="border-color: white">
 <br>
 <div class="formAdd">
-    <a class="link_button" href="/dispatcher/stop">Остановки</a>
+    <a class="link_button" href="/dispatcher/stop" th:text="#{dispatcher.stop}"></a>
 </div>
 <br>
 <div class="formAdd">
-    <a class="link_button" href="/dispatcher/number">Номера маршрутов</a>
+    <a class="link_button" href="/dispatcher/number" th:text="#{dispatcher.routeNumber}"></a>
 </div>
 <br style="clear: both;">
 <div th:replace="fragments/footer">

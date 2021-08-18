@@ -13,7 +13,7 @@
     <form autocomplete="off" action="#" th:action="@{/route/add/stop/__${route.routeParamDtoId}__}"
           th:object="${routeLine}" method="post">
         <div>
-            <label class="formAdd" for="stop">Остановка</label>
+            <label class="formAdd" for="stop" th:text="#{routeLineLang.stop}"></label>
             <select class="formAdd" id="stop" th:field="*{stopId}">
                 <option th:each="stop : ${stops}"
                         th:value="${stop.stopDtoId}"
@@ -22,22 +22,22 @@
             <input type="hidden" th:field="*{routeLineNewParamDtoId}">
             <br>
 
-            <label class="formAdd" for="stopOrder">Порядок остановки</label>
+            <label class="formAdd" for="stopOrder" th:text="#{routeLineLang.stopOrder}"></label>
             <input class="formAdd" type="number" id="stopOrder" min="1" max="99" required th:field="*{stopOrder}">
             <span class="error" th:if="${#fields.hasErrors('stopOrder')}" th:errors="*{stopOrder}"></span>
             <br>
 
-            <label class="formAdd" for="timePrev">Время до предыдущей остановки</label>
+            <label class="formAdd" for="timePrev" th:text="#{routeLineLang.timeFull}"></label>
             <input class="formAdd" type="number" id="timePrev" min="0" max="99" required th:field="*{timePrev}">
             <span class="error" th:if="${#fields.hasErrors('timePrev')}" th:errors="*{timePrev}"></span>
             <br>
 
-            <label class="formAdd" for="distancePrev">Дистанция до предыдущей остановки</label>
+            <label class="formAdd" for="distancePrev" th:text="#{routeLineLang.disFull}"></label>
             <input class="formAdd" type="number" id="distancePrev" min="0" max="9999" required th:field="*{distancePrev}">
             <span class="error" th:if="${#fields.hasErrors('distancePrev')}" th:errors="*{distancePrev}"></span>
             <br>
 
-            <input class="formAdd" type="submit" value="Сохранить">
+            <input class="formAdd" type="submit" th:value="#{dispatcher.save}">
         </div>
     </form>
 </div>

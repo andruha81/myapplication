@@ -13,7 +13,7 @@
     <form autocomplete="off" action="#" th:action="@{/routeNumber/save}"
           th:object="${routeNumber}" method="post">
 
-        <label class="formAdd" for="number">Номер маршрута</label>
+        <label class="formAdd" for="number" th:text="#{tableRouteNumber.number}"></label>
         <input class="formAdd" type="number" id="number" name="number"
                th:value="${routeNumber?.number}"
                min="1" max="999" required>
@@ -22,14 +22,14 @@
         <input class="formAdd" type="text" th:value="${routeNumber?.routeNumberDtoId}"
                id="routeNumberDtoId" name="routeNumberDtoId" hidden><br>
 
-        <label class="formAdd" for="transportType">Тип траспорта</label>
+        <label class="formAdd" for="transportType" th:text="#{tableRouteNumber.type}"></label>
         <select class="formAdd" id="transportType" th:field="*{transportType}" required>
             <option th:each="type : ${types}"
                     th:value="${type.description}"
                     th:text="${type.description}"></option>
         </select><br>
 
-        <input class="link_button" type="submit" style="margin: 10px" value="Сохранить">
+        <input class="link_button" type="submit" style="margin: 10px" th:value="#{dispatcher.save}">
     </form>
 </div>
 <br style="clear: both;">

@@ -13,7 +13,7 @@
     <form autocomplete="off" action="#" th:action="@{/route/save}"
           th:object="${route}" method="post">
         <div class="routeParam">
-            <label for="routeNumber">Маршрут № </label>
+            <label for="routeNumber" th:text="#{routeLang.number}"></label>
             <select class="formAdd" id="routeNumber" th:field="*{routeNumber}" required style="width: 80px">
                 <option th:each="num : ${routeNumbers}"
                         th:value="${num.number}"
@@ -28,25 +28,25 @@
             <div class="error" th:if="${#fields.hasErrors('global')}" th:errors="*{global}"></div><br>
         </div>
         <div class="routeParam">
-            <label for="description">Наименование</label>
+            <label for="description" th:text="#{routeLang.name}"></label>
             <input type="text" id="description" name="description"
                    th:value="${route?.description}" required style="width: 300px">
             <span class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span><br>
         </div>
         <div class="routeParamHalf">
-            <h3 class="formAdd">Рабочие дни</h3>
+            <h3 class="formAdd" th:text="#{routeLang.weekDay}"></h3>
 
-            <label class="formAdd" for="startWeekday">Начало работы</label>
+            <label class="formAdd" for="startWeekday" th:text="#{routeLang.timeBegin}"></label>
             <input class="formAdd" type="time" id="startWeekday" name="startWeekday"
                    th:value="${route?.startWeekday}" required style="width: 70px">
             <span class="error" th:if="${#fields.hasErrors('startWeekday')}" th:errors="*{startWeekday}"></span><br>
 
-            <label class="formAdd" for="endWeekday">Окончание работы</label>
+            <label class="formAdd" for="endWeekday" th:text="#{routeLang.timeEnd}"></label>
             <input class="formAdd" type="time" id="endWeekday" name="endWeekday"
                    th:value="${route?.endWeekday}" required style="width: 70px">
             <span class="error" th:if="${#fields.hasErrors('endWeekday')}" th:errors="*{endWeekday}"></span><br>
 
-            <label class="formAdd" for="intervalWeekday">Интервал движения</label>
+            <label class="formAdd" for="intervalWeekday" th:text="#{routeLang.interval}"></label>
             <input class="formAdd" type="number" id="intervalWeekday" name="intervalWeekday"
                    th:value="${route?.intervalWeekday}"
                    min="1" max="120" required style="width: 50px">
@@ -54,19 +54,19 @@
                   th:errors="*{intervalWeekday}"></span><br>
         </div>
         <div class="routeParamHalf">
-            <h3 class="formAdd">Выходные дни</h3>
+            <h3 class="formAdd" th:text="#{routeLang.dayOff}"></h3>
 
-            <label class="formAdd" for="startDayoff">Начало работы</label>
+            <label class="formAdd" for="startDayoff" th:text="#{routeLang.timeBegin}"></label>
             <input class="formAdd" type="time" id="startDayoff" name="startDayoff"
                    th:value="${route?.startDayoff}" required style="width: 70px">
             <span class="error" th:if="${#fields.hasErrors('startDayoff')}" th:errors="*{startDayoff}"></span><br>
 
-            <label class="formAdd" for="endDayoff">Окончание работы</label>
+            <label class="formAdd" for="endDayoff" th:text="#{routeLang.timeEnd}"></label>
             <input class="formAdd" type="time" id="endDayoff" name="endDayoff"
                    th:value="${route?.endDayoff}" required style="width: 70px">
             <span class="error" th:if="${#fields.hasErrors('endDayoff')}" th:errors="*{endDayoff}"></span><br>
 
-            <label class="formAdd" for="intervalDayoff">Интервал движения</label>
+            <label class="formAdd" for="intervalDayoff" th:text="#{routeLang.interval}"></label>
             <input class="formAdd" type="number" id="intervalDayoff" name="intervalDayoff"
                    th:value="${route?.intervalDayoff}"
                    min="1" max="120" required style="width: 50px">
@@ -75,17 +75,17 @@
         </div>
         <br style="clear: both;">
         <div class="routeParam">
-            <input class="link_button" type="submit" value="Сохранить">
+            <input class="link_button" type="submit" th:value="#{dispatcher.save}">
         </div>
         <div class="routeParam">
-            <h3>Остановки (<a href="" th:href="@{/route/add/stop(routeId=${route.routeParamDtoId})}">добавить</a>)</h3>
+            <h3 th:text="#{dispatcher.stop}"></h3> <h3>(<a href="" th:href="@{/route/add/stop(routeId=${route.routeParamDtoId})}" th:text="#{dispatcher.add}"></a>)</h3>
             <span class="error" th:if="${NotSaved}!=null" th:text="${NotSaved}"></span><br>
             <table class="tableStops">
                 <tr class="trRl">
                     <th class="tdStopCenter">№</th>
-                    <th class="tdStopCenter">Наименование</th>
-                    <th class="tdStopCenter">Время до пред.</th>
-                    <th class="tdStopCenter">Расст. до пред.</th>
+                    <th class="tdStopCenter" th:text="#{routeLineLang.name}"></th>
+                    <th class="tdStopCenter" th:text="#{routeLineLang.time}"></th>
+                    <th class="tdStopCenter" th:text="#{routeLineLang.dis}"></th>
                     <th class="tdStopCenter"></th>
                 </tr>
                 <tr class="trRl" th:each="routeLine,status : *{routeLines}">
@@ -111,14 +111,14 @@
                     </td>
                     <td class="tdStopCenter">
                         <a href=""
-                           th:href="@{/route/edit/stop(routeId=${route.routeParamDtoId}, rlId=${routeLine.routeLineParamDtoId})}">Убрать</a>
+                           th:href="@{/route/edit/stop(routeId=${route.routeParamDtoId}, rlId=${routeLine.routeLineParamDtoId})}" th:text="#{routeLineLang.del}"></a>
                     </td>
                 </tr>
             </table>
         </div>
     </form>
     <div class="routeParam">
-        <a class="link_button" th:href="@{/dispatcher/route(type=${route.typeId})}">К маршрутам</a>
+        <a class="link_button" th:href="@{/dispatcher/route(type=${route.typeId})}" th:text="#{dispatcher.toRoutes}"></a>
     </div>
 </div>
 <br style="clear: both;">

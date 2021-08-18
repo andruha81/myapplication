@@ -17,26 +17,26 @@
         <input class="formAdd" type="text" th:value="${transport.transportDtoId}"
                id="transportDtoId" name="transportDtoId" hidden>
 
-        <label class="formAdd" for="model">Модель</label>
+        <label class="formAdd" for="model" th:text="#{transportLang.model}"></label>
         <input class="formAdd" type="text" th:value="${transport.model}" id="model" name="model" required>
         <span class="error" th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></span><br>
 
-        <label class="formAdd" for="type">Тип траспорта</label>
+        <label class="formAdd" for="type" th:text="#{transportLang.type}"></label>
         <input class="formAdd" type="text" name="type" id="type"
                th:value="${transport.type}" readonly>
         <span class="error" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></span><br>
 
-        <label class="formAdd" for="seatNum">Кол-во мест</label>
+        <label class="formAdd" for="seatNum" th:text="#{transportLang.seat}"></label>
         <input class="formAdd" type="number" th:value="${transport.seatNum}" id="seatNum" name="seatNum"
                min="1" max="999" required>
         <span class="error" th:if="${#fields.hasErrors('seatNum')}" th:errors="*{seatNum}"></span><br>
 
-        <label class="formAdd" for="carNum">Кол-во секций</label>
+        <label class="formAdd" for="carNum" th:text="#{transportLang.car}"></label>
         <input class="formAdd" type="number" th:field="${transport.carNum}" id="carNum" name="carNum"
                min="1" max="9" required>
         <span class="error" th:if="${#fields.hasErrors('carNum')}" th:errors="*{carNum}"></span><br>
 
-        <label class="formAdd" for="route">Маршрут</label>
+        <label class="formAdd" for="route" th:text="#{transportLang.route}"></label>
         <select class="formAdd" id="route" name="route">
             <option th:each="routeNumber : ${routeNumbers}"
                     th:value="${routeNumber}"
@@ -45,7 +45,7 @@
             </option>
         </select><br>
 
-        <input class="formAdd" type="submit" value="Сохранить">
+        <input class="formAdd" type="submit" th:value="#{dispatcher.save}">
     </form>
 </div>
 <br style="clear: both;">

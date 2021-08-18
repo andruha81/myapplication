@@ -12,13 +12,13 @@
 <div class="row">
     <form autocomplete="off" action="#" th:action="@{/stop/save}"
           th:object="${stop}" method="post">
-        <label class="formAdd" for="name">Остановка</label>
+        <label class="formAdd" for="name" th:text="#{stopLang}"></label>
         <input class="formAdd" type="text" id="name" name="name"
                th:value="${stop?.name}" required>
         <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
         <input class="formAdd" type="text" th:value="${stop?.stopDtoId}"
                id="stopDtoId" name="stopDtoId" hidden><br>
-        <input class="link_button" type="submit" style="margin: 10px" value="Сохранить">
+        <input class="link_button" type="submit" style="margin: 10px" th:value="#{dispatcher.save}">
     </form>
 </div>
 <br style="clear: both;">

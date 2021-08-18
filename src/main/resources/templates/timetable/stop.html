@@ -34,7 +34,7 @@
     <div class="columnRoute">
         <div class="divRouteLine" th:fragment="stopDetail" id="stopDetail">
             <div class="routeLineHead">
-                <p th:if="${stopN != null}">Остановочный пункт</p>
+                <p th:if="${stopN != null}" th:text="#{tableStop.name}"></p>
                 <h3 th:text="${stopN}"></h3>
             </div>
             <table>
@@ -48,9 +48,9 @@
                             </tr>
                             <tr class="trRl">
                                 <td class="tdRlCenter" style="width: 20px">№</td>
-                                <td class="tdRlCenter">Маршрут</td>
-                                <td class="tdRlCenter" style="width: 20px">Ближ.</td>
-                                <td class="tdRlCenter" style="width: 20px">След.</td>
+                                <td class="tdRlCenter" th:text="#{tableStop.route}"></td>
+                                <td class="tdRlCenter" style="width: 20px" th:text="#{tableStop.closestTime}"></td>
+                                <td class="tdRlCenter" style="width: 20px" th:text="#{tableStop.nextTime}"></td>
                             </tr>
                             <tbody>
                             <tr class="trRl" th:each="routeline : ${routeLines.value}">
