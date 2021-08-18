@@ -1,7 +1,5 @@
 package by.transport.myapp.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,9 +10,11 @@ import java.util.Locale;
 @Controller
 public class MainController {
 
-    @Autowired
-    @Qualifier("messageResourceSB")
-    MessageSource messageSource;
+    private final MessageSource messageSource;
+
+    public MainController(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 
     @GetMapping("/")
     public String main(Model model, Locale locale) {

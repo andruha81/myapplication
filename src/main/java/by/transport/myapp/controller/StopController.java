@@ -4,6 +4,7 @@ import by.transport.myapp.dto.StopDto;
 import by.transport.myapp.service.StopService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,23 +12,29 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+import java.util.Locale;
 
 @Controller
 @RequestMapping("/stop")
 public class StopController {
     private final StopService stopService;
+    private final MessageSource messageSource;
     private final Logger logger = LogManager.getLogger(StopController.class);
+
     private static final String HEADER_MESSAGE = "headerMessage";
     private static final String STOP_PARAMETERS = "stop/stop-parameters";
     private static final String REDIRECT_DISPATCHER = "redirect:/dispatcher/all";
 
-    public StopController(StopService stopService) {
+    public StopController(StopService stopService,
+                          MessageSource messageSource) {
         this.stopService = stopService;
+        this.messageSource = messageSource;
     }
 
     @GetMapping("/edit")
     public String showStopParameters(@RequestParam(name = "id") Integer stopId,
-                                     Model model) {
+                                     Model model,
+                                     Locale locale) {
         StopDto stopDto;
 
         if (stopId == null || stopId <= 0) {
@@ -42,14 +49,14 @@ public class StopController {
             return REDIRECT_DISPATCHER;
         }
 
-        model.addAttribute(HEADER_MESSAGE, "Редактирование остановки");
+        model.addAttribute(HEADER_MESSAGE, messageSource.getMessage("headerEditStop", null, locale));
         model.addAttribute("stop", stopDto);
         return STOP_PARAMETERS;
     }
 
     @GetMapping("/add")
-    public String addStop(Model model) {
-        model.addAttribute(HEADER_MESSAGE, "Создание остановки");
+    public String addStop(Model model, Locale locale) {
+        model.addAttribute(HEADER_MESSAGE, messageSource.getMessage("headerAddStop", null, locale));
         model.addAttribute("stop", new StopDto());
         return STOP_PARAMETERS;
     }

@@ -15,4 +15,8 @@ public class TransportTypeDto implements Serializable {
     private Integer transportTypeDtoId;
     @NotBlank(message = "Description is mandatory")
     private String description;
+    @NotBlank(message = "Description is mandatory")
+    private String descriptionEn;
+    @NotBlank(message = "Description is mandatory")
+    private String descriptionBy;
 }

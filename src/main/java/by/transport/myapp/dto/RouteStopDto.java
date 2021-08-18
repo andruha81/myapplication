@@ -15,6 +15,8 @@ public class RouteStopDto implements Serializable {
     private Integer routeStopDtoId;
     private int number;
     private String type;
+    private String typeBy;
+    private String typeEn;
     private String description;
     private TreeSet<RouteLineDto> routeLines;
 }

@@ -13,6 +13,7 @@ import by.transport.myapp.util.RouteUtil;
 import by.transport.myapp.util.StopUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 @RequestMapping("/route")
@@ -30,11 +32,11 @@ public class RouteController {
     private final RouteService routeService;
     private final StopService stopService;
     private final RouteNumberService routeNumberService;
+    private final MessageSource messageSource;
     private final Logger logger = LogManager.getLogger(RouteController.class);
 
     private static final String HEADER_MESSAGE = "headerMessage";
     private static final String ROUTE_PARAMETERS = "route/route-parameters";
-    private static final String PARAMETERS = "Редактирование маршрута";
     private static final String EDIT_ROUTE = "redirect:/route/edit?id=";
     private static final String ROUTE_DTO = "route";
     private static final String NOT_SAVED = "NotSaved";
@@ -42,15 +44,18 @@ public class RouteController {
 
     public RouteController(RouteService routeService,
                            StopService stopService,
-                           RouteNumberService routeNumberService) {
+                           RouteNumberService routeNumberService,
+                           MessageSource messageSource) {
         this.routeService = routeService;
         this.stopService = stopService;
         this.routeNumberService = routeNumberService;
+        this.messageSource = messageSource;
     }
 
     @GetMapping("/edit")
     public String showRouteParameters(@RequestParam(name = "id") Integer routeId,
-                                      Model model) {
+                                      Model model,
+                                      Locale locale) {
         RouteParamDto routeParamDto;
         if (routeId == null || routeId <= 0) {
             logger.error(String.format("Incorrect route id %d", routeId));
@@ -66,7 +71,7 @@ public class RouteController {
 
         Collections.sort(routeParamDto.getRouteLines());
 
-        model.addAttribute(HEADER_MESSAGE, PARAMETERS);
+        model.addAttribute(HEADER_MESSAGE, messageSource.getMessage("headerEditRoute", null, locale));
         model.addAttribute(NOT_SAVED, "");
         model.addAttribute("routeNumbers", routeNumberService.getRouteNumbers());
         model.addAttribute(ROUTE_DTO, routeParamDto);
@@ -76,7 +81,8 @@ public class RouteController {
 
     @GetMapping("/new")
     public String showNewRouteParameters(@RequestParam(name = "type") Integer typeId,
-                                         Model model) {
+                                         Model model,
+                                         Locale locale) {
         if (typeId == null || typeId <= 0) {
             logger.error(String.format("Incorrect type id %d", typeId));
             return REDIRECT_DISPATCHER;
@@ -85,7 +91,7 @@ public class RouteController {
         RouteParamDto routeParamDto = new RouteParamDto();
         routeParamDto.setTypeId(typeId);
 
-        model.addAttribute(HEADER_MESSAGE, "Создание маршрута");
+        model.addAttribute(HEADER_MESSAGE, messageSource.getMessage("headerAddRoute", null, locale));
         model.addAttribute(NOT_SAVED, "");
         model.addAttribute("routeNumbers", routeNumberService.getRouteNumbers());
         model.addAttribute(ROUTE_DTO, routeParamDto);
@@ -135,7 +141,9 @@ public class RouteController {
     }
 
     @GetMapping("/add/stop")
-    public String addRouteStop(@RequestParam(required = false) Integer routeId, Model model) {
+    public String addRouteStop(@RequestParam(required = false) Integer routeId,
+                               Model model,
+                               Locale locale) {
         RouteParamDto routeParamDto;
 
         if (routeId == null) {
@@ -158,7 +166,7 @@ public class RouteController {
 
         List<StopDto> stops = StopUtil.removeStops(stopService.getStops(), routeParamDto.getRouteLines());
 
-        model.addAttribute(HEADER_MESSAGE, "Добавление остановки к маршруту");
+        model.addAttribute(HEADER_MESSAGE, messageSource.getMessage("headerAddLine", null, locale));
         model.addAttribute(ROUTE_DTO, routeParamDto);
         model.addAttribute("routeLine", new RouteLineNewParamDto());
         model.addAttribute("stops", stops);
@@ -228,10 +236,12 @@ public class RouteController {
 
     @PostMapping("/save")
     public String saveRoute(@ModelAttribute("route") @Valid RouteParamDto routeParamDto,
-                            BindingResult bindingResult) {
+                            BindingResult bindingResult,
+                            Model model) {
         RouteNumber routeNumber;
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("routeNumbers", routeNumberService.getRouteNumbers());
             return ROUTE_PARAMETERS;
         }
 

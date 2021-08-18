@@ -24,6 +24,14 @@ public class TransportType {
     @NotBlank(message = "Description is mandatory")
     private String description;
 
+    @Column(name = "description_en", nullable = false, unique = true)
+    @NotBlank(message = "Description is mandatory")
+    private String descriptionEn;
+
+    @Column(name = "description_by", nullable = false, unique = true)
+    @NotBlank(message = "Description is mandatory")
+    private String descriptionBy;
+
     @OneToMany(mappedBy = "transportType", cascade = CascadeType.REMOVE)
     private Set<Transport> transports;
 

@@ -39,7 +39,7 @@
                         <tr th:each="route : ${routeNumber.routesDto}">
                             <td class="td">
                                 <a href="#" th:onclick="|getRouteDetail(${route.routeDtoId})|">
-                                    <span th:text="${route.description}">Description</span>
+                                    <span th:text="${route.description}"></span>
                                 </a>
                             </td>
                         </tr>

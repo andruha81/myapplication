@@ -16,6 +16,8 @@ public interface RouteMapper {
     @Mapping(target = "routeStopDtoId", source = "route.id")
     @Mapping(target = "number", source = "route.routeNumber.number")
     @Mapping(target = "type", source = "route.routeNumber.type.description")
+    @Mapping(target = "typeBy", source = "route.routeNumber.type.descriptionBy")
+    @Mapping(target = "typeEn", source = "route.routeNumber.type.descriptionEn")
     RouteStopDto routeToRouteStopDto(Route route);
 
     @Mapping(target = "routeParamDtoId", source = "route.id")
