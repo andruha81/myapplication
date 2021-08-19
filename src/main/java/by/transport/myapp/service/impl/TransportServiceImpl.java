@@ -16,7 +16,6 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,15 +50,21 @@ public class TransportServiceImpl implements TransportService {
 
     @Override
     @Transactional
-    public Integer save(TransportDto transportDto, TransportTypeDto typeDto) throws EntityNotFoundException {
+    public Integer save(TransportDto transportDto, TransportTypeDto typeDto) {
         TransportType transportType = typeMapper.dtoToTransportType(typeDto);
         RouteNumber routeNumber = routeNumberDao.getRouteNumberByNumber(transportDto.getRoute());
         logger.info(String.format("Got route number %d by number %d", routeNumber.getNumber(), transportDto.getRoute()));
-        return transportDao.save(mapper.dtoToTransport(transportDto, transportType, routeNumber)).getId();
+        Integer id = transportDao.save(mapper.dtoToTransport(transportDto, transportType, routeNumber)).getId();
+        if (id == null) {
+            logger.error(String.format("Didn't save transport %s to database", transportDto.getModel()));
+        } else {
+            logger.info(String.format("Saved transport %s to database", transportDto.getModel()));
+        }
+        return id;
     }
 
     @Override
-    public TransportDto getTransportById(Integer id) throws EntityNotFoundException {
+    public TransportDto getTransportById(Integer id) {
         Transport transport = transportDao.getById(id);
         logger.info(String.format("Got transport %s by id %d", transport.getModel(), id));
         return mapper.transportToDto(transport);

@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Locale;
 
 @Controller
@@ -41,19 +40,12 @@ public class RouteNumberController {
     public String showRouteNumberParameters(@RequestParam(name = "id") Integer routeNumberId,
                                             Model model,
                                             Locale locale) {
-        RouteNumberDto routeNumberDto;
-
         if (routeNumberId == null || routeNumberId <= 0) {
             logger.error(String.format("Incorrect stop id %d", routeNumberId));
             return REDIRECT_DISPATCHER;
         }
 
-        try {
-            routeNumberDto = routeNumberService.getRouteNumberById(routeNumberId);
-        } catch (EntityNotFoundException e) {
-            logger.error(String.format("Can't find route number by id %d", routeNumberId));
-            return REDIRECT_DISPATCHER;
-        }
+        RouteNumberDto routeNumberDto = routeNumberService.getRouteNumberById(routeNumberId);
 
         model.addAttribute(HEADER_MESSAGE, messageSource.getMessage("headerEditNumber", null, locale));
         model.addAttribute("routeNumber", routeNumberDto);
@@ -75,10 +67,8 @@ public class RouteNumberController {
     public String saveRouteNumber(@ModelAttribute("routeNumber") RouteNumberDto routeNumberDto,
                                   BindingResult bindingResult,
                                   Model model) {
-        TransportTypeDto transportTypeDto;
-
-        RouteNumber routeNumber = routeNumberService.getRouteNumberByNumber(routeNumberDto.getNumber());
-        if (routeNumber != null && !routeNumber.getId().equals(routeNumberDto.getRouteNumberDtoId())) {
+        RouteNumber existRouteNumber = routeNumberService.getRouteNumberByNumber(routeNumberDto.getNumber());
+        if (existRouteNumber != null && !existRouteNumber.getId().equals(routeNumberDto.getRouteNumberDtoId())) {
             bindingResult.rejectValue("number", "error.routeNumber", "There is route number with this number");
         }
 
@@ -87,18 +77,8 @@ public class RouteNumberController {
             return NUMBER_PARAMETERS;
         }
 
-        try {
-            transportTypeDto = typeService.getTransportTypeByDescription(routeNumberDto.getTransportType());
-        } catch (EntityNotFoundException e) {
-            logger.error(String.format("Can't find transport type by description %s", routeNumberDto.getTransportType()));
-            return REDIRECT_DISPATCHER;
-        }
-
-        if (routeNumberService.save(routeNumberDto, transportTypeDto) == null) {
-            logger.error(String.format("Didn't save route number %s to database", routeNumberDto.getNumber()));
-        } else {
-            logger.info(String.format("Saved route number %s to database", routeNumberDto.getNumber()));
-        }
+        TransportTypeDto transportTypeDto = typeService.getTransportTypeByDescription(routeNumberDto.getTransportType());
+        routeNumberService.save(routeNumberDto, transportTypeDto);
 
         return "redirect:/dispatcher/number";
     }

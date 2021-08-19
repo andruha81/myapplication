@@ -10,7 +10,6 @@ import org.apache.logging.log4j.Logger;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,21 +38,21 @@ public class TransportTypeServiceImpl implements TransportTypeService {
     }
 
     @Override
-    public String getTypeDescription(Integer id) throws EntityNotFoundException {
+    public String getTypeDescription(Integer id) {
         TransportType transportType = transportTypeDao.getById(id);
         logger.info(String.format("Get transport type %s by id %d", transportType.getDescription(), id));
         return transportType.getDescription();
     }
 
     @Override
-    public TransportTypeDto getTransportTypeById(Integer id) throws EntityNotFoundException {
+    public TransportTypeDto getTransportTypeById(Integer id) {
         TransportType transportType = transportTypeDao.getById(id);
         logger.info(String.format("Get transport type %s by id %d", transportType.getDescription(), id));
         return mapper.transportTypeToDto(transportType);
     }
 
     @Override
-    public TransportTypeDto getTransportTypeByDescription(String description) throws EntityNotFoundException {
+    public TransportTypeDto getTransportTypeByDescription(String description) {
         TransportType transportType = transportTypeDao.findTransportTypeByDescription(description);
         logger.info(String.format("Got transport type %s by description %s", transportType.getDescription(), description));
         return mapper.transportTypeToDto(transportType);

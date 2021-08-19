@@ -4,7 +4,6 @@ import by.transport.myapp.dto.RouteNumberDto;
 import by.transport.myapp.dto.TransportTypeDto;
 import by.transport.myapp.model.entity.RouteNumber;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 public interface RouteNumberService {
@@ -14,9 +13,9 @@ public interface RouteNumberService {
 
     List<RouteNumberDto> getRouteNumbers();
 
-    RouteNumberDto getRouteNumberById(Integer routeNumberId) throws EntityNotFoundException;
+    RouteNumberDto getRouteNumberById(Integer routeNumberId);
 
-    RouteNumber getRouteNumberByNumber(int number) throws EntityNotFoundException;
+    RouteNumber getRouteNumberByNumber(int number);
 
     Integer save(RouteNumberDto routeNumberDto, TransportTypeDto transportTypeDto);
 }

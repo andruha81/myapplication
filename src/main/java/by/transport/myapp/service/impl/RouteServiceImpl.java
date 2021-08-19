@@ -4,8 +4,6 @@ import by.transport.myapp.dto.RouteParamDto;
 import by.transport.myapp.dto.RouteStopDto;
 import by.transport.myapp.mapper.RouteMapper;
 import by.transport.myapp.model.dao.RouteDao;
-import by.transport.myapp.model.dao.RouteNumberDao;
-import by.transport.myapp.model.dao.TransportTypeDao;
 import by.transport.myapp.model.entity.Route;
 import by.transport.myapp.model.entity.RouteNumber;
 import by.transport.myapp.service.RouteService;
@@ -17,26 +15,18 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
-
 @Service
 public class RouteServiceImpl implements RouteService {
     private final RouteDao routeDao;
-    private final RouteNumberDao routeNumberDao;
-    private final TransportTypeDao transportTypeDao;
     private final RouteMapper routeMapper = Mappers.getMapper(RouteMapper.class);
     private final Logger logger = LogManager.getLogger(RouteServiceImpl.class);
 
-    public RouteServiceImpl(RouteDao routeDao,
-                            RouteNumberDao routeNumberDao,
-                            TransportTypeDao transportTypeDao) {
+    public RouteServiceImpl(RouteDao routeDao) {
         this.routeDao = routeDao;
-        this.routeNumberDao = routeNumberDao;
-        this.transportTypeDao = transportTypeDao;
     }
 
     @Override
-    public RouteStopDto getRouteDetails(Integer id) throws EntityNotFoundException {
+    public RouteStopDto getRouteDetails(Integer id) {
         var route = routeDao.getById(id);
         logger.info(String.format("Get route details for route %s by id %d", route.getDescription(), id));
         var routeStopDto = routeMapper.routeToRouteStopDto(route);
@@ -45,7 +35,7 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public RouteParamDto getRouteById(Integer id) throws EntityNotFoundException {
+    public RouteParamDto getRouteById(Integer id) {
         Route route = routeDao.getById(id);
         logger.info(String.format("Got route %s by id %d", route.getDescription(), id));
         return routeMapper.routeToRouteParamDto(route);
@@ -57,6 +47,11 @@ public class RouteServiceImpl implements RouteService {
         Route route = routeMapper.RouteParamDtoToRoute(routeParamDto, routeNumber);
         RouteUtil.setRouteInRouteLine(route, route.getRouteLines());
         routeParamDto.setRouteParamDtoId(routeDao.save(route).getId());
+        if (routeParamDto.getRouteParamDtoId() == null) {
+            logger.error(String.format("Didn't save route %s to database", routeParamDto.getDescription()));
+        } else {
+            logger.info(String.format("Saved route %s to database", routeParamDto.getDescription()));
+        }
         return routeParamDto.getRouteParamDtoId();
     }
 }

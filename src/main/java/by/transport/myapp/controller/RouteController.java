@@ -19,7 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,19 +55,12 @@ public class RouteController {
     public String showRouteParameters(@RequestParam(name = "id") Integer routeId,
                                       Model model,
                                       Locale locale) {
-        RouteParamDto routeParamDto;
         if (routeId == null || routeId <= 0) {
             logger.error(String.format("Incorrect route id %d", routeId));
             return REDIRECT_DISPATCHER;
         }
 
-        try {
-            routeParamDto = routeService.getRouteById(routeId);
-        } catch (EntityNotFoundException e) {
-            logger.error(String.format("Can't find route by id %d", routeId));
-            return REDIRECT_DISPATCHER;
-        }
-
+        RouteParamDto routeParamDto = routeService.getRouteById(routeId);
         Collections.sort(routeParamDto.getRouteLines());
 
         model.addAttribute(HEADER_MESSAGE, messageSource.getMessage("headerEditRoute", null, locale));
@@ -102,9 +94,6 @@ public class RouteController {
     @GetMapping("/edit/stop")
     public String editRouteStop(@RequestParam Integer routeId,
                                 @RequestParam Integer rlId) {
-        RouteParamDto routeParamDto;
-        RouteNumber routeNumber;
-
         if (routeId == null || routeId <= 0) {
             logger.error(String.format("Incorrect route id %d", routeId));
             return REDIRECT_DISPATCHER;
@@ -115,27 +104,10 @@ public class RouteController {
             return REDIRECT_DISPATCHER;
         }
 
-        try {
-            routeParamDto = routeService.getRouteById(routeId);
-        } catch (EntityNotFoundException e) {
-            logger.error(String.format("Can't find route by id %d", routeId));
-            return REDIRECT_DISPATCHER;
-        }
-
+        RouteParamDto routeParamDto = routeService.getRouteById(routeId);
         RouteUtil.removeStop(routeParamDto, rlId);
-
-        try {
-            routeNumber = routeNumberService.getRouteNumberByNumber(routeParamDto.getRouteNumber());
-        } catch (EntityNotFoundException e) {
-            logger.error(String.format("Can't find route number by number %d", routeParamDto.getRouteNumber()));
-            return REDIRECT_DISPATCHER;
-        }
-
-        if (routeService.save(routeParamDto, routeNumber) != null) {
-            logger.info(String.format("Saved route %s to database", routeParamDto.getDescription()));
-        } else {
-            logger.error(String.format("Didn't save route %s to database", routeParamDto.getDescription()));
-        }
+        RouteNumber routeNumber = routeNumberService.getRouteNumberByNumber(routeParamDto.getRouteNumber());
+        routeService.save(routeParamDto, routeNumber);
 
         return EDIT_ROUTE + routeParamDto.getRouteParamDtoId();
     }
@@ -144,8 +116,6 @@ public class RouteController {
     public String addRouteStop(@RequestParam(required = false) Integer routeId,
                                Model model,
                                Locale locale) {
-        RouteParamDto routeParamDto;
-
         if (routeId == null) {
             model.addAttribute(NOT_SAVED, "Перед добавлением остановки необходмимо сохранить маршрут");
             model.addAttribute(ROUTE_DTO, new RouteParamDto());
@@ -157,13 +127,7 @@ public class RouteController {
             return REDIRECT_DISPATCHER;
         }
 
-        try {
-            routeParamDto = routeService.getRouteById(routeId);
-        } catch (EntityNotFoundException e) {
-            logger.error(String.format("Can't find route by id %d", routeId));
-            return REDIRECT_DISPATCHER;
-        }
-
+        RouteParamDto routeParamDto = routeService.getRouteById(routeId);
         List<StopDto> stops = StopUtil.removeStops(stopService.getStops(), routeParamDto.getRouteLines());
 
         model.addAttribute(HEADER_MESSAGE, messageSource.getMessage("headerAddLine", null, locale));
@@ -179,26 +143,12 @@ public class RouteController {
                                @ModelAttribute("routeLine") @Valid RouteLineNewParamDto routeLineNewParamDto,
                                BindingResult bindingResult,
                                Model model) {
-        RouteParamDto routeParamDto;
-        StopDto stopDto;
-        RouteNumber routeNumber;
-
         if (routeId == null || routeId <= 0) {
             logger.error(String.format("Incorrect route id %d", routeId));
             return REDIRECT_DISPATCHER;
         }
 
-        if (routeLineNewParamDto == null) {
-            logger.error("Didn't get route line from view");
-            return REDIRECT_DISPATCHER;
-        }
-
-        try {
-            routeParamDto = routeService.getRouteById(routeId);
-        } catch (EntityNotFoundException e) {
-            logger.error(String.format("Can't find route by id %d", routeId));
-            return REDIRECT_DISPATCHER;
-        }
+        RouteParamDto routeParamDto = routeService.getRouteById(routeId);
 
         if (bindingResult.hasErrors()) {
             List<StopDto> stops = StopUtil.removeStops(stopService.getStops(), routeParamDto.getRouteLines());
@@ -207,29 +157,14 @@ public class RouteController {
             return "route/new-routeline";
         }
 
-        try {
-            stopDto = stopService.getStopById(routeLineNewParamDto.getStopId());
-        } catch (EntityNotFoundException e) {
-            logger.error(String.format("Can't find route by id %d", routeId));
-            return REDIRECT_DISPATCHER;
-        }
+        StopDto stopDto = stopService.getStopById(routeLineNewParamDto.getStopId());
 
         RouteLineParamDto routeLineParamDto = RouteLineParamMapper.map(routeLineNewParamDto, stopDto);
         RouteUtil.addStop(routeParamDto, routeLineParamDto.getStopOrder());
         routeParamDto.getRouteLines().add(routeLineParamDto);
 
-        try {
-            routeNumber = routeNumberService.getRouteNumberByNumber(routeParamDto.getRouteNumber());
-        } catch (EntityNotFoundException e) {
-            logger.error(String.format("Can't find route number by number %d", routeParamDto.getRouteNumber()));
-            return REDIRECT_DISPATCHER;
-        }
-
-        if (routeService.save(routeParamDto, routeNumber) != null) {
-            logger.info(String.format("Saved route %s to database", routeParamDto.getDescription()));
-        } else {
-            logger.error(String.format("Didn't save route %s to database", routeParamDto.getDescription()));
-        }
+        RouteNumber routeNumber = routeNumberService.getRouteNumberByNumber(routeParamDto.getRouteNumber());
+        routeService.save(routeParamDto, routeNumber);
 
         return EDIT_ROUTE + routeParamDto.getRouteParamDtoId();
     }
@@ -238,8 +173,6 @@ public class RouteController {
     public String saveRoute(@ModelAttribute("route") @Valid RouteParamDto routeParamDto,
                             BindingResult bindingResult,
                             Model model) {
-        RouteNumber routeNumber;
-
         if (bindingResult.hasErrors()) {
             model.addAttribute("routeNumbers", routeNumberService.getRouteNumbers());
             return ROUTE_PARAMETERS;
@@ -249,18 +182,8 @@ public class RouteController {
             routeParamDto.setRouteLines(new ArrayList<>());
         }
 
-        try {
-            routeNumber = routeNumberService.getRouteNumberByNumber(routeParamDto.getRouteNumber());
-        } catch (EntityNotFoundException e) {
-            logger.error(String.format("Can't find route number by number %d", routeParamDto.getRouteNumber()));
-            return REDIRECT_DISPATCHER;
-        }
-
-        if (routeService.save(routeParamDto, routeNumber) != null) {
-            logger.info(String.format("Saved route %s to database", routeParamDto.getDescription()));
-        } else {
-            logger.error(String.format("Didn't save route %s to database", routeParamDto.getDescription()));
-        }
+        RouteNumber routeNumber = routeNumberService.getRouteNumberByNumber(routeParamDto.getRouteNumber());
+        routeService.save(routeParamDto, routeNumber);
 
         return EDIT_ROUTE + routeParamDto.getRouteParamDtoId();
     }

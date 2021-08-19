@@ -19,6 +19,7 @@ public class MainController {
     @GetMapping("/")
     public String main(Model model, Locale locale) {
         model.addAttribute("headerMessage", messageSource.getMessage("headerPT", null, locale));
+
         return "index";
     }
 }

@@ -13,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,7 +61,7 @@ public class RouteNumberServiceImpl implements RouteNumberService {
     }
 
     @Override
-    public RouteNumber getRouteNumberByNumber(int number) throws EntityNotFoundException {
+    public RouteNumber getRouteNumberByNumber(int number) {
         RouteNumber routeNumber = routeNumberDao.getRouteNumberByNumber(number);
         logger.info(String.format("Got route number %d by number %d", routeNumber.getNumber(), number));
         return routeNumber;
@@ -71,11 +70,17 @@ public class RouteNumberServiceImpl implements RouteNumberService {
     @Override
     public Integer save(RouteNumberDto routeNumberDto, TransportTypeDto transportTypeDto) {
         TransportType type = typeMapper.dtoToTransportType(transportTypeDto);
-        return routeNumberDao.save(routeNumberMapper.dtoToRouteNumber(routeNumberDto, type)).getId();
+        Integer id = routeNumberDao.save(routeNumberMapper.dtoToRouteNumber(routeNumberDto, type)).getId();
+        if (id == null) {
+            logger.error(String.format("Didn't save route number %s to database", routeNumberDto.getNumber()));
+        } else {
+            logger.info(String.format("Saved route number %s to database", routeNumberDto.getNumber()));
+        }
+        return id;
     }
 
     @Override
-    public RouteNumberDto getRouteNumberById(Integer routeNumberId) throws EntityNotFoundException {
+    public RouteNumberDto getRouteNumberById(Integer routeNumberId) {
         RouteNumber routeNumber = routeNumberDao.getById(routeNumberId);
         logger.info(String.format("Got route number %d by id %d", routeNumber.getNumber(), routeNumberId));
         return routeNumberMapper.routeNumberToDto(routeNumber);

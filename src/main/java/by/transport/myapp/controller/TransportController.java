@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.Locale;
 
@@ -43,24 +42,18 @@ public class TransportController {
     public String addTransportForm(@RequestParam(name = "type") Integer typeId,
                                    Model model,
                                    Locale locale) {
-        TransportTypeDto transportTypeDto;
-
         if (typeId == null || typeId <= 0) {
             logger.error(String.format("Incorrect type id %d", typeId));
             return REDIRECT_DISPATCHER;
         }
 
-        try {
-            transportTypeDto = transportTypeService.getTransportTypeById(typeId);
-        } catch (EntityNotFoundException e) {
-            logger.error(String.format("Can't find transport type by id %d", typeId));
-            return REDIRECT_DISPATCHER;
-        }
+        TransportTypeDto transportTypeDto = transportTypeService.getTransportTypeById(typeId);
 
         model.addAttribute("headerMessage", messageSource.getMessage("headerAddTransport", null, locale));
         model.addAttribute("transportType", transportTypeDto);
         model.addAttribute(ROUTE_NUMBER, routeNumberService.getRouteNumbersByType(transportTypeDto));
         model.addAttribute("transport", new TransportDto());
+
         return "transport/new-transport";
     }
 
@@ -69,9 +62,6 @@ public class TransportController {
                                     @RequestParam(name = "type") Integer typeId,
                                     Model model,
                                     Locale locale) {
-        TransportTypeDto transportTypeDto;
-        TransportDto transportDto;
-
         if (typeId == null || typeId <= 0) {
             logger.error(String.format("Incorrect type id %d", typeId));
             return REDIRECT_DISPATCHER;
@@ -82,23 +72,13 @@ public class TransportController {
             return REDIRECT_DISPATCHER;
         }
 
-        try {
-            transportTypeDto = transportTypeService.getTransportTypeById(typeId);
-        } catch (EntityNotFoundException e) {
-            logger.error(String.format("Can't find transport type by id %d", typeId));
-            return REDIRECT_DISPATCHER;
-        }
-
-        try {
-            transportDto = transportService.getTransportById(transportId);
-        } catch (EntityNotFoundException e) {
-            logger.error(String.format("Can't find transport by id %d", transportId));
-            return REDIRECT_DISPATCHER;
-        }
+        TransportTypeDto transportTypeDto = transportTypeService.getTransportTypeById(typeId);
+        TransportDto transportDto = transportService.getTransportById(transportId);
 
         model.addAttribute("headerMessage", messageSource.getMessage("headerEditTransport", null, locale));
         model.addAttribute("transport", transportDto);
         model.addAttribute(ROUTE_NUMBER, routeNumberService.getRouteNumbersByType(transportTypeDto));
+
         return "transport/edit-transport";
     }
 
@@ -106,20 +86,7 @@ public class TransportController {
     public String addTransport(@ModelAttribute("transport") @Valid TransportDto transportDto,
                                BindingResult bindingResult,
                                Model model) {
-        TransportTypeDto typeDto;
-
-        if (transportDto == null) {
-            logger.error("Didn't get transportDto from view");
-            return REDIRECT_DISPATCHER;
-        }
-
-        try {
-            typeDto = transportTypeService.getTransportTypeByDescription(transportDto.getType());
-        } catch (EntityNotFoundException e) {
-            logger.error(String.format("Can't find transport type by description %s", transportDto.getType()));
-            return REDIRECT_DISPATCHER;
-        }
-
+        TransportTypeDto typeDto = transportTypeService.getTransportTypeByDescription(transportDto.getType());
         if (bindingResult.hasErrors()) {
             model.addAttribute(ROUTE_NUMBER, routeNumberService.getRouteNumbersByType(typeDto));
             if (transportDto.getTransportDtoId() != null) {
@@ -128,11 +95,8 @@ public class TransportController {
             model.addAttribute("transportType", typeDto);
             return "transport/new-transport";
         }
-        if (transportService.save(transportDto, typeDto) == null) {
-            logger.error(String.format("Didn't save transport %s to database", transportDto.getModel()));
-        } else  {
-            logger.info(String.format("Saved transport %s to database", transportDto.getModel()));
-        }
+
+        transportService.save(transportDto, typeDto);
 
         return "redirect:/dispatcher/list?type=" + typeDto.getTransportTypeDtoId();
     }

@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.Locale;
 
@@ -35,22 +34,16 @@ public class StopController {
     public String showStopParameters(@RequestParam(name = "id") Integer stopId,
                                      Model model,
                                      Locale locale) {
-        StopDto stopDto;
-
         if (stopId == null || stopId <= 0) {
             logger.error(String.format("Incorrect stop id %d", stopId));
             return REDIRECT_DISPATCHER;
         }
 
-        try {
-            stopDto = stopService.getStopById(stopId);
-        } catch (EntityNotFoundException e) {
-            logger.error(String.format("Can't find stop by id %d", stopId));
-            return REDIRECT_DISPATCHER;
-        }
+        StopDto stopDto = stopService.getStopById(stopId);
 
         model.addAttribute(HEADER_MESSAGE, messageSource.getMessage("headerEditStop", null, locale));
         model.addAttribute("stop", stopDto);
+
         return STOP_PARAMETERS;
     }
 
@@ -58,6 +51,7 @@ public class StopController {
     public String addStop(Model model, Locale locale) {
         model.addAttribute(HEADER_MESSAGE, messageSource.getMessage("headerAddStop", null, locale));
         model.addAttribute("stop", new StopDto());
+
         return STOP_PARAMETERS;
     }
 
@@ -68,11 +62,7 @@ public class StopController {
             return STOP_PARAMETERS;
         }
 
-        if (stopService.save(stopDto) == null) {
-            logger.error(String.format("Didn't save stop %s to database", stopDto.getName()));
-        } else {
-            logger.info(String.format("Saved stop %s to database", stopDto.getName()));
-        }
+        stopService.save(stopDto);
 
         return "redirect:/dispatcher/stop";
     }

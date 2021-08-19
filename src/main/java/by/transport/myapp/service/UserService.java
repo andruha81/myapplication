@@ -6,5 +6,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService {
     User loadUserByLogin(String login);
+
     User saveUser(User user);
 }

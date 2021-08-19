@@ -11,7 +11,6 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +26,7 @@ public class StopServiceImpl implements StopService {
     }
 
     @Override
-    public StopDto getStopById(Integer id) throws EntityNotFoundException {
+    public StopDto getStopById(Integer id) {
         Stop stop = stopDao.getById(id);
         logger.info(String.format("Find stop %s by id %d", stop.getName(), id));
         return stopMapper.stopToDto(stop);
@@ -51,6 +50,12 @@ public class StopServiceImpl implements StopService {
     @Override
     @Transactional
     public Integer save(StopDto stopDto) {
-        return stopDao.save(stopMapper.stopDtoToStop(stopDto)).getId();
+        Integer id = stopDao.save(stopMapper.stopDtoToStop(stopDto)).getId();
+        if (id == null) {
+            logger.error(String.format("Didn't save stop %s to database", stopDto.getName()));
+        } else {
+            logger.info(String.format("Saved stop %s to database", stopDto.getName()));
+        }
+        return id;
     }
 }

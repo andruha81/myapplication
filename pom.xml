@@ -18,6 +18,7 @@
 		<mapstruct.version>1.4.2.Final</mapstruct.version>
 		<lombok.version>1.18.16</lombok.version>
 		<lombok.mapstruct.version>0.2.0</lombok.mapstruct.version>
+		<java.lang.version>3.11</java.lang.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -104,6 +105,11 @@
 					<artifactId>hamcrest-core</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${java.lang.version}</version>
 		</dependency>
 	</dependencies>
 

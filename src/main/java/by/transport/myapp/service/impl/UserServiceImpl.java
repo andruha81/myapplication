@@ -3,8 +3,6 @@ package by.transport.myapp.service.impl;
 import by.transport.myapp.model.dao.UserDao;
 import by.transport.myapp.model.entity.User;
 import by.transport.myapp.service.UserService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

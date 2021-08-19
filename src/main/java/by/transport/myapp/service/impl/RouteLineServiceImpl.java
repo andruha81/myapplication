@@ -15,7 +15,6 @@ import org.apache.logging.log4j.Logger;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -34,7 +33,7 @@ public class RouteLineServiceImpl implements RouteLineService {
     }
 
     @Override
-    public Map<String, List<RouteLineStopDto>> getStopDetails(StopDto stopDto) throws EntityNotFoundException {
+    public Map<String, List<RouteLineStopDto>> getStopDetails(StopDto stopDto) {
         Stop stop = stopMapper.stopDtoToStop(stopDto);
         List<RouteLine> routeLines = routeLineDao.getRouteLinesByStop(stop);
         logger.info(String.format("Find details for stop %s", stop.getName()));
