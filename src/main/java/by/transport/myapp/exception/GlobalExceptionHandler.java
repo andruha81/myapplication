@@ -19,7 +19,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public String handleEntityNotFoundException(
             EntityNotFoundException exception,
             Model model) {
-        logger.error("Failed to find the requested element", exception);
+        logger.error(exception.getMessage());
+
+        model.addAttribute("error", exception.getMessage());
+        return "error/error404";
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public String handleRuntimeException(
+            RuntimeException exception,
+            Model model) {
+        logger.error(exception.getMessage());
 
         model.addAttribute("error", exception.getMessage());
         return "error/error404";
